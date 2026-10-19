@@ -1,0 +1,9 @@
+{
+  "name": "gewinnrechner",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.mjs",
+    "test": "node src/tests.mjs && node src/tests.mjs index.html"
+  }
+}

@@ -1,0 +1,2532 @@
+<!doctype html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gewinnrechner</title>
+<style>
+/* Шрифты лежат рядом со страницей (папка fonts/), сторонние серверы не запрашиваются. Лицензия — SIL OFL 1.1. */
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-ext-166a7b.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-f57bdd.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-ext-ab0844.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-0defa2.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-ext-166a7b.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-f57bdd.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-ext-ab0844.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-0defa2.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-ext-166a7b.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/golos-text-cyrillic-f57bdd.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-ext-ab0844.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/golos-text-latin-0defa2.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-arabic-00b30d.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-cyrillic-ext-20f3cd.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-ext-cd801f.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-b9f686.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-arabic-32d758.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-cyrillic-ext-2829ae.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-ext-da4431.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-0b17f1.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-arabic-dda025.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-cyrillic-ext-77f4bc.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-ext-586b7b.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-5344fa.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-arabic-5ab42d.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-cyrillic-ext-530915.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-ext-3a0765.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/ibm-plex-sans-arabic-latin-a39bac.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-cyrillic-ext-27e1b5.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-cyrillic-b1b041.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-latin-ext-ba1653.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-latin-480c06.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-cyrillic-ext-27e1b5.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-cyrillic-b1b041.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-latin-ext-ba1653.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/jetbrains-mono-latin-480c06.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/unbounded-cyrillic-ext-67e1db.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/unbounded-cyrillic-c86556.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/unbounded-latin-ext-80da0c.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/unbounded-latin-06f2e4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/unbounded-cyrillic-ext-67e1db.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/unbounded-cyrillic-c86556.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/unbounded-latin-ext-80da0c.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Unbounded';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/unbounded-latin-06f2e4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+</style>
+<style>
+/* Layout: слева короткая колонка бегунков с точным вводом и раскрывающимися пояснениями; справа липкая панель ответа. На телефоне — одна колонка и нижняя плашка с итогом. */
+:root {
+  --bg: #EEF2F1;
+  --surface: #FFFFFF;
+  --ink: #13201C;
+  --muted: #5A6A65;
+  --line: #D6DEDB;
+  --accent: #0B7A63;
+  --accent-soft: #DCEFE9;
+  --warn: #A8501A;
+  --warn-soft: #FBEADF;
+  --c-cost: #8C9C96;
+  --c-vat: #B79C6B;
+  --c-kv: #4D7BAA;
+  --c-pens: #7D68AE;
+  --c-priv: #5FA3A8;
+  --c-tax: #C4623A;
+  --c-gew: #D4A12F;
+  --c-net: #0B7A63;
+  --f-display: "Unbounded", "IBM Plex Sans Arabic", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-num: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1412; --surface: #151F1C; --ink: #E3EBE8; --muted: #93A49F; --line: #2C3A36;
+    --accent: #43C29F; --accent-soft: #173A31; --warn: #F0A273; --warn-soft: #3A2419;
+    --c-cost: #6E7F79; --c-vat: #A88D5E; --c-kv: #6A98C7; --c-pens: #9884C9; --c-priv: #6FB9BE; --c-tax: #DE7D55; --c-gew: #E0B44E; --c-net: #43C29F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1412; --surface: #151F1C; --ink: #E3EBE8; --muted: #93A49F; --line: #2C3A36;
+  --accent: #43C29F; --accent-soft: #173A31; --warn: #F0A273; --warn-soft: #3A2419;
+  --c-cost: #6E7F79; --c-vat: #A88D5E; --c-kv: #6A98C7; --c-pens: #9884C9; --c-priv: #6FB9BE; --c-tax: #DE7D55; --c-gew: #E0B44E; --c-net: #43C29F;
+  color-scheme: dark;
+}
+:root[lang="ar"] {
+  --f-display: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans Arabic", "Golos Text", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 0.9375rem; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+  overflow-wrap: anywhere; hyphens: auto;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 22px; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 14px 24px; }
+header .ttl { min-width: 0; flex: 1 1 420px; }
+header h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 4vw, 38px); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 64ch; }
+.langs { display: flex; border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; background: var(--surface); }
+.langs button { all: unset; cursor: pointer; padding: 6px 12px; border-radius: 6px; font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.langs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.langs .short { display: none; }
+@media (max-width: 560px) {
+  .langs { width: 100%; }
+  .langs button { flex: 1; text-align: center; padding: 7px 4px; }
+  .langs .full { display: none; }
+  .langs .short { display: inline; }
+}
+.grid { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- форма ---------- */
+form { display: grid; gap: 14px; }
+fieldset { border: 0; margin: 0; padding: 16px; background: var(--surface); border-radius: 12px; display: grid; gap: 18px; min-width: 0; }
+legend { float: left; width: 100%; padding: 0; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+:root[lang="ar"] legend { text-transform: none; letter-spacing: 0; font-size: 0.8125rem; }
+legend + * { clear: both; }
+.lead-s { margin: 0; color: var(--muted); font-size: 0.84375rem; }
+.field { display: grid; gap: 7px; min-width: 0; }
+.field-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 12px; }
+.lab { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
+.ctl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 24px; min-width: 0; }
+.numw { display: inline-flex; align-items: center; gap: 4px; }
+.numw input, .amt input, #pkvded-n {
+  width: 92px; font: 500 0.9375rem var(--f-num); font-variant-numeric: tabular-nums; padding: 5px 7px; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink); text-align: end;
+}
+.ctl.big .numw input { width: 118px; font: 700 1.25rem var(--f-display); color: var(--accent); padding: 4px 8px; }
+.numw input:focus-visible, .amt input:focus-visible, #pkvded-n:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[aria-invalid="true"] { border-color: var(--warn) !important; outline-color: var(--warn); }
+.unit, .amt .cur { color: var(--muted); font-size: 0.8125rem; min-width: 1.2em; }
+.err { color: var(--warn); font-size: 0.8125rem; }
+.startv { font-family: var(--f-num); font-weight: 500; }
+.ib { all: unset; box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); display: inline-grid; place-items: center; font-size: 0.75rem; font-weight: 600; color: var(--muted); cursor: pointer; flex: none; }
+.ib:hover { border-color: var(--accent); color: var(--accent); }
+.ib[aria-expanded="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.ib:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.info { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: 0.84375rem; line-height: 1.55; }
+
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { min-width: 0; overflow-wrap: anywhere; hyphens: auto; text-align: center; padding: 7px 6px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.seg input:checked + label { background: var(--accent); color: var(--surface); }
+.seg input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.seg label small { display: block; font-size: 0.71875rem; font-weight: 400; opacity: .85; }
+
+.check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-weight: 500; }
+.check input { accent-color: var(--accent); width: 18px; height: 18px; margin: 1px 0 0; flex: none; }
+.check > span { display: grid; gap: 1px; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.check small { color: var(--muted); font-size: 0.78125rem; font-weight: 400; }
+.costs { display: grid; gap: 12px; }
+.cost { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; }
+.cost .err { grid-column: 1 / -1; }
+.amt { display: flex; align-items: center; gap: 4px; }
+.amt input { width: 84px; font-size: 0.875rem; }
+.cost.off .amt { opacity: .45; }
+details.adv > summary { cursor: pointer; font-weight: 600; list-style-position: inside; }
+details.adv[open] { display: grid; gap: 18px; }
+details.adv[open] > summary { margin-bottom: 2px; }
+.formfoot { display: grid; gap: 12px; justify-items: start; padding: 4px 4px 0; }
+.btn { all: unset; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 7px 12px; border-radius: 8px; font-weight: 500; font-size: 0.875rem; }
+.btn:hover { border-color: var(--accent); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- результаты ---------- */
+.results { position: sticky; top: max(12px, env(safe-area-inset-top, 0px)); display: grid; gap: 16px; min-width: 0; scroll-margin-top: 12px; }
+@media (max-width: 900px) { .results { position: static; } }
+.panel { background: var(--surface); border-radius: 12px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.panel h2 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+.lead { margin: 0; color: var(--muted); }
+.lead b { color: var(--ink); }
+.lead small { display: block; font-size: 0.8125rem; }
+.years { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 600px) { .years { grid-template-columns: minmax(0, 1fr); } }
+.year { all: unset; box-sizing: border-box; cursor: pointer; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; min-width: 0; }
+.year:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.year[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.yc { display: grid; gap: 5px; align-content: start; min-width: 0; }
+.yc .yl { font-size: 0.78125rem; color: var(--muted); }
+.yc .yl b { color: var(--ink); font-family: var(--f-num); font-weight: 500; }
+.yc .rl { font-size: 0.78125rem; font-weight: 600; }
+.yc .big { font-family: var(--f-display); font-weight: 700; font-size: 1.5625rem; line-height: 1.15; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.yc .big small { font-family: var(--f-body); font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.yc .big.neg { color: var(--warn); }
+.yc .sub { font-size: 0.78125rem; color: var(--muted); }
+.chip { justify-self: start; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+.chip.vat { background: var(--warn-soft); color: var(--warn); }
+.chip.mix { background: transparent; color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+.yc .why { font-size: 0.78125rem; color: var(--muted); }
+.fail { color: var(--warn); font-weight: 600; }
+.disc { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink); background: var(--warn-soft); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); border-radius: 12px; padding: 12px 16px; }
+@supports not (color: color-mix(in srgb, red, blue)) { .disc { border-color: var(--line); } }
+.disc b { color: var(--warn); }
+details.how { font-size: 0.8125rem; color: var(--muted); }
+details.how summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details.how ul { margin: 8px 0 0; padding-inline-start: 18px; display: grid; gap: 5px; }
+details.how b { color: var(--ink); }
+
+.kpi { margin: 0; font-size: 0.875rem; }
+.bar { display: flex; height: 34px; border-radius: 8px; overflow: hidden; background: var(--bg); }
+.bar div { min-width: 0; transition: flex-grow .25s; }
+.legend { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px 14px; font-size: 0.875rem; align-items: center; }
+.legend .nm { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.legend .n { font-family: var(--f-num); font-variant-numeric: tabular-nums; text-align: end; white-space: nowrap; }
+.legend .n.neg { color: var(--warn); }
+.legend .pc { color: var(--muted); }
+.legend .tot { font-weight: 600; border-top: 1px solid var(--line); padding-top: 6px; }
+.note { margin: 0; font-size: 0.8125rem; color: var(--muted); }
+.note.bad { color: var(--ink); background: var(--warn-soft); padding: 8px 10px; border-radius: 8px; }
+.note.bad b { color: var(--warn); }
+.chart-wrap { overflow-x: auto; direction: ltr; }
+svg { display: block; width: 100%; height: auto; min-width: 420px; }
+svg text { fill: var(--muted); font-family: var(--f-body); font-size: 0.6875rem; }
+.hint { color: var(--muted); font-size: 0.8125rem; }
+.warns { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.warns li { background: var(--warn-soft); padding: 10px 12px; border-radius: 8px; font-size: 0.875rem; }
+.warns li b { color: var(--warn); }
+.warns li.ok { background: var(--accent-soft); }
+.warns li.ok b { color: var(--accent); }
+
+.mbar { display: none; }
+@media (max-width: 900px) {
+  body { padding-block-end: 96px; }
+  .mbar {
+    display: flex; position: fixed; inset: auto 0 0 0; z-index: 20; gap: 12px; align-items: center; justify-content: space-between;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
+  .mbar[hidden] { display: none; }
+  .mbar .mv { display: grid; min-width: 0; }
+  .mbar .mv b { font-family: var(--f-display); font-size: 1.125rem; }
+  .mbar .mv span { font-size: 0.78125rem; color: var(--muted); }
+  .mbar button { all: unset; cursor: pointer; background: var(--accent); color: var(--surface); padding: 9px 14px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; flex: none; }
+  .mbar button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { .bar div { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="ttl">
+      <h1 data-i18n="title"></h1>
+      <p data-i18n="tagline"></p>
+    </div>
+    <div class="langs" role="group" id="langs">
+      <button type="button" data-lang="ru" lang="ru" title="Русский"><span class="full">Русский</span><span class="short" aria-hidden="true">RU</span></button>
+      <button type="button" data-lang="de" lang="de" title="Deutsch"><span class="full">Deutsch</span><span class="short" aria-hidden="true">DE</span></button>
+      <button type="button" data-lang="en" lang="en" title="English"><span class="full">English</span><span class="short" aria-hidden="true">EN</span></button>
+      <button type="button" data-lang="tr" lang="tr" title="Türkçe"><span class="full">Türkçe</span><span class="short" aria-hidden="true">TR</span></button>
+      <button type="button" data-lang="ar" lang="ar" title="العربية"><span class="full">العربية</span><span class="short" aria-hidden="true">AR</span></button>
+    </div>
+  </header>
+
+  <aside class="disc" role="note"><b data-i18n="disc.title"></b> <span data-i18n="disclaimer"></span></aside>
+
+  <div class="grid">
+    <form id="f" autocomplete="off" novalidate>
+      <fieldset>
+        <legend data-i18n="sec.goal"></legend>
+        <div class="field" data-info="calc">
+          <div class="field-top"><span class="lab"><span id="calc-l" data-i18n="f.calc"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="calc-l">
+            <input type="radio" name="calc" id="calc-n" value="need"><label for="calc-n"><span data-i18n="calc.need"></span><small data-i18n="calc.needSub"></small></label>
+            <input type="radio" name="calc" id="calc-h" value="have"><label for="calc-h"><span data-i18n="calc.have"></span><small data-i18n="calc.haveSub"></small></label>
+          </div>
+        </div>
+        <div class="field" data-info="mode">
+          <div class="field-top"><span class="lab"><span id="mode-l" data-i18n="f.mode"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="mode-l">
+            <input type="radio" name="mode" id="mode-h" value="hours"><label for="mode-h" data-i18n="mode.h"></label>
+            <input type="radio" name="mode" id="mode-g" value="goods"><label for="mode-g" data-i18n="mode.g"></label>
+          </div>
+        </div>
+        <div class="field" data-info="target" id="target-box">
+          <div class="field-top"><span class="lab"><label for="target-n" id="target-l" data-i18n="f.target"></label></span></div>
+          <div class="ctl big"><input type="range" id="target" aria-labelledby="target-l"><span class="numw"><input type="number" id="target-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="target-e" hidden></div>
+        </div>
+        <div class="field" data-info="qty" id="qty-box">
+          <div class="field-top"><span class="lab"><label for="qty-n" id="qty-l"></label></span></div>
+          <div class="ctl big"><input type="range" id="qty" aria-labelledby="qty-l"><span class="numw"><input type="number" id="qty-n" step="any" inputmode="decimal"><span class="unit" data-unit="qty"></span></span></div>
+          <div class="err" id="qty-e" hidden></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.sell"></legend>
+        <div class="field" data-info="price">
+          <div class="field-top"><span class="lab"><label for="price-n" id="price-l"></label></span></div>
+          <div class="ctl"><input type="range" id="price" aria-labelledby="price-l"><span class="numw"><input type="number" id="price-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="price-e" hidden></div>
+        </div>
+        <div class="field" data-info="mat">
+          <div class="field-top"><span class="lab"><label for="mat-n" id="mat-l" data-i18n="f.mat"></label></span></div>
+          <div class="ctl"><input type="range" id="mat" aria-labelledby="mat-l"><span class="numw"><input type="number" id="mat-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="mat-e" hidden></div>
+        </div>
+        <div class="field" data-info="clients">
+          <div class="field-top"><span class="lab"><span id="clients-l" data-i18n="f.clients"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="clients-l">
+            <input type="radio" name="clients" id="cl-c" value="b2c"><label for="cl-c" data-i18n="cl.c"></label>
+            <input type="radio" name="clients" id="cl-b" value="b2b"><label for="cl-b" data-i18n="cl.b"></label>
+          </div>
+        </div>
+        <div class="field" data-info="billable" data-hours>
+          <div class="field-top"><span class="lab"><label for="billable-n" id="billable-l" data-i18n="f.billable"></label></span></div>
+          <div class="ctl"><input type="range" id="billable" aria-labelledby="billable-l"><span class="numw"><input type="number" id="billable-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="billable-e" hidden></div>
+        </div>
+        <div class="field" data-info="off" data-hours>
+          <div class="field-top"><span class="lab"><label for="off-n" id="off-l" data-i18n="f.off"></label></span></div>
+          <div class="ctl"><input type="range" id="off" aria-labelledby="off-l"><span class="numw"><input type="number" id="off-n" step="any" inputmode="decimal"><span class="unit" data-unit="wk"></span></span></div>
+          <div class="err" id="off-e" hidden></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.biz"></legend>
+        <div class="field" data-info="fixed">
+          <div class="field-top"><span class="lab"><label for="fixed-n" id="fixed-l" data-i18n="f.fixed"></label></span></div>
+          <div class="ctl"><input type="range" id="fixed" aria-labelledby="fixed-l"><span class="numw"><input type="number" id="fixed-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="fixed-e" hidden></div>
+        </div>
+        <p class="lead-s" data-i18n="biz.lead"></p>
+        <div class="costs" id="biz"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.priv"></legend>
+        <p class="lead-s" data-i18n="priv.lead"></p>
+        <div class="field" data-info="kv">
+          <div class="field-top"><span class="lab"><span id="kv-l" data-i18n="f.kv"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="kv-l">
+            <input type="radio" name="kv" id="kv-g" value="gkv"><label for="kv-g" data-i18n="kv.g"></label>
+            <input type="radio" name="kv" id="kv-p" value="pkv"><label for="kv-p" data-i18n="kv.p"></label>
+          </div>
+        </div>
+        <div class="costs" id="gkv-box">
+          <label class="check"><input type="checkbox" id="kg"><span><span data-i18n="kg"></span><small data-i18n="kg.n"></small></span></label>
+          <label class="check"><input type="checkbox" id="kids"><span><span data-i18n="kids"></span><small data-i18n="kids.n"></small></span></label>
+        </div>
+        <div class="field" id="pkv-box">
+          <div class="field-top"><span class="lab"><label for="pkv-n" id="pkv-l" data-i18n="f.pkv"></label></span></div>
+          <div class="ctl"><input type="range" id="pkv" aria-labelledby="pkv-l"><span class="numw"><input type="number" id="pkv-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="pkv-e" hidden></div>
+        </div>
+        <div class="field" data-info="pens">
+          <div class="field-top"><span class="lab"><label for="pens-n" id="pens-l" data-i18n="f.pens"></label></span></div>
+          <div class="ctl"><input type="range" id="pens" aria-labelledby="pens-l"><span class="numw"><input type="number" id="pens-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="pens-e" hidden></div>
+        </div>
+        <p class="lead-s" data-i18n="priv.list"></p>
+        <div class="costs" id="priv"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.tax"></legend>
+        <div class="field" data-info="start">
+          <div class="field-top"><span class="lab"><label for="start" id="start-l" data-i18n="f.start"></label></span><span class="startv" id="start-v"></span></div>
+          <input type="range" id="start" min="0" max="23" step="1">
+        </div>
+        <div class="field" data-info="ku">
+          <div class="field-top"><span class="lab"><label class="check"><input type="checkbox" id="ku"><span><span id="ku-l" data-i18n="ku"></span><small data-i18n="ku.n"></small></span></label></span></div>
+        </div>
+        <div class="field" data-info="kind">
+          <div class="field-top"><span class="lab"><span id="kind-l" data-i18n="f.kind"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="kind-l">
+            <input type="radio" name="kind" id="k-f" value="frei"><label for="k-f" data-i18n="kind.f"></label>
+            <input type="radio" name="kind" id="k-g" value="gew"><label for="k-g" data-i18n="kind.g"></label>
+          </div>
+        </div>
+        <div class="field" id="gew-box" data-info="heb">
+          <div class="field-top"><span class="lab"><label for="heb-n" id="heb-l" data-i18n="f.heb"></label></span></div>
+          <div class="ctl"><input type="range" id="heb" aria-labelledby="heb-l"><span class="numw"><input type="number" id="heb-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="heb-e" hidden></div>
+        </div>
+        <div class="field" data-info="church">
+          <div class="field-top"><span class="lab"><span id="church-l" data-i18n="f.church"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="church-l">
+            <input type="radio" name="church" id="ch-0" value="0"><label for="ch-0" data-i18n="church.no"></label>
+            <input type="radio" name="church" id="ch-8" value="8"><label for="ch-8">8 %</label>
+            <input type="radio" name="church" id="ch-9" value="9"><label for="ch-9">9 %</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <details class="adv" id="adv">
+          <summary data-i18n="adv"></summary>
+          <p class="lead-s" data-i18n="adv.lead"></p>
+          <div class="field" data-info="invoice" data-hours>
+            <div class="field-top"><span class="lab"><label for="invoice-n" id="invoice-l" data-i18n="f.invoice"></label></span></div>
+            <div class="ctl"><input type="range" id="invoice" aria-labelledby="invoice-l"><span class="numw"><input type="number" id="invoice-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+            <div class="err" id="invoice-e" hidden></div>
+          </div>
+          <div class="field" data-info="pensType">
+            <div class="field-top"><span class="lab"><span id="pt-l" data-i18n="f.pensType"></span></span></div>
+            <div class="seg" role="radiogroup" aria-labelledby="pt-l">
+              <input type="radio" name="pensType" id="pt-s" value="save"><label for="pt-s" data-i18n="pt.save"></label>
+              <input type="radio" name="pensType" id="pt-d" value="drv"><label for="pt-d" data-i18n="pt.drv"></label>
+            </div>
+          </div>
+          <div class="field" data-info="pkvDed" id="pkvded-box">
+            <div class="field-top"><span class="lab"><label for="pkvded-n" id="pkvded-l" data-i18n="f.pkvDed"></label></span><span class="numw"><input type="number" id="pkvded-n" step="any" inputmode="decimal" min="0"><span class="unit" data-unit="eur"></span></span></div>
+            <div class="err" id="pkvded-e" hidden></div>
+          </div>
+          <div class="field" data-info="zus" id="zus-box">
+            <div class="field-top"><span class="lab"><label for="zus-n" id="zus-l" data-i18n="f.zus"></label></span></div>
+            <div class="ctl"><input type="range" id="zus" aria-labelledby="zus-l"><span class="numw"><input type="number" id="zus-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+            <div class="err" id="zus-e" hidden></div>
+          </div>
+          <div class="field" data-info="vatshare">
+            <div class="field-top"><span class="lab"><label for="vatshare-n" id="vatshare-l" data-i18n="f.vatshare"></label></span></div>
+            <div class="ctl"><input type="range" id="vatshare" aria-labelledby="vatshare-l"><span class="numw"><input type="number" id="vatshare-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+            <div class="err" id="vatshare-e" hidden></div>
+          </div>
+        </details>
+      </fieldset>
+
+      <div class="formfoot">
+        <label class="check"><input type="checkbox" id="remember"><span><span data-i18n="remember"></span><small data-i18n="saveNote"></small></span></label>
+        <button type="button" class="btn" id="reset" data-i18n="reset"></button>
+      </div>
+    </form>
+
+    <section class="results" id="results">
+      <div class="panel">
+        <p class="lead" id="lead"></p>
+        <div class="years" id="years"></div>
+        <details class="how" id="how-d">
+          <summary data-i18n="how.title"></summary>
+          <ul id="how"></ul>
+        </details>
+      </div>
+      <div class="panel">
+        <h2 id="wf-title"></h2>
+        <p class="kpi" id="kpi"></p>
+        <div class="bar" id="bar" aria-hidden="true"></div>
+        <div class="legend" id="legend"></div>
+        <p class="note" id="vat-note" hidden></p>
+        <p class="note bad" id="short-note" hidden></p>
+      </div>
+      <div class="panel">
+        <h2 id="ch-title"></h2>
+        <div class="chart-wrap"><svg id="chart" viewBox="0 0 640 250" role="img"></svg></div>
+        <span class="hint" id="ch-hint"></span>
+      </div>
+      <div class="panel">
+        <h2 data-i18n="w.title"></h2>
+        <ul class="warns" id="warns"></ul>
+      </div>
+    </section>
+  </div>
+</div>
+
+<p class="sr-only" aria-live="polite" id="live"></p>
+
+<div class="mbar" id="mbar">
+  <div class="mv"><b id="mbar-v"></b><span id="mbar-s"></span></div>
+  <button type="button" id="mbar-b" data-i18n="mbar"></button>
+</div>
+
+<script id="engine">
+// Расчётное ядро: чистые функции без DOM. Все суммы — евро, все ставки — доли или проценты, как подписано.
+const NettoEngine = (() => {
+  'use strict';
+
+  // Параметры по годам. Новый год — новая строка; для года без строки берутся последние известные значения.
+  const RATES = {
+    2026: {
+      // §32a EStG, тариф 2026
+      gfb: 12348, z1: 17799, a1: 914.51, z2: 69878, a2: 173.10, c2: 1034.87, z3: 277825, k3: 11135.63, k4: 19470.38,
+      soli: 20350,                    // §3 Abs. 3 SolZG: Freigrenze для одного человека
+      kvMin: 1318.33, kvMax: 5812.50, // GKV для самозанятых: минимальная база и BBG в месяц
+      zus: 2.9,                       // средний Zusatzbeitrag (BMG, Bundesanzeiger 10.11.2025)
+      pv: 3.6, pvChildless: 0.6,      // Pflege и надбавка бездетным старше 23
+      pensCap: 30826                  // §10 Abs. 3 EStG: потолок вычета DRV/Rürup в год
+    }
+  };
+  const LAW = { vat: 0.19, kuFirst: 25000, kuPrev: 25000, kuCur: 100000, gewFrei: 24500, gewMz: 0.035, gew35: 4.0, pausch: 36 };
+
+  function ratesFor(y) {
+    const ks = Object.keys(RATES).map(Number).sort((a, b) => a - b);
+    let b = ks[0];
+    for (const k of ks) if (k <= y) b = k;
+    return { R: RATES[b], base: b, exact: b === y };
+  }
+
+  function incomeTax(zve, R) {
+    const x = Math.floor(Math.max(0, zve));
+    if (x <= R.gfb) return 0;
+    if (x <= R.z1) { const y = (x - R.gfb) / 1e4; return Math.floor((R.a1 * y + 1400) * y); }
+    if (x <= R.z2) { const z = (x - R.z1) / 1e4; return Math.floor((R.a2 * z + 2397) * z + R.c2); }
+    if (x <= R.z3) return Math.floor(0.42 * x - R.k3);
+    return Math.floor(0.45 * x - R.k4);
+  }
+
+  // §4 SolZG: 5,5 %, но не больше 11,9 % от превышения Freigrenze; доли цента отбрасываются
+  function soli(base, R) {
+    if (base <= R.soli) return 0;
+    return Math.floor(Math.min(0.055 * base, 0.119 * (base - R.soli)) * 100 + 1e-7) / 100;
+  }
+
+  /*
+   * Один календарный год при q продажах (часах или штуках) в месяц.
+   * P — параметры формы:
+   *   price      цена для клиента: частным — конечная (НДС внутри после перехода), компаниям — без НДС
+   *   clients    'b2c' | 'b2b'
+   *   mode       'hours' | 'goods'; invoice — средний счёт для часов (размер одной операции для лимита KU)
+   *   mat        себестоимость единицы, доля цены, как оплачена (с НДС)
+   *   fixed      прочие постоянные расходы в месяц, как оплачены; vatShare — доля расходов с вычитаемым НДС
+   *   bizVat / bizNo  отмеченные типичные расходы с НДС / без НДС, в месяц
+   *   kv 'gkv'|'pkv', kg, kids, zus, pkv (взнос вместе с Pflege), pkvDed (вычитаемая часть или null = весь взнос)
+   *   pens, pensType 'save'|'drv'; priv — личные обязательные платежи в месяц
+   *   ku, kind 'frei'|'gew', heb, church 0|8|9
+   * ctx: { months, startCal, ku, limit, R }
+   */
+  function yearCalc(P, q, ctx) {
+    const R = ctx.R, p = P.price, vat = LAW.vat, b2c = P.clients === 'b2c';
+    const pNet = b2c ? p / (1 + vat) : p;              // выручка с единицы после перехода на НДС
+    const vatU = b2c ? p - pNet : p * vat;             // НДС с единицы
+    const T = P.mode === 'goods' ? p : Math.max(P.invoice || p, 0.01); // размер одной операции
+    const varPaid = P.mat * p;                         // себестоимость единицы, как оплачена
+    const fixedPaid = P.fixed + P.bizVat + P.bizNo;
+    const fixedVatPaid = P.fixed * P.vatShare + P.bizVat; // часть постоянных расходов с вычитаемым НДС
+    const vatPart = vat / (1 + vat);
+
+    let inKU = !!ctx.ku, cum = 0, rev = 0, costPaid = 0, vatOut = 0, vatIn = 0, kuShare = 0, switchCal = null;
+    for (let i = 0; i < ctx.months; i++) {
+      const rKU = q * p;          // выручка месяца без НДС
+      let f = 0;                  // доля выручки месяца, оставшаяся без НДС
+      if (inKU) {
+        if (rKU <= 0) f = 1;
+        else {
+          // в лимит помещаются только целые операции; операция, которая его пересекает, уже целиком с НДС
+          const room = ctx.limit - cum;
+          const fit = room > 0 ? Math.floor(room / T + 1e-9) * T : 0;
+          if (fit >= rKU - 1e-9) f = 1;
+          else { f = Math.max(0, fit / rKU); inKU = false; switchCal = ctx.startCal + i; }
+        }
+      }
+      const r = q * (f * p + (1 - f) * pNet);
+      const withVat = fixedVatPaid + P.vatShare * varPaid * q;
+      cum += r; rev += r; kuShare += f;
+      costPaid += fixedPaid + varPaid * q;
+      vatOut += (1 - f) * q * vatU;
+      vatIn += (1 - f) * withVat * vatPart;
+    }
+    const m = ctx.months;
+    const costNet = costPaid - vatIn;
+    const G = rev - costNet;   // прибыль бизнеса до налогов и личных страховок
+
+    let kv, kvDed, kvBase = null;
+    if (P.kv === 'gkv') {
+      kvBase = Math.min(R.kvMax, Math.max(R.kvMin, G / m));
+      const kvPart = kvBase * ((P.kg ? 14.6 : 14.0) + P.zus) / 100 * m;
+      const pvPart = kvBase * (R.pv + (P.kids ? 0 : R.pvChildless)) / 100 * m;
+      kv = kvPart + pvPart;
+      kvDed = kvPart * (P.kg ? 0.96 : 1) + pvPart;     // §10 Abs. 1 Nr. 3 EStG: минус 4 % при праве на Krankengeld
+    } else {
+      kv = P.pkv * m;
+      const ded = P.pkvDed == null ? P.pkv : Math.min(P.pkvDed, P.pkv);
+      kvDed = ded * m;
+    }
+    const pens = P.pens * m;
+    const pensDed = P.pensType === 'drv' ? Math.min(pens, R.pensCap) : 0;
+    const priv = P.priv * m;
+
+    const zve = G - kvDed - pensDed - LAW.pausch;
+    const estTarif = incomeTax(zve, R);
+    let gew = 0, credit = 0, messbetrag = 0;
+    if (P.kind === 'gew' && G > 0) {
+      const ge = Math.floor(G / 100) * 100 - LAW.gewFrei;  // §11 GewStG
+      if (ge > 0) {
+        messbetrag = ge * LAW.gewMz;
+        gew = messbetrag * P.heb / 100;
+        credit = Math.min(LAW.gew35 * messbetrag, gew, estTarif); // §35 EStG
+      }
+    }
+    const est = estTarif - credit;
+    const soliV = soli(est, R);                                 // Soli — после зачёта §35
+    const kist = P.church ? estTarif * P.church / 100 : 0;      // §51a Abs. 2 S. 3: без зачёта §35
+    const tax = est + soliV + kist;
+    const net = G - kv - pens - tax - gew;
+    const life = net - priv;
+    return {
+      q, m, rev, vatOut, clientPaid: rev + vatOut, costPaid, vatIn, costNet, G,
+      kv, kvDed, kvBase, pens, pensDed, priv, zve, estTarif, credit, est, soli: soliV, kist, tax, gew, messbetrag,
+      net, life, lifeM: life / m, kuAll: !!ctx.ku && kuShare >= m - 1e-9, switchCal
+    };
+  }
+
+  // Минимальный целый объём продаж, при котором остаток на жизнь не ниже цели
+  function solve(P, ctx) {
+    const life = q => yearCalc(P, q, ctx).lifeM;
+    const qMax = 150000 / P.price;
+    const dq = Math.max(20 / P.price, qMax / 8000);
+    let prev = 0;
+    for (let q = 0; q <= qMax + 1e-9; q += dq) {
+      if (life(q) >= P.target) {
+        let lo = prev, hi = q;
+        for (let k = 0; k < 40; k++) { const mid = (lo + hi) / 2; if (life(mid) >= P.target) hi = mid; else lo = mid; }
+        let qi = Math.ceil(hi - 1e-9);
+        while (life(qi) < P.target && qi <= qMax) qi++;
+        if (qi > qMax) break;
+        return { status: 'ok', res: yearCalc(P, qi, ctx) };
+      }
+      prev = q;
+    }
+    const growing = life(qMax) > life(qMax * 0.9) + 0.01;
+    return { status: growing ? 'limit' : 'loss', qMax };
+  }
+
+  // Три года подряд: право на Kleinunternehmer зависит от фактического оборота прошлого года
+  function plan(P) {
+    const pick = ctx => P.calc === 'need' ? solve(P, ctx) : { status: 'ok', res: yearCalc(P, P.qty, ctx) };
+    const mk = (y, extra) => { const r = ratesFor(y); return Object.assign({ year: y, R: r.R, rBase: r.base, exact: r.exact }, extra); };
+    const out = [];
+    let ctx = mk(P.startY, { months: 13 - P.startM, startCal: P.startM, ku: !!P.ku, limit: LAW.kuFirst, first: true });
+    let s = pick(ctx);
+    out.push(Object.assign({ ctx }, s));
+    for (let i = 1; i < 3; i++) {
+      const prevRev = s.res ? s.res.rev : Infinity;
+      ctx = mk(P.startY + i, { months: 12, startCal: 1, ku: !!P.ku && prevRev <= LAW.kuPrev, limit: LAW.kuCur, prevRev, prevYear: P.startY + i - 1 });
+      s = pick(ctx);
+      out.push(Object.assign({ ctx }, s));
+    }
+    return out;
+  }
+
+  return { RATES, LAW, ratesFor, incomeTax, soli, yearCalc, solve, plan };
+})();
+if (typeof globalThis !== 'undefined') globalThis.NettoEngine = NettoEngine;
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const E = NettoEngine, LAW = E.LAW;
+  const $ = id => document.getElementById(id);
+  const I18N = {
+ "ru": {
+  "title": "Калькулятор прибыли",
+  "tagline": "Сколько часов или товаров нужно продавать в Германии, чтобы после расходов, страховок и налогов хватало на жизнь, — или какой доход даст ваш объём продаж. Учитывает Kleinunternehmer, переход на НДС и налоговые ставки по годам.",
+  "langs": "Язык",
+  "infoBtn": "Пояснение: {f}",
+  "amt": "Сумма в месяц, €",
+  "sec.goal": "Расчёт",
+  "sec.sell": "Продажи",
+  "f.calc": "Что хотите узнать?",
+  "calc.need": "Сколько продавать",
+  "calc.have": "Какой будет доход",
+  "calc.needSub": "задаю нужный доход",
+  "calc.haveSub": "задаю объём продаж",
+  "info.calc": "Первый вариант: вы задаёте, сколько нужно на жизнь, а калькулятор показывает, сколько часов или товаров для этого продавать. Второй — наоборот: вы задаёте, сколько продаёте, а калькулятор показывает, сколько останется на жизнь после расходов, налогов, страховок и пенсии.",
+  "f.qH": "Оплачиваемых часов в месяц",
+  "f.qG": "Продаю товаров в месяц",
+  "info.qty": "Сколько часов в месяц вам в среднем оплачивают клиенты (или сколько товаров вы продаёте), с учётом отпусков и спадов. Это не всё рабочее время: сколько часов в неделю придётся работать на самом деле, калькулятор покажет в карточках справа.",
+  "u.h": "{n} ч",
+  "u.g": "{n} шт.",
+  "r.leadHave": "При продажах <b>{q}</b> в месяц:",
+  "r.perMonth": "/ мес.",
+  "sec.biz": "Расходы бизнеса",
+  "sec.priv": "Личные страховки и платежи",
+  "sec.tax": "Налоги и старт",
+  "f.target": "Нужно на личные расходы в месяц",
+  "info.target": "Сумма на личные расходы: аренда жилья, еда, транспорт, связь, отдых, накопления. Медстраховку, пенсию и личные страховки сюда не включайте — они ниже и прибавятся сами. Ориентир для одного человека: 1 500–2 000 € в небольшом городе, 2 200–3 000 € в Мюнхене, Франкфурте или Гамбурге.",
+  "f.mode": "Что продаёте",
+  "mode.h": "Свои часы",
+  "mode.g": "Товары",
+  "info.mode": "Часы — если вы продаёте своё время: услуги, консультации, ремонт. Товары — если продаёте вещи или фиксированные пакеты услуг.",
+  "f.priceH": "Цена часа",
+  "f.priceG": "Цена товара",
+  "info.priceH": "Сколько вы берёте с клиента за час. Ориентиры: ремесло и ремонт 50–75 €, уборка и уход 30–45 €, дизайн и тексты 50–90 €, IT и консалтинг 80–130 €, коучинг 60–150 €. Частным клиентам называйте цену уже с НДС, компаниям — без.",
+  "info.priceG": "Средняя сумма одной продажи или заказа. Если товары разные — возьмите средний чек. Для частных клиентов это конечная цена (после перехода на НДС он входит в неё), для компаний — цена без НДС.",
+  "f.mat": "Себестоимость",
+  "info.mat": "Прямые затраты на каждую продажу в % от цены: материалы, закупка товара, упаковка, доставка, комиссия площадки (Etsy, Amazon — 10–15 %), оплата картой (1,5–3 %). Услуги: обычно 0–10 %. Торговля и производство: 30–60 %.",
+  "f.clients": "Кто клиенты",
+  "cl.c": "Частные лица",
+  "cl.b": "Компании",
+  "info.clients": "Важно для перехода на НДС (19 %). Компании с правом на вычет платят НДС сверху и возвращают его — для них цена не меняется. Частные лица и компании без права на вычет (например, врачи, страховые, другие Kleinunternehmer) НДС не возвращают: цену обычно не поднять, и 19 % уходит из вашей выручки.",
+  "f.billable": "Оплачиваемая доля времени",
+  "info.billable": "Какую часть рабочего времени клиент действительно оплачивает. Поиск клиентов, переписка, сметы, дорога, бухгалтерия и обучение — тоже работа, но за неё никто не платит. Пример: вы работаете 40 часов в неделю, а в счета попадает 26 — это 65 %. Новичкам стоит закладывать 50–60 %, при постоянных клиентах бывает 70–80 %.",
+  "f.off": "Отпуск, праздники, болезни",
+  "info.off": "Недели в году, когда вы не зарабатываете. В Германии 9–13 праздничных дней (около 2 недель), отпуск обычно 4–6 недель, болезни — 1–2 недели. Реально выходит 7–10 недель.",
+  "f.fixed": "Прочие постоянные расходы",
+  "info.fixed": "Всё, что бизнес тратит каждый месяц независимо от продаж: аренда помещения, телефон и интернет, программы, реклама, сайт, авто, обучение. Работа из дома — обычно 150–400 €, своя студия или мастерская — 1 000–2 000 €, магазин — от 2 500 €. Суммы указывайте так, как платите, с НДС.",
+  "biz.lead": "Типичные платежи. Суммы — средние по рынку, как вы их платите (с НДС). Впишите свои, если знаете.",
+  "c.stb": "Налоговый консультант",
+  "c.stb.n": "Steuerberater: бухгалтерия и декларации, 100–250 € в месяц",
+  "c.hp": "Страховка ответственности",
+  "c.hp.n": "Betriebshaftpflicht. Для услуг и ремесла настоятельно рекомендуется, в некоторых профессиях обязательна: 10–30 €",
+  "c.sw": "Бизнес-счёт и бухгалтерская программа",
+  "c.sw.n": "10–40 € в месяц",
+  "c.bg": "Berufsgenossenschaft",
+  "c.bg.n": "Страхование от несчастных случаев на работе. Сообщить о бизнесе в BG обязаны все; взносы — если есть сотрудники или устав BG страхует самого предпринимателя: 10–30 €",
+  "c.ihk": "Взнос IHK или HWK",
+  "c.ihk.n": "Только для Gewerbe. Новичков с прибылью до 25 000 € часто освобождают в первые годы — условия зависят от палаты",
+  "priv.lead": "В Германии самозанятый сам платит за медстраховку и пенсию — работодателя, который платил бы половину, нет. Эти платежи калькулятор учитывает отдельно от суммы на личные расходы.",
+  "f.kv": "Медстраховка",
+  "kv.g": "Государственная (GKV)",
+  "kv.p": "Частная (PKV)",
+  "info.kv": "GKV считает взнос от прибыли: около 21 % (14,6 % + доп. взнос кассы + Pflege), но не меньше, чем с {min} в месяц. PKV стоит фиксированную сумму, зависит от возраста и здоровья. Молодым и здоровым она часто дешевле, но вернуться из PKV в GKV потом очень трудно, а детей придётся страховать отдельно.",
+  "kg": "С больничным (Krankengeld)",
+  "kg.n": "14,6 % вместо 14,0 %. Выплаты с 43-го дня болезни — без них долгая болезнь оставит без дохода",
+  "kids": "Есть дети",
+  "kids.n": "Pflege 3,6 % вместо 4,2 % для бездетных старше 23. При двух и более детях до 25 лет ставка ниже — здесь не учитывается",
+  "f.pkv": "Взнос PKV в месяц вместе с Pflege",
+  "f.pens": "Откладываю на пенсию в месяц",
+  "info.pens": "Сколько вы откладываете на старость. Для большинства самозанятых пенсионное страхование добровольное. Обязательно оно, например, для учителей и тренеров без сотрудников, сиделок, акушерок, ремесленников из Handwerksrolle и тех, кто работает в основном на одного заказчика; художники и журналисты страхуются через KSK. В этих случаях взнос считается по доходу — проверьте в DRV. Налог уменьшают только взносы в DRV или Rürup — это выбирается в «Уточнить расчёт».",
+  "priv.list": "Другие личные платежи. Суммы средние — впишите свои.",
+  "p.rf": "Rundfunkbeitrag",
+  "p.rf.n": "Обязателен для каждой квартиры: 18,36 € в месяц",
+  "p.ph": "Личная ответственность",
+  "p.ph.n": "Privathaftpflicht. Очень рекомендуется: 4–8 €",
+  "p.bu": "Страховка нетрудоспособности",
+  "p.bu.n": "Berufsunfähigkeitsversicherung (BU). Важна для самозанятых: 60–150 € по профессии и возрасту",
+  "p.hr": "Страховка имущества",
+  "p.hr.n": "Hausratversicherung: 5–15 €",
+  "p.ot": "Другое",
+  "p.ot.n": "Кредиты, алименты, взносы — то, что платите обязательно",
+  "f.start": "Начинаю",
+  "info.start": "Месяц регистрации дела (Gewerbeanmeldung или анкета для Finanzamt). Первый год считается с этого месяца — от него зависят лимит Kleinunternehmer и налог первого года.",
+  "ku": "Начать как Kleinunternehmer",
+  "ku.n": "Без НДС в счетах, пока оборот в лимитах",
+  "info.ku": "Kleinunternehmer (§19 UStG) не выставляет НДС клиентам. Лимиты: в год открытия оборот до 25 000 €; дальше — прошлый год до 25 000 € и текущий до 100 000 €. Продажа, которая превышает лимит, уже целиком облагается НДС, как и все следующие. Минус: НДС с ваших покупок не возвращается. Отказ от льготы добровольный, но действует минимум 5 лет.",
+  "f.kind": "Вид деятельности",
+  "kind.f": "Freiberufler",
+  "kind.g": "Gewerbe",
+  "info.kind": "Freiberufler — свободные профессии: врачи, юристы, консультанты, программисты, дизайнеры, переводчики, преподаватели, журналисты. Gewerbesteuer не платят, Gewerbe не регистрируют. Gewerbe — всё остальное: торговля, ремесло, общепит, бытовые услуги, агентства. Платят Gewerbesteuer, но при обычной ставке города она почти полностью засчитывается в подоходный налог. Окончательно решает Finanzamt.",
+  "f.heb": "Hebesatz города",
+  "info.heb": "Множитель Gewerbesteuer, его устанавливает город. Берлин 410 %, Гамбург 470 %, Мюнхен 490 %, Кёльн 475 %, небольшие города 330–400 %. Точное значение — на сайте вашего города.",
+  "fine": "Тонкая настройка",
+  "f.zus": "Доп. взнос больничной кассы",
+  "info.zus": "У каждой кассы свой. Средний сейчас — около {z} %, у дешёвых касс 2,2–2,5 %, у дорогих выше 3,5 %. Точную цифру смотрите на сайте своей кассы.",
+  "f.vatshare": "Доля расходов с НДС",
+  "info.vatshare": "Какая часть ваших расходов (постоянных и себестоимости) содержит НДС, который можно вычесть после выхода из Kleinunternehmer. Обычно без НДС: аренда у частного лица, страховки, банковские сборы, покупки у Kleinunternehmer. С НДС: техника, программы, реклама, материалы.",
+  "r.lead": "Чтобы на личные расходы оставалось <b>{t}</b> в месяц:",
+  "r.leadNote": "Личные страховки и обязательные платежи ({p} в месяц) уже вычтены.",
+  "r.span": "{a} – {b}, {m} мес.",
+  "r.span1": "{a}, 1 мес.",
+  "r.full": "12 мес.",
+  "r.unitH": "ч / мес.",
+  "r.unitG": "шт. / мес.",
+  "r.hw": "≈ {n} ч работы в неделю",
+  "r.gw": "≈ {n} шт. в неделю",
+  "r.rev": "оборот {v} в мес.",
+  "chip.ku": "Kleinunternehmer",
+  "chip.vat": "С НДС 19 %",
+  "chip.mix": "Переход на НДС",
+  "why.noku": "Вы сразу работаете с НДС и возвращаете НДС из расходов.",
+  "why.y1ok": "Оборот {v} не больше {lim} — весь год без НДС.",
+  "why.okN": "Прошлый год не больше {l1}, этот не больше {l2} — льгота сохраняется.",
+  "why.mix": "Лимит {lim} закончится примерно в этот месяц: {mon}, дальше счета с НДС.",
+  "wf.title": "Куда уходят деньги клиентов · {y} ({span}), в среднем в месяц",
+  "s.kv": "Медстраховка и Pflege",
+  "s.pens": "Пенсия",
+  "s.priv": "Личные страховки и платежи",
+  "s.tax": "Подоходный налог и Soli",
+  "s.taxK": "Подоходный, Soli и церковный",
+  "s.gew": "Gewerbesteuer",
+  "s.net": "Остаётся на личные расходы",
+  "s.total": "Платят клиенты",
+  "noSol": "Нет решения при этих параметрах.",
+  "ch.title": "Сколько остаётся на личные расходы при разном объёме продаж · {y}",
+  "ch.aria": "График: доход на жизнь в зависимости от объёма продаж",
+  "ch.axisH": "оплачиваемых часов в месяц",
+  "ch.axisG": "товаров в месяц",
+  "ch.lim": "лимит {v}",
+  "ch.next": "выше — в след. году с НДС",
+  "ch.goal": "цель {v}",
+  "ch.hintB2C": "Кривая проседает после лимита: частные клиенты платят столько же, а 19 % уходит в НДС.",
+  "ch.hint": "Точка — нужный вам объём продаж.",
+  "w.title": "Советы и предупреждения",
+  "w.hours": "<b>Больше {n} часов в неделю.</b> Долго так не выдержать. Поднимите цену часа — даже +10 € к ставке заметно снижают нагрузку.",
+  "w.near": "<b>Вы у самого лимита.</b> Оборот {y} — {v}. Одна крупная продажа может перевести вас на НДС.",
+  "w.b2c": "<b>Переход на НДС с частными клиентами.</b> При той же цене вам остаётся {n} вместо {p} — минус 16 % с каждой продажи. Либо поднимите цену до {g}, либо закладывайте больше продаж.",
+  "w.b2b": "<b>Для компаний с правом на вычет НДС переход не страшен:</b> они возвращают НДС, и цена для них не меняется. Но не все компании могут вернуть НДС — например, врачи, страховые и другие Kleinunternehmer. От Kleinunternehmer можно отказаться добровольно, но это решение действует минимум 5 лет.",
+  "w.kvmin": "<b>Минимальный взнос GKV.</b> Даже при маленькой прибыли касса считает взнос как с {b} в месяц — это ≈ {v} в месяц.",
+  "w.kvlater": "<b>GKV считает по прогнозу.</b> В первый год взнос ставят по вашей оценке прибыли, потом пересчитывают по налоговому уведомлению — возможна доплата.",
+  "w.pens0": "<b>Вы не откладываете на пенсию.</b> Без взносов ваша государственная пенсия перестанет расти. Даже 100–200 € в месяц заметно меняют картину.",
+  "w.rates": "<b>Параметры {ys} ещё не опубликованы.</b> Используются значения {b} — это прогноз, а не точный расчёт.",
+  "mbar": "Подробнее",
+  "reset": "Сбросить настройки",
+  "saveNote": "Данные хранятся только на вашем устройстве и никуда не отправляются.",
+  "resetDone": "Настройки сброшены.",
+  "err.range": "Введите число от {min} до {max}.",
+  "adv": "Уточнить расчёт",
+  "adv.lead": "Необязательные параметры. Если не уверены — оставьте как есть.",
+  "unit.h": "ч",
+  "unit.g": "шт.",
+  "unit.wk": "нед.",
+  "f.church": "Церковный налог",
+  "church.no": "Нет",
+  "info.church": "Только для членов церкви. 8 % в Баварии и Баден-Вюртемберге, 9 % в остальных землях. Считается от подоходного налога без зачёта Gewerbesteuer.",
+  "f.pensType": "Пенсионные накопления — это",
+  "pt.save": "Обычные накопления, ETF",
+  "pt.drv": "Взносы DRV или Rürup",
+  "info.pensType": "Подоходный налог уменьшают только взносы в государственную пенсионную страховку (DRV) и в Rürup-Rente (Basisrente) — до {cap} в год. Обычные накопления, ETF и вклады налог не уменьшают.",
+  "f.pkvDed": "Вычитаемая часть PKV в месяц",
+  "pkvDed.ph": "весь взнос",
+  "info.pkvDed": "Из взноса PKV налог уменьшает только базовая часть (Basisabsicherung) и Pflege; Krankentagegeld и доп. тарифы не вычитаются. Точную сумму страховая указывает в ежегодной справке. Пусто — считаем, что вычитается весь взнос.",
+  "f.invoice": "Средний размер одного счёта",
+  "info.invoice": "Нужно для лимита Kleinunternehmer: счёт, который пересекает лимит, целиком облагается НДС. Калькулятор знает только среднемесячную выручку, поэтому считает, что вы равномерно выставляете счета такого размера.",
+  "res.need": "Нужно продавать",
+  "res.have": "Остаётся на личные расходы",
+  "res.avg": "в среднем в месяц",
+  "r.profit": "прибыль бизнеса {v} в мес.",
+  "r.loss": "Не достижимо",
+  "r.lossWhy": "После себестоимости и НДС каждая продажа не приносит денег. Поднимите цену или снизьте себестоимость.",
+  "r.limit": "Больше {n}",
+  "r.limitWhy": "Нужный объём выходит за пределы калькулятора. При такой цене цель практически недостижима.",
+  "why.prevNo": "Оборот {y} — {v}, больше {lim}. В этом году льготы нет.",
+  "disc.title": "Важно.",
+  "disclaimer": "Это упрощённый расчёт для предварительной оценки. Он основан на допущениях и типовых значениях, поэтому фактические налоги, страховые взносы и расходы могут отличаться. Это не налоговая и не юридическая консультация. Все данные приводятся без гарантии; ответственность за решения, принятые на основе расчёта, не принимается. Перед открытием бизнеса проконсультируйтесь со Steuerberater.",
+  "how.title": "Как мы считаем",
+  "how.prior": "<b>Других доходов в {y} нет.</b> Если в этом году у вас есть зарплата, пособие или другие доходы — до открытия бизнеса или параллельно с ним, — налог будет заметно выше: необлагаемый минимум уже использован, а ставка считается по сумме доходов за год.",
+  "how.single": "Один человек без совместного налогообложения супругов (Splitting); Kindergeld и детские налоговые вычеты не учитываются.",
+  "how.even": "Продажи и расходы одинаковы каждый месяц; месячные суммы — средние за выбранный период.",
+  "how.kvG": "Медстраховка: GKV добровольно, {kv} % + доп. взнос {z} % + Pflege {pv} % от прибыли, с базы от {min} до {max} в месяц. Для налога вычитаются взносы (при Krankengeld — минус 4 %).",
+  "how.kvP": "Медстраховка: PKV {v} в месяц вместе с Pflege; из налоговой базы вычитается {d} в месяц.",
+  "how.pensSave": "Пенсионные накопления ({v} в месяц) уменьшают остаток, но не налог — как обычные накопления или ETF.",
+  "how.pensDrv": "Пенсионные взносы ({v} в месяц) — DRV или Rürup: вычитаются из налоговой базы, не больше {cap} в год.",
+  "how.vat": "НДС: только продажи внутри Германии по ставке 19 %; ставка 7 %, клиенты из других стран ЕС и Reverse Charge не учитываются. Расходы вводятся как оплачиваете, с НДС; вычитаемый НДС содержится в {s} % из них.",
+  "how.ku": "Kleinunternehmer: право на следующий год — по фактическому обороту прошлого года, без пересчёта на 12 месяцев. Продажа, которая пересекает лимит, целиком облагается НДС. Размер одной продажи: {t}.",
+  "how.kuT_h": "средний счёт {v} (меняется в «Уточнить расчёт»)",
+  "how.kuT_g": "цена одного товара или заказа",
+  "how.kuOff": "Без Kleinunternehmer: НДС с первого дня.",
+  "how.taxes": "Подоходный налог по тарифу §32a EStG и Soli.",
+  "how.kist": "Церковный налог {r} % — от подоходного налога без зачёта Gewerbesteuer. Вычет уплаченного церковного налога как Sonderausgabe не учитывается.",
+  "how.gew": "Gewerbesteuer: Hebesatz {h} %, Freibetrag 24 500 €, зачёт в подоходный налог до 4 × Messbetrag; Hinzurechnungen не учитываются.",
+  "how.rates": "Налоговые и страховые параметры {y} года.",
+  "how.ratesEst": "Для {y} официальных параметров ещё нет — используются значения {b}. Это прогноз, а не точный расчёт.",
+  "how.not": "Не учтены: KSK для художников и журналистов, обязательная пенсионная страховка по профессии, сотрудники, GmbH/UG, Gründungszuschuss, амортизация (AfA), убытки прошлых лет.",
+  "wf.profit": "Прибыль бизнеса до налогов и страховок: <b>{v}</b> в месяц",
+  "s.costNet": "Расходы бизнеса (за вычетом возвращаемого НДС)",
+  "s.vatOut": "НДС с продаж → Finanzamt",
+  "vatIn": "НДС из расходов, который Finanzamt зачтёт или вернёт: {v} в месяц — уже вычтен из расходов.",
+  "short": "<b>Минус {v} в месяц.</b> Продаж не хватает, чтобы покрыть расходы, страховки и налоги.",
+  "w.reserve": "<b>Резерв на налоги {y}: ≈ {m} в месяц</b> (всего ≈ {t}). Когда платить, решает Finanzamt: возможны ежеквартальные авансы по вашему прогнозу и доплата после декларации. Откладывайте эту сумму сразу на отдельный счёт.",
+  "w.prior": "<b>Первый год неполный.</b> Расчёт предполагает, что в {y} до открытия бизнеса других доходов не было. Если была зарплата или пособие — налог будет выше.",
+  "live": "{y}: {l} — {v}",
+  "remember": "Запомнить мои настройки в этом браузере"
+ },
+ "de": {
+  "title": "Gewinnrechner",
+  "tagline": "Wie viele Stunden oder Produkte Sie in Deutschland verkaufen müssen, damit nach Kosten, Versicherungen und Steuern genug zum Leben bleibt — oder welches Einkommen Ihr Absatz bringt. Mit Kleinunternehmerregelung, Wechsel zur Umsatzsteuer und Steuerwerten je Jahr.",
+  "langs": "Sprache",
+  "infoBtn": "Erklärung: {f}",
+  "amt": "Betrag pro Monat, €",
+  "sec.goal": "Berechnung",
+  "sec.sell": "Verkauf",
+  "f.calc": "Was möchten Sie wissen?",
+  "calc.need": "Wie viel verkaufen",
+  "calc.have": "Welches Einkommen",
+  "calc.needSub": "ich gebe das Einkommen vor",
+  "calc.haveSub": "ich gebe den Absatz vor",
+  "info.calc": "Erste Variante: Sie geben vor, was Sie zum Leben brauchen, und sehen, wie viele Stunden oder Produkte Sie dafür verkaufen müssen. Zweite: umgekehrt — Sie geben Ihren Absatz vor und sehen, was nach Kosten, Steuern, Versicherungen und Altersvorsorge zum Leben bleibt.",
+  "f.qH": "Bezahlte Stunden pro Monat",
+  "f.qG": "Verkaufte Produkte pro Monat",
+  "info.qty": "Wie viele Stunden Ihnen Kunden im Schnitt pro Monat bezahlen (oder wie viele Produkte Sie verkaufen), Urlaub und Flauten eingerechnet. Das ist nicht die gesamte Arbeitszeit: Wie viele Stunden pro Woche Sie tatsächlich arbeiten, zeigt der Rechner in den Karten.",
+  "u.h": "{n} Std.",
+  "u.g": "{n} Stk.",
+  "r.leadHave": "Bei einem Absatz von <b>{q}</b> pro Monat:",
+  "r.perMonth": "/ Monat",
+  "sec.biz": "Betriebsausgaben",
+  "sec.priv": "Private Versicherungen und Ausgaben",
+  "sec.tax": "Steuern und Start",
+  "f.target": "Ich brauche für private Ausgaben pro Monat",
+  "info.target": "Betrag für private Ausgaben: Miete, Essen, Mobilität, Handy, Freizeit, Sparen. Krankenversicherung, Rente und private Versicherungen nicht einrechnen — sie stehen weiter unten und werden automatisch addiert. Richtwert für eine Person: 1.500–2.000 € in einer kleineren Stadt, 2.200–3.000 € in München, Frankfurt oder Hamburg.",
+  "f.mode": "Was verkaufen Sie?",
+  "mode.h": "Arbeitsstunden",
+  "mode.g": "Produkte",
+  "info.mode": "Stunden, wenn Sie Ihre Zeit verkaufen: Dienstleistung, Beratung, Handwerk. Produkte, wenn Sie Waren oder feste Leistungspakete verkaufen.",
+  "f.priceH": "Stundensatz",
+  "f.priceG": "Preis pro Stück",
+  "info.priceH": "Was Sie pro Stunde berechnen. Richtwerte: Handwerk 50–75 €, Reinigung und Pflege 30–45 €, Design und Text 50–90 €, IT und Beratung 80–130 €, Coaching 60–150 €. Privatkunden nennen Sie den Bruttopreis, Firmen den Nettopreis.",
+  "info.priceG": "Durchschnittlicher Betrag pro Verkauf oder Auftrag. Bei unterschiedlichen Produkten nehmen Sie den Durchschnittsbon. Für Privatkunden ist das der Endpreis (nach dem Wechsel ist die Umsatzsteuer darin enthalten), für Firmen der Nettopreis.",
+  "f.mat": "Wareneinsatz",
+  "info.mat": "Direkte Kosten je Verkauf in % vom Preis: Material, Wareneinkauf, Verpackung, Versand, Plattformgebühren (Etsy, Amazon 10–15 %), Zahlungsgebühren (1,5–3 %). Dienstleistungen meist 0–10 %, Handel und Herstellung 30–60 %.",
+  "f.clients": "Ihre Kunden",
+  "cl.c": "Privatkunden",
+  "cl.b": "Firmen",
+  "info.clients": "Wichtig beim Wechsel zur Umsatzsteuer (19 %). Firmen mit Vorsteuerabzug zahlen die Steuer obendrauf und holen sie zurück — für sie ändert sich der Preis nicht. Privatkunden und Firmen ohne Vorsteuerabzug (z. B. Ärzte, Versicherungen, andere Kleinunternehmer) können das nicht: Meist lässt sich der Preis nicht erhöhen, und die 19 % gehen von Ihrem Umsatz ab.",
+  "f.billable": "Abrechenbarer Anteil",
+  "info.billable": "Welcher Teil Ihrer Arbeitszeit tatsächlich bezahlt wird. Akquise, E-Mails, Angebote, Fahrten, Buchhaltung und Weiterbildung sind auch Arbeit, aber niemand bezahlt sie. Beispiel: Sie arbeiten 40 Stunden pro Woche, 26 davon stehen auf Rechnungen — das sind 65 %. Für den Start 50–60 % ansetzen, mit Stammkunden sind 70–80 % möglich.",
+  "f.off": "Urlaub, Feiertage, Krankheit",
+  "info.off": "Wochen im Jahr ohne Einnahmen. In Deutschland 9–13 Feiertage (etwa 2 Wochen), Urlaub meist 4–6 Wochen, Krankheit 1–2 Wochen. Realistisch sind 7–10 Wochen.",
+  "f.fixed": "Sonstige laufende Kosten",
+  "info.fixed": "Alles, was monatlich unabhängig vom Umsatz anfällt: Miete für Räume, Telefon und Internet, Software, Werbung, Website, Auto, Weiterbildung. Arbeit von zu Hause meist 150–400 €, eigenes Studio oder Werkstatt 1.000–2.000 €, Laden ab 2.500 €. Beträge so angeben, wie Sie sie zahlen, also brutto.",
+  "biz.lead": "Typische Posten. Beträge sind Marktdurchschnitt, so wie Sie sie zahlen (brutto). Tragen Sie Ihre eigenen ein, wenn Sie sie kennen.",
+  "c.stb": "Steuerberater",
+  "c.stb.n": "Buchhaltung und Erklärungen: 100–250 € im Monat",
+  "c.hp": "Betriebshaftpflicht",
+  "c.hp.n": "Für Dienstleistung und Handwerk dringend empfohlen, in manchen Berufen Pflicht: 10–30 €",
+  "c.sw": "Geschäftskonto und Buchhaltungssoftware",
+  "c.sw.n": "10–40 € im Monat",
+  "c.bg": "Berufsgenossenschaft",
+  "c.bg.n": "Unfallversicherung. Anmelden müssen sich alle Betriebe; Beiträge fallen an, wenn Sie Beschäftigte haben oder die Satzung der BG Unternehmer selbst versichert: 10–30 €",
+  "c.ihk": "IHK- oder HWK-Beitrag",
+  "c.ihk.n": "Nur für Gewerbe. Gründer mit Gewinn bis 25.000 € sind in den ersten Jahren oft befreit — die Bedingungen legt die Kammer fest",
+  "priv.lead": "Selbstständige zahlen Krankenversicherung und Altersvorsorge allein, es gibt keinen Arbeitgeberanteil. Diese Zahlungen rechnet der Rechner getrennt von Ihren privaten Ausgaben ein.",
+  "f.kv": "Krankenversicherung",
+  "kv.g": "Gesetzlich (GKV)",
+  "kv.p": "Privat (PKV)",
+  "info.kv": "Die GKV berechnet den Beitrag vom Gewinn: rund 21 % (14,6 % + Zusatzbeitrag + Pflege), mindestens aber von {min} im Monat. Die PKV kostet einen festen Betrag je nach Alter und Gesundheit. Für Junge und Gesunde ist sie oft günstiger, aber der Weg zurück in die GKV ist sehr schwer, und Kinder müssen extra versichert werden.",
+  "kg": "Mit Krankengeld",
+  "kg.n": "14,6 % statt 14,0 %. Zahlt ab dem 43. Krankheitstag — ohne bleibt man bei langer Krankheit ohne Einkommen",
+  "kids": "Ich habe Kinder",
+  "kids.n": "Pflegeversicherung 3,6 % statt 4,2 % für Kinderlose ab 23. Ab zwei Kindern unter 25 sinkt der Satz weiter — hier nicht berücksichtigt",
+  "f.pkv": "PKV-Beitrag pro Monat inkl. Pflege",
+  "f.pens": "Altersvorsorge pro Monat",
+  "info.pens": "Wie viel Sie fürs Alter zurücklegen. Für die meisten Selbstständigen ist die Rentenversicherung freiwillig. Pflicht ist sie zum Beispiel für Lehrer und Trainer ohne Angestellte, Pflegepersonen, Hebammen, Handwerker in der Handwerksrolle und Selbstständige, die im Wesentlichen für einen Auftraggeber arbeiten; Künstler und Publizisten sind über die KSK versichert. Dann richtet sich der Beitrag nach dem Einkommen — prüfen Sie das bei der DRV. Die Steuer senken nur Beiträge zur DRV oder Rürup-Rente — das stellen Sie unter „Berechnung verfeinern“ ein.",
+  "priv.list": "Weitere private Ausgaben. Durchschnittswerte — tragen Sie Ihre eigenen ein.",
+  "p.rf": "Rundfunkbeitrag",
+  "p.rf.n": "Pflicht für jede Wohnung: 18,36 € im Monat",
+  "p.ph": "Privathaftpflicht",
+  "p.ph.n": "Sehr empfohlen: 4–8 €",
+  "p.bu": "Berufsunfähigkeitsversicherung",
+  "p.bu.n": "Wichtig für Selbstständige: 60–150 € je nach Beruf und Alter",
+  "p.hr": "Hausratversicherung",
+  "p.hr.n": "5–15 €",
+  "p.ot": "Sonstiges",
+  "p.ot.n": "Kredite, Unterhalt, Beiträge — feste Pflichtzahlungen",
+  "f.start": "Start",
+  "info.start": "Monat der Anmeldung (Gewerbeanmeldung oder Fragebogen zur steuerlichen Erfassung). Das erste Jahr zählt ab hier — davon hängen die Kleinunternehmergrenze und die Steuer des ersten Jahres ab.",
+  "ku": "Als Kleinunternehmer starten",
+  "ku.n": "Rechnungen ohne Umsatzsteuer, solange der Umsatz unter den Grenzen liegt",
+  "info.ku": "Kleinunternehmer (§19 UStG) stellen keine Umsatzsteuer in Rechnung. Grenzen: im Gründungsjahr Umsatz bis 25.000 €; danach Vorjahr bis 25.000 € und laufendes Jahr bis 100.000 €. Der Umsatz, mit dem die Grenze überschritten wird, ist bereits voll steuerpflichtig, ebenso alle folgenden. Nachteil: keine Vorsteuer aus Einkäufen. Der Verzicht auf die Regelung ist freiwillig, bindet aber mindestens 5 Jahre.",
+  "f.kind": "Art der Tätigkeit",
+  "kind.f": "Freiberufler",
+  "kind.g": "Gewerbe",
+  "info.kind": "Freiberufler: Ärzte, Anwälte, Berater, Softwareentwickler, Designer, Übersetzer, Lehrer, Journalisten. Keine Gewerbesteuer, keine Gewerbeanmeldung. Gewerbe: alles andere, etwa Handel, Handwerk, Gastronomie, Dienstleistungen, Agenturen. Gewerbesteuer fällt an, wird aber bei üblichen Hebesätzen fast vollständig auf die Einkommensteuer angerechnet. Letztlich entscheidet das Finanzamt.",
+  "f.heb": "Hebesatz der Gemeinde",
+  "info.heb": "Multiplikator der Gewerbesteuer, legt die Gemeinde fest. Berlin 410 %, Hamburg 470 %, München 490 %, Köln 475 %, kleinere Orte 330–400 %. Den genauen Wert finden Sie auf der Website Ihrer Gemeinde.",
+  "fine": "Feineinstellungen",
+  "f.zus": "Zusatzbeitrag der Krankenkasse",
+  "info.zus": "Jede Kasse hat ihren eigenen. Durchschnitt aktuell rund {z} %, günstige Kassen 2,2–2,5 %, teure über 3,5 %. Den genauen Wert finden Sie bei Ihrer Kasse.",
+  "f.vatshare": "Anteil Kosten mit Umsatzsteuer",
+  "info.vatshare": "Welcher Teil Ihrer Kosten (laufende Kosten und Wareneinsatz) Umsatzsteuer enthält, die Sie nach dem Wechsel als Vorsteuer abziehen können. Meist ohne: Miete von Privatpersonen, Versicherungen, Bankgebühren, Einkäufe bei Kleinunternehmern. Mit: Technik, Software, Werbung, Material.",
+  "r.lead": "Damit für private Ausgaben <b>{t}</b> pro Monat bleiben:",
+  "r.leadNote": "Private Versicherungen und Pflichtzahlungen ({p} pro Monat) sind bereits abgezogen.",
+  "r.span": "{a} – {b}, {m} Mon.",
+  "r.span1": "{a}, 1 Mon.",
+  "r.full": "12 Mon.",
+  "r.unitH": "Std./Monat",
+  "r.unitG": "Stk./Monat",
+  "r.hw": "≈ {n} Std. Arbeit pro Woche",
+  "r.gw": "≈ {n} Stk. pro Woche",
+  "r.rev": "Umsatz {v} pro Monat",
+  "chip.ku": "Kleinunternehmer",
+  "chip.vat": "Mit USt 19 %",
+  "chip.mix": "Wechsel zur USt",
+  "why.noku": "Sie starten mit Umsatzsteuer und ziehen die Vorsteuer aus Kosten ab.",
+  "why.y1ok": "Umsatz {v} bis {lim} — das ganze Jahr ohne Umsatzsteuer.",
+  "why.okN": "Vorjahr bis {l1}, laufendes Jahr bis {l2} — die Regelung bleibt.",
+  "why.mix": "Die Grenze von {lim} ist etwa im {mon} erreicht. Danach Rechnungen mit Umsatzsteuer.",
+  "wf.title": "Wohin das Geld der Kunden geht · {y} ({span}), Monatsdurchschnitt",
+  "s.kv": "Kranken- und Pflegeversicherung",
+  "s.pens": "Altersvorsorge",
+  "s.priv": "Private Versicherungen und Ausgaben",
+  "s.tax": "Einkommensteuer und Soli",
+  "s.taxK": "Einkommen-, Kirchensteuer, Soli",
+  "s.gew": "Gewerbesteuer",
+  "s.net": "Bleibt für private Ausgaben",
+  "s.total": "Kunden zahlen",
+  "noSol": "Keine Lösung mit diesen Werten.",
+  "ch.title": "Was für private Ausgaben bleibt, je nach Absatz · {y}",
+  "ch.aria": "Diagramm: verfügbares Einkommen je nach Absatz",
+  "ch.axisH": "abrechenbare Stunden pro Monat",
+  "ch.axisG": "Produkte pro Monat",
+  "ch.lim": "Grenze {v}",
+  "ch.next": "darüber: Folgejahr mit USt",
+  "ch.goal": "Ziel {v}",
+  "ch.hintB2C": "Nach der Grenze knickt die Kurve ein: Privatkunden zahlen gleich viel, 19 % gehen als Umsatzsteuer ab.",
+  "ch.hint": "Der Punkt zeigt Ihren nötigen Absatz.",
+  "w.title": "Hinweise und Tipps",
+  "w.hours": "<b>Mehr als {n} Stunden pro Woche.</b> Das hält man nicht lange durch. Erhöhen Sie den Stundensatz — schon 10 € mehr senken die Last spürbar.",
+  "w.near": "<b>Knapp unter der Grenze.</b> Umsatz {y}: {v}. Ein großer Auftrag kann Sie umsatzsteuerpflichtig machen.",
+  "w.b2c": "<b>Umsatzsteuer bei Privatkunden.</b> Bei gleichem Preis bleiben Ihnen {n} statt {p} — 16 % weniger pro Verkauf. Entweder den Preis auf {g} erhöhen oder mehr Absatz einplanen.",
+  "w.b2b": "<b>Für Firmen mit Vorsteuerabzug ist der Wechsel kein Problem:</b> Sie holen sich die Umsatzsteuer zurück, der Preis bleibt für sie gleich. Nicht jede Firma darf das — etwa Ärzte, Versicherungen oder andere Kleinunternehmer. Auf die Kleinunternehmerregelung können Sie freiwillig verzichten, der Verzicht bindet aber mindestens 5 Jahre.",
+  "w.kvmin": "<b>Mindestbeitrag GKV.</b> Auch bei kleinem Gewinn wird mindestens von {b} im Monat gerechnet — das sind ≈ {v} im Monat.",
+  "w.kvlater": "<b>Die GKV rechnet vorläufig.</b> Im ersten Jahr nach Ihrer Gewinnschätzung, später nach dem Steuerbescheid — eine Nachzahlung ist möglich.",
+  "w.pens0": "<b>Keine Altersvorsorge.</b> Ohne Beiträge wächst Ihr Rentenanspruch nicht weiter. Schon 100–200 € im Monat machen einen spürbaren Unterschied.",
+  "w.rates": "<b>Werte für {ys} sind noch nicht veröffentlicht.</b> Verwendet werden die Werte von {b} — eine Prognose, keine genaue Berechnung.",
+  "mbar": "Details",
+  "reset": "Einstellungen zurücksetzen",
+  "saveNote": "Die Daten bleiben nur auf Ihrem Gerät und werden nirgendwohin gesendet.",
+  "resetDone": "Einstellungen zurückgesetzt.",
+  "err.range": "Bitte eine Zahl von {min} bis {max} eingeben.",
+  "adv": "Berechnung verfeinern",
+  "adv.lead": "Optionale Angaben. Wenn Sie unsicher sind, lassen Sie die Werte so.",
+  "unit.h": "Std.",
+  "unit.g": "Stk.",
+  "unit.wk": "Wo.",
+  "f.church": "Kirchensteuer",
+  "church.no": "Nein",
+  "info.church": "Nur für Kirchenmitglieder. 8 % in Bayern und Baden-Württemberg, 9 % in den übrigen Ländern. Bemessen an der Einkommensteuer ohne Anrechnung der Gewerbesteuer.",
+  "f.pensType": "Ihre Altersvorsorge ist",
+  "pt.save": "Sparen, ETF",
+  "pt.drv": "DRV- oder Rürup-Beiträge",
+  "info.pensType": "Die Einkommensteuer senken nur Beiträge zur gesetzlichen Rentenversicherung (DRV) und zur Rürup-Rente (Basisrente) — bis {cap} im Jahr. Normales Sparen, ETFs und Festgeld senken die Steuer nicht.",
+  "f.pkvDed": "Absetzbarer PKV-Anteil pro Monat",
+  "pkvDed.ph": "ganzer Beitrag",
+  "info.pkvDed": "Steuerlich absetzbar sind nur die Basisabsicherung und die Pflege-Pflichtversicherung; Krankentagegeld und Zusatztarife nicht. Den genauen Betrag nennt die Versicherung in der jährlichen Bescheinigung. Leer lassen = der ganze Beitrag wird abgezogen.",
+  "f.invoice": "Durchschnittlicher Rechnungsbetrag",
+  "info.invoice": "Wichtig für die Kleinunternehmergrenze: Die Rechnung, mit der die Grenze überschritten wird, ist voll steuerpflichtig. Der Rechner kennt nur den durchschnittlichen Monatsumsatz und nimmt an, dass Sie gleichmäßig Rechnungen in dieser Höhe stellen.",
+  "res.need": "Nötiger Absatz",
+  "res.have": "Bleibt für private Ausgaben",
+  "res.avg": "im Monatsdurchschnitt",
+  "r.profit": "Gewinn {v} pro Monat",
+  "r.loss": "Nicht erreichbar",
+  "r.lossWhy": "Nach Wareneinsatz und Umsatzsteuer bringt kein Verkauf Geld. Preis erhöhen oder Wareneinsatz senken.",
+  "r.limit": "Mehr als {n}",
+  "r.limitWhy": "Der nötige Absatz liegt außerhalb des Rechners. Bei diesem Preis ist das Ziel praktisch nicht erreichbar.",
+  "why.prevNo": "Umsatz {y}: {v}, über {lim}. In diesem Jahr keine Kleinunternehmerregelung.",
+  "disc.title": "Wichtig.",
+  "disclaimer": "Dies ist eine vereinfachte Berechnung für eine erste Einschätzung. Sie beruht auf Annahmen und typischen Werten; tatsächliche Steuern, Versicherungsbeiträge und Kosten können abweichen. Sie ist keine Steuer- oder Rechtsberatung. Alle Angaben ohne Gewähr; für Entscheidungen, die auf Grundlage dieser Berechnung getroffen werden, wird keine Haftung übernommen. Lassen Sie sich vor der Gründung von einem Steuerberater beraten.",
+  "how.title": "So rechnen wir",
+  "how.prior": "<b>Keine weiteren Einkünfte in {y}.</b> Haben Sie in diesem Jahr Lohn, Leistungen oder andere Einkünfte — vor der Gründung oder parallel dazu —, fällt die Steuer deutlich höher aus: Der Grundfreibetrag ist schon verbraucht, und der Steuersatz richtet sich nach dem Jahreseinkommen insgesamt.",
+  "how.single": "Einzelperson ohne Ehegattensplitting; Kindergeld und Kinderfreibeträge sind nicht berücksichtigt.",
+  "how.even": "Absatz und Kosten sind jeden Monat gleich; Monatsbeträge sind Durchschnittswerte für den gewählten Zeitraum.",
+  "how.kvG": "Krankenversicherung: freiwillig in der GKV, {kv} % + Zusatzbeitrag {z} % + Pflege {pv} % vom Gewinn, Bemessung zwischen {min} und {max} im Monat. Steuerlich abgezogen werden die Beiträge (mit Krankengeld minus 4 %).",
+  "how.kvP": "Krankenversicherung: PKV {v} im Monat inkl. Pflege; steuerlich abgezogen werden {d} im Monat.",
+  "how.pensSave": "Altersvorsorge ({v} im Monat) verringert den verfügbaren Betrag, aber nicht die Steuer — wie normales Sparen oder ETFs.",
+  "how.pensDrv": "Rentenbeiträge ({v} im Monat) an DRV oder Rürup: steuerlich abziehbar, höchstens {cap} im Jahr.",
+  "how.vat": "Umsatzsteuer: nur Inlandsumsätze mit 19 %; 7 %, Kunden im EU-Ausland und Reverse Charge sind nicht berücksichtigt. Kosten werden so eingegeben, wie Sie sie zahlen (brutto); abziehbare Vorsteuer steckt in {s} % davon.",
+  "how.ku": "Kleinunternehmer: Anspruch im Folgejahr nach dem tatsächlichen Vorjahresumsatz, ohne Hochrechnung auf 12 Monate. Der Umsatz, der die Grenze überschreitet, ist voll steuerpflichtig. Größe eines Umsatzes: {t}.",
+  "how.kuT_h": "durchschnittliche Rechnung {v} (änderbar unter „Berechnung verfeinern“)",
+  "how.kuT_g": "Preis eines Produkts oder Auftrags",
+  "how.kuOff": "Ohne Kleinunternehmerregelung: Umsatzsteuer ab dem ersten Tag.",
+  "how.taxes": "Einkommensteuer nach Tarif §32a EStG und Solidaritätszuschlag.",
+  "how.kist": "Kirchensteuer {r} % auf die Einkommensteuer ohne Anrechnung der Gewerbesteuer. Der Sonderausgabenabzug gezahlter Kirchensteuer ist nicht berücksichtigt.",
+  "how.gew": "Gewerbesteuer: Hebesatz {h} %, Freibetrag 24.500 €, Anrechnung auf die Einkommensteuer bis 4 × Messbetrag; Hinzurechnungen sind nicht berücksichtigt.",
+  "how.rates": "Steuer- und Versicherungswerte des Jahres {y}.",
+  "how.ratesEst": "Für {y} gibt es noch keine amtlichen Werte — verwendet werden die Werte von {b}. Das ist eine Prognose, keine genaue Berechnung.",
+  "how.not": "Nicht berücksichtigt: KSK für Künstler und Publizisten, Rentenversicherungspflicht bestimmter Berufe, Angestellte, GmbH/UG, Gründungszuschuss, Abschreibungen (AfA), Verlustvorträge.",
+  "wf.profit": "Gewinn vor Steuern und Versicherungen: <b>{v}</b> pro Monat",
+  "s.costNet": "Betriebskosten (abzüglich erstatteter Vorsteuer)",
+  "s.vatOut": "Umsatzsteuer aus Verkäufen → Finanzamt",
+  "vatIn": "Vorsteuer aus Kosten, die das Finanzamt verrechnet oder erstattet: {v} pro Monat — bereits von den Kosten abgezogen.",
+  "short": "<b>Minus {v} pro Monat.</b> Der Absatz reicht nicht, um Kosten, Versicherungen und Steuern zu decken.",
+  "w.reserve": "<b>Steuerrücklage {y}: ≈ {m} pro Monat</b> (insgesamt ≈ {t}). Wann gezahlt wird, legt das Finanzamt fest: möglich sind vierteljährliche Vorauszahlungen nach Ihrer Prognose und eine Nachzahlung nach der Erklärung. Legen Sie den Betrag sofort auf ein separates Konto.",
+  "w.prior": "<b>Das erste Jahr ist unvollständig.</b> Die Berechnung nimmt an, dass Sie in {y} vor der Gründung keine anderen Einkünfte hatten. Mit Lohn oder Leistungen wird die Steuer höher.",
+  "live": "{y}: {l} — {v}",
+  "remember": "Meine Einstellungen in diesem Browser speichern"
+ },
+ "en": {
+  "title": "Profit calculator",
+  "tagline": "How many hours or products you need to sell in Germany so that enough is left to live on after costs, insurance and taxes — or what income your sales will bring. Covers the small business scheme (Kleinunternehmer), the switch to VAT and tax values by year.",
+  "langs": "Language",
+  "infoBtn": "Explanation: {f}",
+  "amt": "Amount per month, €",
+  "sec.goal": "Calculation",
+  "sec.sell": "Sales",
+  "sec.biz": "Business costs",
+  "sec.priv": "Personal insurance and payments",
+  "sec.tax": "Taxes and start",
+  "f.calc": "What do you want to know?",
+  "calc.need": "How much to sell",
+  "calc.have": "What I’ll take home",
+  "calc.needSub": "I set the income I need",
+  "calc.haveSub": "I set my sales",
+  "info.calc": "Option one: you set what you need to live on, and the calculator shows how many hours or products you need to sell. Option two is the reverse: you set how much you sell, and it shows what is left to live on after costs, taxes, insurance and pension.",
+  "f.qH": "Paid hours per month",
+  "f.qG": "Products sold per month",
+  "info.qty": "How many hours clients pay you for per month on average (or how many products you sell), including holidays and slow periods. This is not your total working time: the cards show how many hours a week you will actually work.",
+  "u.h": "{n} h",
+  "u.g": "{n} pcs",
+  "r.leadHave": "With sales of <b>{q}</b> a month:",
+  "r.perMonth": "/ month",
+  "f.target": "I need for personal spending per month",
+  "info.target": "Money for personal spending: rent, food, transport, phone, leisure, savings. Don’t include health insurance, pension or personal insurance here — they are below and get added automatically. Guide for one person: €1,500–2,000 in a smaller town, €2,200–3,000 in Munich, Frankfurt or Hamburg.",
+  "f.mode": "What do you sell?",
+  "mode.h": "My hours",
+  "mode.g": "Products",
+  "info.mode": "Hours if you sell your time: services, consulting, repairs. Products if you sell goods or fixed service packages.",
+  "f.priceH": "Hourly rate",
+  "f.priceG": "Price per item",
+  "info.priceH": "What you charge a client per hour. Guide: trades and repairs €50–75, cleaning and care €30–45, design and copywriting €50–90, IT and consulting €80–130, coaching €60–150. Quote private clients a price including VAT, businesses a price excluding VAT.",
+  "info.priceG": "Average amount per sale or order. If your products differ, use the average basket. For private clients this is the final price (after the switch to VAT it includes VAT); for businesses it is the price excluding VAT.",
+  "f.mat": "Cost of goods",
+  "info.mat": "Direct costs per sale as % of the price: materials, purchased goods, packaging, shipping, platform fees (Etsy, Amazon 10–15%), card fees (1.5–3%). Services usually 0–10%, retail and manufacturing 30–60%.",
+  "f.clients": "Your clients",
+  "cl.c": "Private clients",
+  "cl.b": "Businesses",
+  "info.clients": "Matters once you switch to VAT (19%). Businesses that can reclaim input VAT pay it on top and get it back — for them the price doesn’t change. Private clients and businesses without that right (e.g. doctors, insurers, other Kleinunternehmer) can’t: usually you can’t raise the price, so the 19% comes out of your revenue.",
+  "f.billable": "Billable share of time",
+  "info.billable": "The part of your working time a client actually pays for. Finding clients, emails, quotes, travel, bookkeeping and training are work too, but nobody pays for them. Example: you work 40 hours a week and 26 end up on invoices — that’s 65%. Plan for 50–60% when starting out; with regular clients 70–80% is possible.",
+  "f.off": "Holidays, public holidays, sickness",
+  "info.off": "Weeks a year without income. Germany has 9–13 public holidays (about 2 weeks), annual leave is usually 4–6 weeks, sickness 1–2 weeks. Realistically 7–10 weeks in total.",
+  "f.fixed": "Other fixed costs",
+  "info.fixed": "Everything the business spends each month regardless of sales: rent for premises, phone and internet, software, advertising, website, car, training. Working from home usually €150–400, your own studio or workshop €1,000–2,000, a shop from €2,500. Enter amounts as you pay them, including VAT.",
+  "biz.lead": "Typical items. Amounts are market averages, as you pay them (including VAT). Enter your own if you know them.",
+  "c.stb": "Tax adviser",
+  "c.stb.n": "Steuerberater: bookkeeping and returns, €100–250 a month",
+  "c.hp": "Business liability insurance",
+  "c.hp.n": "Betriebshaftpflicht. Strongly recommended for services and trades, mandatory in some professions: €10–30",
+  "c.sw": "Business account and bookkeeping software",
+  "c.sw.n": "€10–40 a month",
+  "c.bg": "Accident insurance",
+  "c.bg.n": "Accident insurance. Every business must register with its BG; contributions are due if you have employees or the BG’s statutes insure the owner: €10–30",
+  "c.ihk": "IHK or HWK fee",
+  "c.ihk.n": "Gewerbe only. Founders with profit up to €25,000 are often exempt in the first years — conditions depend on the chamber",
+  "priv.lead": "In Germany the self-employed pay health insurance and pension entirely themselves — there is no employer paying half. The calculator counts these payments separately from your personal spending.",
+  "f.kv": "Health insurance",
+  "kv.g": "Statutory (GKV)",
+  "kv.p": "Private (PKV)",
+  "info.kv": "GKV charges a share of your profit: about 21% (14.6% + the fund’s extra rate + long-term care), but at least on {min} a month. PKV is a fixed amount depending on age and health. It is often cheaper for the young and healthy, but getting back into GKV later is very hard, and children must be insured separately.",
+  "kg": "With sick pay (Krankengeld)",
+  "kg.n": "14.6% instead of 14.0%. Pays from day 43 of illness — without it a long illness leaves you with no income",
+  "kids": "I have children",
+  "kids.n": "Long-term care 3.6% instead of 4.2% for childless people over 23. With two or more children under 25 the rate is lower still — not included here",
+  "f.pkv": "PKV premium per month incl. long-term care",
+  "f.pens": "Pension savings per month",
+  "info.pens": "How much you set aside for old age. For most self-employed people pension insurance is voluntary. It is mandatory, for example, for teachers and trainers without employees, carers, midwives, craftspeople in the Handwerksrolle and people who work mainly for one client; artists and journalists are insured through the KSK. In those cases the contribution depends on income — check with the DRV. Only contributions to the DRV or a Rürup pension reduce your tax — set that under “Refine the calculation”.",
+  "priv.list": "Other personal payments. Amounts are averages — enter your own.",
+  "p.rf": "Broadcasting fee",
+  "p.rf.n": "Rundfunkbeitrag. Mandatory for every household: €18.36 a month",
+  "p.ph": "Personal liability insurance",
+  "p.ph.n": "Privathaftpflicht. Strongly recommended: €4–8",
+  "p.bu": "Disability insurance",
+  "p.bu.n": "Berufsunfähigkeitsversicherung (BU). Important for the self-employed: €60–150 depending on job and age",
+  "p.hr": "Contents insurance",
+  "p.hr.n": "Hausratversicherung: €5–15",
+  "p.ot": "Other",
+  "p.ot.n": "Loans, maintenance, memberships — fixed obligations",
+  "f.start": "Starting",
+  "info.start": "The month you register the business (Gewerbeanmeldung or the tax registration form for the Finanzamt). Year one counts from here — the Kleinunternehmer limit and first-year tax depend on it.",
+  "ku": "Start as a Kleinunternehmer",
+  "ku.n": "No VAT on invoices while turnover stays under the limits",
+  "info.ku": "A Kleinunternehmer (§19 UStG) charges no VAT. Limits: up to €25,000 turnover in the founding year; after that the previous year up to €25,000 and the current year up to €100,000. The sale that crosses the limit is already fully subject to VAT, and so is every sale after it. Downside: no VAT refund on your purchases. Opting out is voluntary but binds you for at least 5 years.",
+  "f.kind": "Type of activity",
+  "kind.f": "Freelancer",
+  "kind.g": "Trade",
+  "info.kind": "Freelance professions (Freiberufler): doctors, lawyers, consultants, software developers, designers, translators, teachers, journalists. No trade tax, no trade registration. Trade (Gewerbe): everything else — retail, crafts, catering, services, agencies. Trade tax applies, but at usual municipal rates it is almost fully credited against income tax. The Finanzamt has the final say.",
+  "f.heb": "Municipal multiplier (Hebesatz)",
+  "info.heb": "Trade tax multiplier set by the municipality. Berlin 410%, Hamburg 470%, Munich 490%, Cologne 475%, smaller towns 330–400%. The exact value is on your municipality’s website.",
+  "fine": "Advanced settings",
+  "f.zus": "Health fund extra rate",
+  "info.zus": "Each fund sets its own. The current average is about {z}%, cheap funds 2.2–2.5%, expensive ones above 3.5%. Check your fund’s website for the exact rate.",
+  "f.vatshare": "Share of costs with VAT",
+  "info.vatshare": "Which share of your costs (fixed costs and cost of goods) contains VAT you can reclaim after leaving the Kleinunternehmer scheme. Usually without VAT: rent from a private landlord, insurance, bank fees, purchases from other Kleinunternehmer. With VAT: equipment, software, advertising, materials.",
+  "r.lead": "To have <b>{t}</b> a month left for personal spending:",
+  "r.leadNote": "Personal insurance and fixed obligations ({p} a month) are already deducted.",
+  "r.span": "{a} – {b}, {m} mo.",
+  "r.span1": "{a}, 1 mo.",
+  "r.full": "12 mo.",
+  "r.unitH": "h / month",
+  "r.unitG": "pcs / month",
+  "r.hw": "≈ {n} h of work per week",
+  "r.gw": "≈ {n} pcs per week",
+  "r.rev": "turnover {v} per month",
+  "chip.ku": "Kleinunternehmer",
+  "chip.vat": "With VAT 19%",
+  "chip.mix": "Switch to VAT",
+  "why.noku": "You start with VAT and reclaim VAT on your costs.",
+  "why.y1ok": "Turnover {v} within {lim} — the whole year without VAT.",
+  "why.okN": "Previous year within {l1}, this year within {l2} — the scheme continues.",
+  "why.mix": "The {lim} limit runs out around {mon}. After that, invoices include VAT.",
+  "wf.title": "Where your clients’ money goes · {y} ({span}), monthly average",
+  "s.kv": "Health and care insurance",
+  "s.pens": "Pension",
+  "s.priv": "Personal insurance and payments",
+  "s.tax": "Income tax and Soli",
+  "s.taxK": "Income tax, Soli, church tax",
+  "s.gew": "Trade tax",
+  "s.net": "Left for personal spending",
+  "s.total": "Clients pay",
+  "noSol": "No solution with these values.",
+  "ch.title": "What’s left for personal spending at different sales volumes · {y}",
+  "ch.aria": "Chart: money left to live on by sales volume",
+  "ch.axisH": "billable hours per month",
+  "ch.axisG": "products per month",
+  "ch.lim": "limit {v}",
+  "ch.next": "above: VAT next year",
+  "ch.goal": "goal {v}",
+  "ch.hintB2C": "The curve dips after the limit: private clients pay the same, and 19% goes to VAT.",
+  "ch.hint": "The dot marks the sales volume you need.",
+  "w.title": "Tips and warnings",
+  "w.hours": "<b>More than {n} hours a week.</b> You can’t keep that up for long. Raise your hourly rate — even €10 more noticeably lightens the load.",
+  "w.near": "<b>You are right at the limit.</b> Turnover {y}: {v}. One big sale can make you liable for VAT.",
+  "w.b2c": "<b>Switching to VAT with private clients.</b> At the same price you keep {n} instead of {p} — 16% less per sale. Either raise the price to {g} or plan for more sales.",
+  "w.b2b": "<b>For businesses that can reclaim VAT the switch is no problem:</b> they get the VAT back, so the price stays the same for them. Not every business can — doctors, insurers or other Kleinunternehmer, for example. You can opt out of the scheme voluntarily, but that binds you for at least 5 years.",
+  "w.kvmin": "<b>Minimum GKV contribution.</b> Even with a small profit the fund charges as if you earned at least {b} a month — about {v} a month.",
+  "w.kvlater": "<b>GKV charges provisionally.</b> In year one it uses your profit estimate, then recalculates from the tax assessment — you may have to pay extra.",
+  "w.pens0": "<b>You are not saving for retirement.</b> Without contributions your state pension stops growing. Even €100–200 a month makes a real difference.",
+  "w.rates": "<b>Values for {ys} are not published yet.</b> The {b} values are used — a projection, not an exact calculation.",
+  "mbar": "Details",
+  "reset": "Reset settings",
+  "saveNote": "The data stays on your device only and is never sent anywhere.",
+  "resetDone": "Settings reset.",
+  "err.range": "Enter a number from {min} to {max}.",
+  "adv": "Refine the calculation",
+  "adv.lead": "Optional settings. If unsure, leave them as they are.",
+  "unit.h": "h",
+  "unit.g": "pcs",
+  "unit.wk": "wks",
+  "f.church": "Church tax",
+  "church.no": "No",
+  "info.church": "Only for church members. 8% in Bavaria and Baden-Württemberg, 9% in the other states. Based on income tax before the trade tax credit.",
+  "f.pensType": "Your pension savings are",
+  "pt.save": "Savings, ETFs",
+  "pt.drv": "DRV or Rürup contributions",
+  "info.pensType": "Only contributions to the statutory pension insurance (DRV) and to a Rürup (basic) pension reduce income tax — up to {cap} a year. Ordinary savings, ETFs and deposits don’t.",
+  "f.pkvDed": "Deductible part of PKV per month",
+  "pkvDed.ph": "whole premium",
+  "info.pkvDed": "Only the basic cover (Basisabsicherung) and the compulsory long-term care insurance are tax-deductible; sick-pay cover and add-on plans are not. Your insurer states the exact amount in its annual certificate. Leave empty to treat the whole premium as deductible.",
+  "f.invoice": "Average invoice amount",
+  "info.invoice": "Matters for the Kleinunternehmer limit: the invoice that crosses the limit is fully subject to VAT. The calculator only knows your average monthly turnover, so it assumes you issue invoices of this size evenly.",
+  "res.need": "You need to sell",
+  "res.have": "Left for personal spending",
+  "res.avg": "monthly average",
+  "r.profit": "business profit {v} a month",
+  "r.loss": "Not reachable",
+  "r.lossWhy": "After cost of goods and VAT, each sale brings in nothing. Raise the price or cut the cost of goods.",
+  "r.limit": "More than {n}",
+  "r.limitWhy": "The volume needed is beyond the calculator’s range. At this price the goal is practically out of reach.",
+  "why.prevNo": "Turnover {y}: {v}, above {lim}. No Kleinunternehmer scheme this year.",
+  "disc.title": "Important.",
+  "disclaimer": "This is a simplified calculation for a first estimate. It relies on assumptions and typical values, so actual taxes, insurance contributions and costs may differ. It is not tax or legal advice. All figures are provided without warranty, and no liability is accepted for decisions made on the basis of this calculation. Talk to a tax adviser (Steuerberater) before starting your business.",
+  "how.title": "How we calculate",
+  "how.prior": "<b>No other income in {y}.</b> If you have a salary, benefits or other income this year — before starting the business or alongside it — your tax will be noticeably higher: the tax-free allowance is already used up, and the rate depends on your total income for the year.",
+  "how.single": "A single person without joint assessment of spouses (splitting); child benefit and child allowances are not included.",
+  "how.even": "Sales and costs are the same every month; monthly figures are averages for the selected period.",
+  "how.kvG": "Health insurance: voluntary GKV, {kv}% + extra rate {z}% + long-term care {pv}% of profit, on a base between {min} and {max} a month. Contributions are deducted for tax (minus 4% with sick pay).",
+  "how.kvP": "Health insurance: PKV {v} a month incl. long-term care; {d} a month is deducted for tax.",
+  "how.pensSave": "Pension savings ({v} a month) reduce what is left, but not your tax — like ordinary savings or ETFs.",
+  "how.pensDrv": "Pension contributions ({v} a month) to the DRV or Rürup: deducted from taxable income, up to {cap} a year.",
+  "how.vat": "VAT: domestic sales at 19% only; the 7% rate, clients in other EU countries and reverse charge are not covered. Costs are entered as you pay them, incl. VAT; {s}% of them contain reclaimable VAT.",
+  "how.ku": "Kleinunternehmer: next year’s eligibility uses the actual turnover of the previous year, not scaled to 12 months. The sale that crosses the limit is fully subject to VAT. Size of one sale: {t}.",
+  "how.kuT_h": "average invoice {v} (change it under “Refine the calculation”)",
+  "how.kuT_g": "the price of one product or order",
+  "how.kuOff": "Without the Kleinunternehmer scheme: VAT from day one.",
+  "how.taxes": "Income tax under the §32a EStG tariff and solidarity surcharge.",
+  "how.kist": "Church tax {r}% of income tax before the trade tax credit. The deduction of church tax paid as a special expense is not included.",
+  "how.gew": "Trade tax: multiplier {h}%, allowance €24,500, credit against income tax up to 4 × the base amount; add-backs (Hinzurechnungen) are not included.",
+  "how.rates": "Tax and insurance values for {y}.",
+  "how.ratesEst": "There are no official values for {y} yet — the {b} values are used. This is a projection, not an exact calculation.",
+  "how.not": "Not covered: KSK for artists and journalists, mandatory pension insurance for certain professions, employees, GmbH/UG, Gründungszuschuss, depreciation (AfA), losses carried forward.",
+  "wf.profit": "Business profit before taxes and insurance: <b>{v}</b> a month",
+  "s.costNet": "Business costs (net of reclaimed VAT)",
+  "s.vatOut": "VAT on sales → Finanzamt",
+  "vatIn": "VAT on costs that the Finanzamt offsets or refunds: {v} a month — already deducted from costs.",
+  "short": "<b>Minus {v} a month.</b> Sales don’t cover costs, insurance and taxes.",
+  "w.reserve": "<b>Tax reserve for {y}: ≈ {m} a month</b> (≈ {t} in total). The Finanzamt decides when you pay: quarterly advance payments based on your forecast and a top-up after your return are both possible. Put this amount into a separate account right away.",
+  "w.prior": "<b>The first year is incomplete.</b> The calculation assumes you had no other income in {y} before starting. With a salary or benefits your tax will be higher.",
+  "live": "{y}: {l} — {v}",
+  "remember": "Remember my settings in this browser"
+ },
+ "tr": {
+  "title": "Kâr hesaplayıcı",
+  "tagline": "Almanya’da masraflar, sigortalar ve vergilerden sonra geçimine yetecek parayı kazanmak için kaç saat ya da kaç ürün satman gerektiğini ya da satışlarının ne kadar gelir getireceğini hesaplar. Küçük işletme düzenlemesi (Kleinunternehmer), KDV’ye geçiş ve yıllara göre vergi değerleri dahildir.",
+  "langs": "Dil",
+  "infoBtn": "Açıklama: {f}",
+  "amt": "Aylık tutar, €",
+  "sec.goal": "Hesaplama",
+  "sec.sell": "Satış",
+  "sec.biz": "İşletme giderleri",
+  "sec.priv": "Kişisel sigortalar ve ödemeler",
+  "sec.tax": "Vergiler ve başlangıç",
+  "f.calc": "Ne öğrenmek istiyorsun?",
+  "calc.need": "Ne kadar satmalıyım",
+  "calc.have": "Gelirim ne olur",
+  "calc.needSub": "gereken geliri girerim",
+  "calc.haveSub": "satış miktarını girerim",
+  "info.calc": "Birinci seçenek: geçimin için ne gerektiğini girersin, hesaplayıcı bunun için kaç saat veya ürün satman gerektiğini gösterir. İkincisi tersi: ne kadar sattığını girersin, hesaplayıcı giderler, vergiler, sigortalar ve emeklilikten sonra geçimin için ne kaldığını gösterir.",
+  "f.qH": "Ayda ücreti ödenen saat",
+  "f.qG": "Ayda satılan ürün",
+  "info.qty": "Müşterilerin sana ayda ortalama kaç saat için ödeme yaptığı (veya kaç ürün sattığın); tatiller ve durgun dönemler dahil. Bu toplam çalışma süren değil: haftada gerçekte kaç saat çalışacağını hesaplayıcı kartlarda gösterir.",
+  "u.h": "{n} saat",
+  "u.g": "{n} adet",
+  "r.leadHave": "Ayda <b>{q}</b> satışla:",
+  "r.perMonth": "/ ay",
+  "f.target": "Kişisel harcamalarım için ayda gereken",
+  "info.target": "Kişisel harcamaların için gereken tutar: kira, yemek, ulaşım, telefon, boş zaman, birikim. Sağlık sigortası, emeklilik ve kişisel sigortaları buraya ekleme — onlar aşağıda ve otomatik olarak eklenir. Tek kişi için yaklaşık: küçük bir şehirde 1.500–2.000 €, Münih, Frankfurt veya Hamburg’da 2.200–3.000 €.",
+  "f.mode": "Ne satıyorsun?",
+  "mode.h": "Çalışma saati",
+  "mode.g": "Ürün",
+  "info.mode": "Zamanını satıyorsan saat: hizmet, danışmanlık, tamirat. Mal veya sabit hizmet paketleri satıyorsan ürün.",
+  "f.priceH": "Saat ücreti",
+  "f.priceG": "Ürün fiyatı",
+  "info.priceH": "Müşteriden saat başına aldığın ücret. Örnekler: zanaat ve tamirat 50–75 €, temizlik ve bakım 30–45 €, tasarım ve metin 50–90 €, BT ve danışmanlık 80–130 €, koçluk 60–150 €. Bireysel müşterilere KDV dahil, şirketlere KDV hariç fiyat söyle.",
+  "info.priceG": "Bir satışın veya siparişin ortalama tutarı. Ürünler farklıysa ortalama sepet tutarını al. Bireysel müşteriler için bu son fiyattır (KDV’ye geçişten sonra KDV içindedir), şirketler için KDV hariç fiyattır.",
+  "f.mat": "Malzeme maliyeti",
+  "info.mat": "Her satışın doğrudan maliyeti, fiyatın yüzdesi olarak: malzeme, mal alımı, ambalaj, kargo, platform komisyonu (Etsy, Amazon %10–15), kartla ödeme ücreti (%1,5–3). Hizmetlerde genelde %0–10, ticaret ve üretimde %30–60.",
+  "f.clients": "Müşterilerin",
+  "cl.c": "Bireyler",
+  "cl.b": "Şirketler",
+  "info.clients": "KDV’ye (%19) geçişte önemlidir. KDV indirimi hakkı olan şirketler KDV’yi fiyatın üstüne öder ve geri alır — onlar için fiyat değişmez. Bireyler ve bu hakkı olmayan şirketler (ör. doktorlar, sigortacılar, diğer Kleinunternehmer’ler) geri alamaz: genelde fiyatı artıramazsın ve %19 senin gelirinden çıkar.",
+  "f.billable": "Faturalanabilir zaman oranı",
+  "info.billable": "Çalışma süresinin müşterinin gerçekten ödediği kısmı. Müşteri arama, yazışma, teklif hazırlama, yol, muhasebe ve eğitim de iştir ama kimse bunlar için ödeme yapmaz. Örnek: haftada 40 saat çalışıyorsun, bunun 26 saati faturaya giriyor — bu %65 demek. Yeni başlayanlar %50–60 hesaplamalı, düzenli müşterilerle %70–80 olabilir.",
+  "f.off": "Tatil, bayramlar, hastalık",
+  "info.off": "Yılda para kazanmadığın haftalar. Almanya’da 9–13 resmî tatil günü (yaklaşık 2 hafta), izin genelde 4–6 hafta, hastalık 1–2 hafta. Gerçekçi toplam 7–10 hafta.",
+  "f.fixed": "Diğer sabit giderler",
+  "info.fixed": "Satıştan bağımsız olarak işletmenin her ay harcadığı her şey: işyeri kirası, telefon ve internet, yazılım, reklam, web sitesi, araba, eğitim. Evden çalışırken genelde 150–400 €, kendi stüdyon veya atölyen 1.000–2.000 €, dükkân 2.500 €’dan başlar. Tutarları ödediğin gibi, KDV dahil gir.",
+  "biz.lead": "Tipik kalemler. Tutarlar piyasa ortalamasıdır, ödediğin gibi (KDV dahil). Biliyorsan kendi rakamlarını yaz.",
+  "c.stb": "Vergi danışmanı",
+  "c.stb.n": "Steuerberater: muhasebe ve beyannameler, ayda 100–250 €",
+  "c.hp": "Mesleki sorumluluk sigortası",
+  "c.hp.n": "Betriebshaftpflicht. Hizmet ve zanaatta şiddetle önerilir, bazı mesleklerde zorunludur: 10–30 €",
+  "c.sw": "Ticari hesap ve muhasebe programı",
+  "c.sw.n": "Ayda 10–40 €",
+  "c.bg": "İş kazası sigortası",
+  "c.bg.n": "İş kazası sigortası. Her işletme BG’ye bildirim yapmak zorundadır; çalışanın varsa veya BG tüzüğü işvereni de sigortalıyorsa prim ödenir: 10–30 €",
+  "c.ihk": "IHK veya HWK aidatı",
+  "c.ihk.n": "Sadece Gewerbe için. Kârı 25.000 €’ya kadar olan yeni girişimciler ilk yıllarda çoğu zaman muaftır — koşulları oda belirler",
+  "priv.lead": "Almanya’da serbest çalışan sağlık sigortası ve emekliliğini tamamen kendisi öder — yarısını ödeyen bir işveren yoktur. Hesaplayıcı bu ödemeleri kişisel harcamalarından ayrı hesaplar.",
+  "f.kv": "Sağlık sigortası",
+  "kv.g": "Yasal (GKV)",
+  "kv.p": "Özel (PKV)",
+  "info.kv": "GKV primi kârdan hesaplar: yaklaşık %21 (%14,6 + kasa ek primi + bakım sigortası), ama en az ayda {min} üzerinden. PKV yaşa ve sağlığa göre sabit bir tutardır. Genç ve sağlıklılar için çoğu zaman daha ucuzdur, ama PKV’den GKV’ye dönmek çok zordur ve çocukları ayrıca sigortalatmak gerekir.",
+  "kg": "Hastalık parası ile (Krankengeld)",
+  "kg.n": "%14,0 yerine %14,6. Hastalığın 43. gününden itibaren ödenir — olmadan uzun bir hastalıkta gelirsiz kalırsın",
+  "kids": "Çocuğum var",
+  "kids.n": "Bakım sigortası: 23 yaş üstü çocuksuzlar için %4,2 yerine %3,6. 25 yaş altı iki veya daha fazla çocukta oran daha da düşer — burada hesaba katılmadı",
+  "f.pkv": "Bakım sigortası dahil aylık PKV primi",
+  "f.pens": "Aylık emeklilik birikimi",
+  "info.pens": "Yaşlılık için ne kadar ayırdığın. Serbest çalışanların çoğu için emeklilik sigortası isteğe bağlıdır. Örneğin çalışanı olmayan öğretmen ve eğitmenler, bakıcılar, ebeler, Handwerksrolle’ye kayıtlı zanaatkârlar ve esas olarak tek bir müşteri için çalışanlar için zorunludur; sanatçılar ve gazeteciler KSK üzerinden sigortalanır. Bu durumda prim gelire göre belirlenir — DRV’ye danış. Vergiyi yalnızca DRV veya Rürup-Rente primleri düşürür — bunu “Hesaplamayı ayrıntılandır” bölümünde seçebilirsin.",
+  "priv.list": "Diğer kişisel ödemeler. Tutarlar ortalamadır — kendi rakamlarını yaz.",
+  "p.rf": "Yayın ücreti",
+  "p.rf.n": "Rundfunkbeitrag. Her konut için zorunlu: ayda 18,36 €",
+  "p.ph": "Kişisel sorumluluk sigortası",
+  "p.ph.n": "Privathaftpflicht. Kesinlikle önerilir: 4–8 €",
+  "p.bu": "Meslekte çalışamama sigortası",
+  "p.bu.n": "Berufsunfähigkeitsversicherung (BU). Serbest çalışanlar için önemli: mesleğe ve yaşa göre 60–150 €",
+  "p.hr": "Ev eşyası sigortası",
+  "p.hr.n": "Hausratversicherung: 5–15 €",
+  "p.ot": "Diğer",
+  "p.ot.n": "Krediler, nafaka, aidatlar — düzenli zorunlu ödemeler",
+  "f.start": "Başlangıç",
+  "info.start": "İşini kaydettirdiğin ay (Gewerbeanmeldung veya Finanzamt’ın vergi kayıt formu). İlk yıl bu aydan itibaren sayılır — Kleinunternehmer sınırı ve ilk yılın vergisi buna bağlıdır.",
+  "ku": "Kleinunternehmer olarak başla",
+  "ku.n": "Ciro sınırların altında kaldıkça faturalarda KDV yok",
+  "info.ku": "Kleinunternehmer (§19 UStG) faturalarında KDV göstermez. Sınırlar: kuruluş yılında ciro 25.000 €’ya kadar; sonra önceki yıl 25.000 €’ya ve içinde bulunulan yıl 100.000 €’ya kadar. Sınırı aşan satış tamamen KDV’ye tabidir, sonrakiler de öyle. Dezavantajı: alımlarındaki KDV’yi geri alamazsın. Düzenlemeden vazgeçmek isteğe bağlıdır ama en az 5 yıl bağlar.",
+  "f.kind": "Faaliyet türü",
+  "kind.f": "Serbest meslek",
+  "kind.g": "Ticari işletme",
+  "info.kind": "Serbest meslek (Freiberufler): doktorlar, avukatlar, danışmanlar, yazılımcılar, tasarımcılar, çevirmenler, öğretmenler, gazeteciler. Gewerbesteuer ödemezler, Gewerbe kaydı yapmazlar. Ticari işletme (Gewerbe): geri kalan her şey — ticaret, zanaat, lokanta, hizmetler, ajanslar. Gewerbesteuer öderler, ama olağan oranlarda bu vergi neredeyse tamamen gelir vergisinden düşülür. Son kararı Finanzamt verir.",
+  "f.heb": "Belediye çarpanı (Hebesatz)",
+  "info.heb": "Gewerbesteuer çarpanı, belediye belirler. Berlin %410, Hamburg %470, Münih %490, Köln %475, küçük şehirler %330–400. Kesin değeri belediyenin web sitesinde bulabilirsin.",
+  "fine": "İnce ayarlar",
+  "f.zus": "Sağlık kasası ek primi",
+  "info.zus": "Her kasanın kendi oranı vardır. Şu anki ortalama yaklaşık %{z}, ucuz kasalarda %2,2–2,5, pahalılarda %3,5’in üzerinde. Kesin oranı kasanın sitesinde bulabilirsin.",
+  "f.vatshare": "KDV’li giderlerin oranı",
+  "info.vatshare": "Giderlerinin (sabit giderler ve malzeme maliyeti) ne kadarının, Kleinunternehmer’den çıktıktan sonra indirebileceğin KDV içerdiği. Genelde KDV’siz: özel kişiden kira, sigortalar, banka ücretleri, Kleinunternehmer’lerden alımlar. KDV’li: cihazlar, yazılım, reklam, malzeme.",
+  "r.lead": "Kişisel harcamaların için ayda <b>{t}</b> kalması için:",
+  "r.leadNote": "Kişisel sigortalar ve zorunlu ödemeler (ayda {p}) zaten düşüldü.",
+  "r.span": "{a} – {b}, {m} ay",
+  "r.span1": "{a}, 1 ay",
+  "r.full": "12 ay",
+  "r.unitH": "saat / ay",
+  "r.unitG": "adet / ay",
+  "r.hw": "≈ haftada {n} saat çalışma",
+  "r.gw": "≈ haftada {n} adet",
+  "r.rev": "ayda {v} ciro",
+  "chip.ku": "Kleinunternehmer",
+  "chip.vat": "KDV %19 ile",
+  "chip.mix": "KDV’ye geçiş",
+  "why.noku": "Baştan KDV ile çalışıyorsun ve giderlerdeki KDV’yi geri alıyorsun.",
+  "why.y1ok": "Ciro {v}, {lim} sınırını aşmıyor — tüm yıl KDV’siz.",
+  "why.okN": "Önceki yıl {l1}, bu yıl {l2} sınırının altında — düzenleme devam ediyor.",
+  "why.mix": "{lim} sınırı yaklaşık olarak şu ayda doluyor: {mon}. Sonrasında faturalar KDV’li.",
+  "wf.title": "Müşterilerin parası nereye gidiyor · {y} ({span}), aylık ortalama",
+  "s.kv": "Sağlık ve bakım sigortası",
+  "s.pens": "Emeklilik",
+  "s.priv": "Kişisel sigortalar ve ödemeler",
+  "s.tax": "Gelir vergisi ve Soli",
+  "s.taxK": "Gelir vergisi, Soli, kilise vergisi",
+  "s.gew": "Gewerbesteuer",
+  "s.net": "Kişisel harcamalara kalan",
+  "s.total": "Müşterilerin ödediği",
+  "noSol": "Bu değerlerle çözüm yok.",
+  "ch.title": "Satış miktarına göre kişisel harcamalara kalan · {y}",
+  "ch.aria": "Grafik: satış miktarına göre kullanılabilir gelir",
+  "ch.axisH": "ayda faturalanan saat",
+  "ch.axisG": "ayda ürün",
+  "ch.lim": "sınır {v}",
+  "ch.next": "üstü: ertesi yıl KDV’li",
+  "ch.goal": "hedef {v}",
+  "ch.hintB2C": "Sınırdan sonra eğri düşüyor: bireysel müşteriler aynı fiyatı ödüyor, %19 KDV olarak gidiyor.",
+  "ch.hint": "Nokta, gereken satış miktarını gösteriyor.",
+  "w.title": "İpuçları ve uyarılar",
+  "w.hours": "<b>Haftada {n} saatten fazla.</b> Bu tempo uzun süre sürdürülemez. Saat ücretini artır — 10 € fazlası bile yükü belirgin şekilde azaltır.",
+  "w.near": "<b>Sınıra çok yakınsın.</b> {y} cirosu: {v}. Tek bir büyük satış seni KDV’ye geçirebilir.",
+  "w.b2c": "<b>Bireysel müşterilerle KDV’ye geçiş.</b> Aynı fiyatta sana {p} yerine {n} kalır — her satıştan %16 eksik. Ya fiyatı {g} seviyesine çıkar ya da daha fazla satış planla.",
+  "w.b2b": "<b>KDV indirimi hakkı olan şirketler için geçiş sorun değil:</b> KDV’yi geri alırlar, fiyat onlar için değişmez. Her şirket bunu yapamaz — örneğin doktorlar, sigortacılar veya diğer Kleinunternehmer’ler. Düzenlemeden isteğe bağlı vazgeçebilirsin ama bu en az 5 yıl bağlar.",
+  "w.kvmin": "<b>GKV asgari primi.</b> Kâr düşük olsa bile prim en az ayda {b} üzerinden hesaplanır — bu ayda ≈ {v} eder.",
+  "w.kvlater": "<b>GKV geçici hesaplar.</b> İlk yıl kâr tahminine göre, sonra vergi bildirimine göre yeniden hesaplanır — ek ödeme çıkabilir.",
+  "w.pens0": "<b>Emeklilik için birikim yapmıyorsun.</b> Prim ödemezsen emeklilik hakkın artmaz. Ayda 100–200 € bile fark yaratır.",
+  "w.rates": "<b>{ys} değerleri henüz yayımlanmadı.</b> {b} değerleri kullanılıyor — kesin hesap değil, tahmin.",
+  "mbar": "Ayrıntılar",
+  "reset": "Ayarları sıfırla",
+  "saveNote": "Veriler yalnızca cihazında kalır, hiçbir yere gönderilmez.",
+  "resetDone": "Ayarlar sıfırlandı.",
+  "err.range": "{min} ile {max} arasında bir sayı gir.",
+  "adv": "Hesaplamayı ayrıntılandır",
+  "adv.lead": "İsteğe bağlı ayarlar. Emin değilsen olduğu gibi bırak.",
+  "unit.h": "saat",
+  "unit.g": "adet",
+  "unit.wk": "hafta",
+  "f.church": "Kilise vergisi",
+  "church.no": "Yok",
+  "info.church": "Sadece kilise üyeleri için. Bavyera ve Baden-Württemberg’de %8, diğer eyaletlerde %9. Gewerbesteuer mahsubu yapılmadan gelir vergisi üzerinden hesaplanır.",
+  "f.pensType": "Emeklilik birikimin",
+  "pt.save": "Birikim, ETF",
+  "pt.drv": "DRV veya Rürup primleri",
+  "info.pensType": "Gelir vergisini yalnızca yasal emeklilik sigortası (DRV) ve Rürup-Rente (Basisrente) primleri azaltır — yılda en fazla {cap}. Normal birikim, ETF ve mevduat vergiyi azaltmaz.",
+  "f.pkvDed": "PKV’nin vergiden düşülebilen kısmı (aylık)",
+  "pkvDed.ph": "primin tamamı",
+  "info.pkvDed": "Vergiden yalnızca temel teminat (Basisabsicherung) ve zorunlu bakım sigortası düşülebilir; günlük hastalık parası ve ek tarifeler düşülemez. Kesin tutarı sigorta şirketi yıllık belgede bildirir. Boş bırakırsan primin tamamı düşülebilir sayılır.",
+  "f.invoice": "Ortalama fatura tutarı",
+  "info.invoice": "Kleinunternehmer sınırı için önemlidir: sınırı aşan fatura tamamen KDV’ye tabidir. Hesaplayıcı yalnızca ortalama aylık ciroyu bilir, bu yüzden bu büyüklükte faturaları düzenli kestiğini varsayar.",
+  "res.need": "Satman gereken",
+  "res.have": "Kişisel harcamalara kalan",
+  "res.avg": "aylık ortalama",
+  "r.profit": "işletme kârı ayda {v}",
+  "r.loss": "Ulaşılamaz",
+  "r.lossWhy": "Malzeme maliyeti ve KDV’den sonra hiçbir satış para getirmiyor. Fiyatı artır veya maliyeti düşür.",
+  "r.limit": "{n} üzerinde",
+  "r.limitWhy": "Gereken miktar hesaplayıcının aralığını aşıyor. Bu fiyatla hedefe pratikte ulaşılamaz.",
+  "why.prevNo": "{y} cirosu {v}, yani {lim} üzerinde. Bu yıl düzenlemeden yararlanamazsın.",
+  "disc.title": "Önemli.",
+  "disclaimer": "Bu, ilk tahmin için basitleştirilmiş bir hesaplamadır. Varsayımlara ve tipik değerlere dayanır; gerçek vergiler, sigorta primleri ve giderler farklı olabilir. Vergi veya hukuki danışmanlık değildir. Tüm bilgiler garanti verilmeden sunulur; bu hesaplamaya dayanarak alınan kararlardan sorumluluk kabul edilmez. İşini açmadan önce bir vergi danışmanına (Steuerberater) danış.",
+  "how.title": "Nasıl hesaplıyoruz",
+  "how.prior": "<b>{y} yılında başka gelir yok.</b> Bu yıl maaş, yardım veya başka gelirin varsa — işi açmadan önce ya da onunla birlikte — vergi belirgin şekilde daha yüksek olur: vergisiz temel tutar zaten kullanılmıştır ve oran yılın toplam gelirine göre belirlenir.",
+  "how.single": "Eşlerin ortak vergilendirmesi (Splitting) olmadan tek kişi; çocuk parası ve çocuk vergi indirimleri hesaba katılmadı.",
+  "how.even": "Satışlar ve giderler her ay aynıdır; aylık tutarlar seçilen dönemin ortalamasıdır.",
+  "how.kvG": "Sağlık sigortası: gönüllü GKV, kârın %{kv} + ek prim %{z} + bakım %{pv}’i; matrah ayda {min} ile {max} arası. Primler vergiden düşülür (hastalık parası varsa %4 eksik).",
+  "how.kvP": "Sağlık sigortası: bakım dahil ayda {v} PKV; vergiden ayda {d} düşülür.",
+  "how.pensSave": "Emeklilik birikimi (ayda {v}) kalan tutarı azaltır ama vergiyi azaltmaz — normal birikim veya ETF gibi.",
+  "how.pensDrv": "Emeklilik primleri (ayda {v}) DRV veya Rürup’a: vergi matrahından düşülür, yılda en fazla {cap}.",
+  "how.vat": "KDV: yalnızca Almanya içi %19 oranlı satışlar; %7 oran, diğer AB ülkelerindeki müşteriler ve Reverse Charge dahil değil. Giderler ödediğin gibi, KDV dahil girilir; bunların %{s}’i indirilebilir KDV içerir.",
+  "how.ku": "Kleinunternehmer: ertesi yıl hakkı, önceki yılın gerçek cirosuna göre belirlenir, 12 aya uyarlanmaz. Sınırı aşan satış tamamen KDV’ye tabidir. Bir satışın büyüklüğü: {t}.",
+  "how.kuT_h": "ortalama fatura {v} (“Hesaplamayı ayrıntılandır” bölümünde değiştirilebilir)",
+  "how.kuT_g": "bir ürünün veya siparişin fiyatı",
+  "how.kuOff": "Kleinunternehmer olmadan: ilk günden KDV.",
+  "how.taxes": "§32a EStG tarifesine göre gelir vergisi ve dayanışma vergisi (Soli).",
+  "how.kist": "Kilise vergisi, Gewerbesteuer mahsubu öncesi gelir vergisinin %{r}’i. Ödenen kilise vergisinin özel gider olarak düşülmesi hesaba katılmadı.",
+  "how.gew": "Gewerbesteuer: çarpan %{h}, muafiyet 24.500 €, gelir vergisinden en fazla 4 × matrah tutarı mahsup; Hinzurechnungen hesaba katılmadı.",
+  "how.rates": "{y} yılının vergi ve sigorta değerleri.",
+  "how.ratesEst": "{y} için henüz resmî değerler yok — {b} değerleri kullanılıyor. Bu kesin bir hesap değil, bir tahmindir.",
+  "how.not": "Hesaba katılmayanlar: sanatçılar ve gazeteciler için KSK, bazı mesleklerde zorunlu emeklilik sigortası, çalışanlar, GmbH/UG, Gründungszuschuss, amortisman (AfA), geçmiş yıl zararları.",
+  "wf.profit": "Vergi ve sigortalardan önce işletme kârı: ayda <b>{v}</b>",
+  "s.costNet": "İşletme giderleri (geri alınan KDV düşülmüş)",
+  "s.vatOut": "Satışlardan KDV → Finanzamt",
+  "vatIn": "Finanzamt’ın mahsup edeceği veya iade edeceği giderlerdeki KDV: ayda {v} — giderlerden zaten düşüldü.",
+  "short": "<b>Ayda eksi {v}.</b> Satışlar giderleri, sigortaları ve vergileri karşılamıyor.",
+  "w.reserve": "<b>{y} için vergi rezervi: ayda ≈ {m}</b> (toplam ≈ {t}). Ne zaman ödeyeceğine Finanzamt karar verir: tahminine göre üç ayda bir peşin ödemeler ve beyannameden sonra ek ödeme olabilir. Bu tutarı hemen ayrı bir hesaba ayır.",
+  "w.prior": "<b>İlk yıl eksik.</b> Hesaplama, {y} yılında işi açmadan önce başka gelirin olmadığını varsayar. Maaş veya yardım aldıysan vergi daha yüksek olur.",
+  "live": "{y}: {l} — {v}",
+  "remember": "Ayarlarımı bu tarayıcıda hatırla"
+ },
+ "ar": {
+  "title": "حاسبة الأرباح",
+  "tagline": "كم ساعة أو منتجًا يجب أن تبيع في ألمانيا ليبقى لك ما يكفي للمعيشة بعد المصاريف والتأمينات والضرائب، أو كم سيكون دخلك بحجم مبيعاتك. يشمل نظام المشروع الصغير (Kleinunternehmer) والانتقال إلى ضريبة القيمة المضافة وقيم الضرائب لكل سنة.",
+  "langs": "اللغة",
+  "infoBtn": "شرح: {f}",
+  "amt": "المبلغ شهريًا، €",
+  "sec.goal": "الحساب",
+  "sec.sell": "المبيعات",
+  "f.calc": "ماذا تريد أن تعرف؟",
+  "calc.need": "كم يجب أن أبيع",
+  "calc.have": "كم سيكون دخلي",
+  "calc.needSub": "أحدد الدخل الذي أحتاجه",
+  "calc.haveSub": "أحدد حجم مبيعاتي",
+  "info.calc": "الخيار الأول: تحدد ما تحتاجه للمعيشة، فتُظهر الحاسبة كم ساعة أو منتجًا يجب أن تبيع. الثاني بالعكس: تحدد كم تبيع، فتُظهر ما يبقى للمعيشة بعد المصاريف والضرائب والتأمينات والتقاعد.",
+  "f.qH": "ساعات مدفوعة شهريًا",
+  "f.qG": "منتجات أبيعها شهريًا",
+  "info.qty": "كم ساعة يدفع لك العملاء في المتوسط شهريًا (أو كم منتجًا تبيع)، مع احتساب الإجازات وفترات الركود. هذا ليس كل وقت عملك: كم ساعة ستعمل فعليًا في الأسبوع تعرضه الحاسبة في البطاقات.",
+  "u.h": "{n} ساعة",
+  "u.g": "{n} قطعة",
+  "r.leadHave": "مع مبيعات <b>{q}</b> شهريًا:",
+  "r.perMonth": "/ شهر",
+  "sec.biz": "مصاريف العمل",
+  "sec.priv": "التأمينات والمدفوعات الشخصية",
+  "sec.tax": "الضرائب وبداية العمل",
+  "f.target": "أحتاج لمصاريفي الشخصية شهريًا",
+  "info.target": "المبلغ اللازم لمصاريفك الشخصية: الإيجار، الطعام، المواصلات، الهاتف، الترفيه، الادخار. لا تُدخل هنا التأمين الصحي أو التقاعد أو التأمينات الخاصة، فهي أدناه وتُضاف تلقائيًا. للشخص الواحد تقريبًا: 1,500–2,000 € في مدينة صغيرة، و2,200–3,000 € في ميونخ أو فرانكفورت أو هامبورغ.",
+  "f.mode": "ماذا تبيع؟",
+  "mode.h": "ساعات عمل",
+  "mode.g": "منتجات",
+  "info.mode": "الساعات إذا كنت تبيع وقتك: خدمات، استشارات، إصلاحات. المنتجات إذا كنت تبيع سلعًا أو باقات خدمات ثابتة.",
+  "f.priceH": "سعر الساعة",
+  "f.priceG": "سعر المنتج",
+  "info.priceH": "ما تتقاضاه من العميل عن الساعة. أمثلة: الحِرف والإصلاحات 50–75 €، التنظيف والرعاية 30–45 €، التصميم والكتابة 50–90 €، تقنية المعلومات والاستشارات 80–130 €، التدريب (Coaching) ‏60–150 €. للعملاء الأفراد اذكر السعر شاملًا الضريبة، وللشركات دونها.",
+  "info.priceG": "متوسط قيمة البيعة أو الطلب الواحد. إذا كانت المنتجات مختلفة فخذ متوسط الفاتورة. للأفراد هذا هو السعر النهائي (بعد الانتقال إلى الضريبة تكون ضمنه)، وللشركات السعر دون الضريبة.",
+  "f.mat": "تكلفة البضاعة",
+  "info.mat": "التكاليف المباشرة لكل عملية بيع كنسبة من السعر: المواد، شراء البضاعة، التغليف، الشحن، عمولة المنصات (Etsy وAmazon ‏10–15 %)، رسوم الدفع بالبطاقة (1.5–3 %). للخدمات عادة 0–10 %، وللتجارة والتصنيع 30–60 %.",
+  "f.clients": "عملاؤك",
+  "cl.c": "أفراد",
+  "cl.b": "شركات",
+  "info.clients": "مهم عند الانتقال إلى ضريبة القيمة المضافة (19 %). الشركات التي يحق لها خصم الضريبة تدفعها فوق السعر وتستردها، فلا يتغير السعر عليها. أما الأفراد والشركات التي لا يحق لها ذلك (مثل الأطباء وشركات التأمين وأصحاب المشاريع الصغيرة الآخرين) فلا يستردونها: غالبًا لا يمكن رفع السعر، فتُقتطع الـ19 % من إيراداتك.",
+  "f.billable": "نسبة الوقت المدفوع",
+  "info.billable": "الجزء من وقت عملك الذي يدفع العميل ثمنه فعلًا. البحث عن عملاء، المراسلات، عروض الأسعار، التنقل، المحاسبة والتعلّم كلها عمل، لكن لا أحد يدفع مقابلها. مثال: تعمل 40 ساعة أسبوعيًا ويدخل منها 26 في الفواتير، أي 65 %. للمبتدئين احسب 50–60 %، ومع عملاء دائمين قد تصل إلى 70–80 %.",
+  "f.off": "الإجازات والعطل والمرض",
+  "info.off": "عدد الأسابيع في السنة التي لا تكسب فيها. في ألمانيا 9–13 يوم عطلة رسمية (نحو أسبوعين)، والإجازة عادة 4–6 أسابيع، والمرض 1–2 أسبوع. الواقعي إجمالًا 7–10 أسابيع.",
+  "f.fixed": "مصاريف ثابتة أخرى",
+  "info.fixed": "كل ما ينفقه العمل شهريًا بغض النظر عن المبيعات: إيجار المكان، الهاتف والإنترنت، البرامج، الإعلانات، الموقع الإلكتروني، السيارة، التدريب. العمل من المنزل عادة 150–400 €، استوديو أو ورشة خاصة 1,000–2,000 €، متجر من 2,500 €. أدخل المبالغ كما تدفعها، شاملة الضريبة.",
+  "biz.lead": "بنود معتادة. المبالغ متوسط السوق كما تدفعها (شاملة الضريبة). أدخل أرقامك إن كنت تعرفها.",
+  "c.stb": "مستشار ضريبي",
+  "c.stb.n": "Steuerberater: المحاسبة والإقرارات، 100–250 € شهريًا",
+  "c.hp": "تأمين المسؤولية المهنية",
+  "c.hp.n": "Betriebshaftpflicht. يوصى به بشدة للخدمات والحِرف، وإلزامي في بعض المهن: 10–30 €",
+  "c.sw": "حساب بنكي تجاري وبرنامج محاسبة",
+  "c.sw.n": "10–40 € شهريًا",
+  "c.bg": "تأمين حوادث العمل",
+  "c.bg.n": "Berufsgenossenschaft. يجب على كل منشأة إبلاغ BG؛ وتُدفع الاشتراكات إذا كان لديك موظفون أو إذا كان نظام BG يؤمّن صاحب العمل نفسه: 10–30 €",
+  "c.ihk": "رسوم غرفة التجارة أو الحِرف",
+  "c.ihk.n": "IHK / HWK، للنشاط التجاري فقط. غالبًا ما يُعفى المؤسسون بربح حتى 25,000 € في السنوات الأولى، والشروط تحددها الغرفة",
+  "priv.lead": "في ألمانيا يدفع العامل لحسابه الخاص التأمين الصحي والتقاعد بالكامل بنفسه، فلا يوجد صاحب عمل يدفع النصف. تحتسب الحاسبة هذه المدفوعات منفصلة عن مصاريفك الشخصية.",
+  "f.kv": "التأمين الصحي",
+  "kv.g": "حكومي (GKV)",
+  "kv.p": "خاص (PKV)",
+  "info.kv": "يحسب التأمين الحكومي (GKV) الاشتراك من الربح: نحو 21 % (14.6 % + الاشتراك الإضافي + تأمين الرعاية)، لكن على الأقل من {min} شهريًا. التأمين الخاص (PKV) مبلغ ثابت حسب العمر والصحة. غالبًا أرخص للشباب والأصحاء، لكن العودة منه إلى GKV صعبة جدًا، ويجب تأمين الأطفال بشكل منفصل.",
+  "kg": "مع بدل المرض (Krankengeld)",
+  "kg.n": "14.6 % بدل 14.0 %. يُدفع من اليوم 43 للمرض، وبدونه يبقى المريض طويلًا بلا دخل",
+  "kids": "لدي أطفال",
+  "kids.n": "تأمين الرعاية 3.6 % بدل 4.2 % لمن لا أطفال لهم فوق 23 سنة. مع طفلين أو أكثر دون 25 سنة تنخفض النسبة أكثر — غير محتسب هنا",
+  "f.pkv": "اشتراك PKV شهريًا شاملًا تأمين الرعاية",
+  "f.pens": "ادخار التقاعد شهريًا",
+  "info.pens": "كم تدّخر للشيخوخة. لمعظم العاملين لحسابهم الخاص يكون التأمين التقاعدي اختياريًا. ويكون إلزاميًا مثلًا للمعلمين والمدربين بلا موظفين، ومقدمي الرعاية، والقابلات، والحرفيين المسجلين في Handwerksrolle، ومن يعمل أساسًا لعميل واحد؛ أما الفنانون والصحفيون فيُؤمَّنون عبر KSK. في هذه الحالات يُحسب الاشتراك حسب الدخل — تحقق لدى DRV. فقط اشتراكات DRV أو Rürup-Rente تخفض الضريبة — اختر ذلك في «تدقيق الحساب».",
+  "priv.list": "مدفوعات شخصية أخرى. المبالغ متوسطة — أدخل أرقامك.",
+  "p.rf": "رسوم البث",
+  "p.rf.n": "Rundfunkbeitrag. إلزامي لكل مسكن: 18.36 € شهريًا",
+  "p.ph": "تأمين المسؤولية الشخصية",
+  "p.ph.n": "Privathaftpflicht. موصى به جدًا: 4–8 €",
+  "p.bu": "تأمين العجز عن العمل",
+  "p.bu.n": "Berufsunfähigkeitsversicherung. مهم للعاملين لحسابهم: 60–150 € حسب المهنة والعمر",
+  "p.hr": "تأمين محتويات المنزل",
+  "p.hr.n": "Hausratversicherung: ‏5–15 €",
+  "p.ot": "أخرى",
+  "p.ot.n": "قروض، نفقة، اشتراكات — مدفوعات ثابتة إلزامية",
+  "f.start": "أبدأ في",
+  "info.start": "شهر تسجيل النشاط (Gewerbeanmeldung أو استمارة التسجيل الضريبي لدى Finanzamt). تبدأ السنة الأولى من هذا الشهر، وعليه يتوقف حد Kleinunternehmer وضريبة السنة الأولى.",
+  "ku": "البدء كمشروع صغير (Kleinunternehmer)",
+  "ku.n": "فواتير بلا ضريبة قيمة مضافة ما دام الإيراد ضمن الحدود",
+  "info.ku": "المشروع الصغير (§19 UStG) لا يضيف ضريبة القيمة المضافة إلى فواتيره. الحدود: في سنة التأسيس إيراد حتى 25,000 €؛ بعدها السنة السابقة حتى 25,000 € والحالية حتى 100,000 €. البيعة التي تتجاوز الحد تخضع للضريبة كاملةً، وكذلك كل ما بعدها. العيب: لا تسترد الضريبة على مشترياتك. التخلي عن النظام اختياري لكنه يُلزمك 5 سنوات على الأقل.",
+  "f.kind": "نوع النشاط",
+  "kind.f": "مهنة حرة",
+  "kind.g": "نشاط تجاري",
+  "info.kind": "المهن الحرة (Freiberufler): الأطباء، المحامون، المستشارون، المبرمجون، المصممون، المترجمون، المعلمون، الصحفيون. لا يدفعون ضريبة النشاط التجاري ولا يسجّلون Gewerbe. النشاط التجاري (Gewerbe): كل ما عدا ذلك، مثل التجارة والحِرف والمطاعم والخدمات والوكالات. يدفعون Gewerbesteuer، لكنها تُخصم تقريبًا بالكامل من ضريبة الدخل عند النسب المعتادة. القرار النهائي لـ Finanzamt.",
+  "f.heb": "معامل البلدية (Hebesatz)",
+  "info.heb": "مُضاعِف ضريبة النشاط التجاري تحدده البلدية. برلين 410 %، هامبورغ 470 %، ميونخ 490 %، كولونيا 475 %، المدن الصغيرة 330–400 %. القيمة الدقيقة على موقع بلديتك.",
+  "fine": "إعدادات متقدمة",
+  "f.zus": "الاشتراك الإضافي لصندوق التأمين",
+  "info.zus": "لكل صندوق نسبته. المتوسط حاليًا نحو {z} %، الصناديق الرخيصة 2.2–2.5 %، والمرتفعة فوق 3.5 %. القيمة الدقيقة على موقع صندوقك.",
+  "f.vatshare": "نسبة المصاريف الخاضعة للضريبة",
+  "info.vatshare": "أي نسبة من مصاريفك (الثابتة وتكلفة البضاعة) تتضمن ضريبة يمكنك خصمها بعد الخروج من نظام المشروع الصغير. عادة بلا ضريبة: الإيجار من أفراد، التأمينات، الرسوم البنكية، المشتريات من مشاريع صغيرة أخرى. مع ضريبة: الأجهزة، البرامج، الإعلانات، المواد.",
+  "r.lead": "ليبقى لمصاريفك الشخصية <b>{t}</b> شهريًا:",
+  "r.leadNote": "التأمينات والمدفوعات الشخصية الإلزامية ({p} شهريًا) مخصومة بالفعل.",
+  "r.span": "{a} – {b}، {m} أشهر",
+  "r.span1": "{a}، شهر واحد",
+  "r.full": "12 شهرًا",
+  "r.unitH": "ساعة / شهر",
+  "r.unitG": "قطعة / شهر",
+  "r.hw": "≈ {n} ساعة عمل أسبوعيًا",
+  "r.gw": "≈ {n} قطعة أسبوعيًا",
+  "r.rev": "إيراد {v} شهريًا",
+  "chip.ku": "Kleinunternehmer",
+  "chip.vat": "مع الضريبة 19 %",
+  "chip.mix": "انتقال إلى الضريبة",
+  "why.noku": "تبدأ مع ضريبة القيمة المضافة وتسترد الضريبة على مصاريفك.",
+  "why.y1ok": "الإيراد {v} لا يتجاوز {lim}: السنة كلها بلا ضريبة.",
+  "why.okN": "السنة السابقة حتى {l1} والحالية حتى {l2}: يبقى النظام.",
+  "why.mix": "سيُستنفد الحد {lim} تقريبًا في {mon}. بعدها فواتير مع الضريبة.",
+  "wf.title": "أين تذهب أموال العملاء · {y} ({span})، متوسط شهري",
+  "s.kv": "التأمين الصحي والرعاية",
+  "s.pens": "التقاعد",
+  "s.priv": "تأمينات ومدفوعات شخصية",
+  "s.tax": "ضريبة الدخل والتضامن",
+  "s.taxK": "ضريبة الدخل والتضامن والكنيسة",
+  "s.gew": "ضريبة النشاط التجاري",
+  "s.net": "يبقى لمصاريفك الشخصية",
+  "s.total": "يدفع العملاء",
+  "noSol": "لا يوجد حل بهذه القيم.",
+  "ch.title": "ما يبقى لمصاريفك الشخصية حسب حجم المبيعات · {y}",
+  "ch.aria": "رسم بياني: الدخل المتاح حسب حجم المبيعات",
+  "ch.axisH": "ساعات مدفوعة شهريًا",
+  "ch.axisG": "منتجات شهريًا",
+  "ch.lim": "الحد {v}",
+  "ch.next": "فوقه: السنة التالية مع الضريبة",
+  "ch.goal": "الهدف {v}",
+  "ch.hintB2C": "ينخفض المنحنى بعد الحد: يدفع الأفراد المبلغ نفسه وتذهب 19 % كضريبة.",
+  "ch.hint": "النقطة تمثل حجم المبيعات اللازم لك.",
+  "w.title": "نصائح وتنبيهات",
+  "w.hours": "<b>أكثر من {n} ساعة أسبوعيًا.</b> لا يمكن الاستمرار طويلًا هكذا. ارفع سعر الساعة — حتى 10 € إضافية تخفف العبء بشكل ملحوظ.",
+  "w.near": "<b>أنت قريب جدًا من الحد.</b> إيراد {y}: {v}. بيعة كبيرة واحدة قد تنقلك إلى الضريبة.",
+  "w.b2c": "<b>الضريبة مع العملاء الأفراد.</b> بالسعر نفسه يبقى لك {n} بدل {p}، أي أقل بـ16 % لكل بيعة. إما أن ترفع السعر إلى {g} أو تخطط لمبيعات أكثر.",
+  "w.b2b": "<b>للشركات التي يحق لها خصم الضريبة لا مشكلة في الانتقال:</b> فهي تستردها ويبقى السعر عليها كما هو. ليست كل الشركات كذلك — مثل الأطباء وشركات التأمين وأصحاب المشاريع الصغيرة. يمكنك التخلي عن النظام طوعًا، لكن ذلك يُلزمك 5 سنوات على الأقل.",
+  "w.kvmin": "<b>الحد الأدنى لاشتراك GKV.</b> حتى مع ربح قليل يُحسب الاشتراك على الأقل من {b} شهريًا، أي ≈ {v} شهريًا.",
+  "w.kvlater": "<b>يحسب GKV مبدئيًا.</b> في السنة الأولى حسب تقديرك للربح، ثم يُعاد الحساب حسب الإشعار الضريبي وقد تُطلب دفعة إضافية.",
+  "w.pens0": "<b>لا تدّخر للتقاعد.</b> بدون اشتراكات يتوقف معاشك الحكومي عن النمو. حتى 100–200 € شهريًا تُحدث فرقًا ملحوظًا.",
+  "w.rates": "<b>قيم {ys} لم تُنشر بعد.</b> تُستخدم قيم {b} — توقع وليس حسابًا دقيقًا.",
+  "mbar": "التفاصيل",
+  "reset": "إعادة الضبط",
+  "saveNote": "تبقى البيانات على جهازك فقط ولا تُرسل إلى أي مكان.",
+  "resetDone": "تمت إعادة الضبط.",
+  "err.range": "أدخل رقمًا من {min} إلى {max}.",
+  "adv": "تدقيق الحساب",
+  "adv.lead": "إعدادات اختيارية. إن لم تكن متأكدًا فاتركها كما هي.",
+  "unit.h": "ساعة",
+  "unit.g": "قطعة",
+  "unit.wk": "أسابيع",
+  "f.church": "ضريبة الكنيسة",
+  "church.no": "لا",
+  "info.church": "لأعضاء الكنيسة فقط. 8 % في بافاريا وبادن فورتمبيرغ، و9 % في باقي الولايات. تُحسب من ضريبة الدخل قبل خصم ضريبة النشاط التجاري.",
+  "f.pensType": "ادخارك للتقاعد هو",
+  "pt.save": "ادخار عادي، ETF",
+  "pt.drv": "اشتراكات DRV أو Rürup",
+  "info.pensType": "لا يخفض ضريبة الدخل إلا اشتراكات التأمين التقاعدي الحكومي (DRV) وRürup-Rente (المعاش الأساسي) — حتى {cap} سنويًا. الادخار العادي وETF والودائع لا تخفض الضريبة.",
+  "f.pkvDed": "الجزء القابل للخصم من PKV شهريًا",
+  "pkvDed.ph": "الاشتراك كله",
+  "info.pkvDed": "يُخصم ضريبيًا فقط التأمين الأساسي (Basisabsicherung) وتأمين الرعاية الإلزامي؛ أما بدل المرض اليومي والتعرفات الإضافية فلا. تذكر شركة التأمين المبلغ الدقيق في الشهادة السنوية. اتركه فارغًا لاعتبار الاشتراك كله قابلًا للخصم.",
+  "f.invoice": "متوسط قيمة الفاتورة الواحدة",
+  "info.invoice": "مهم لحد المشروع الصغير: الفاتورة التي تتجاوز الحد تخضع للضريبة كاملةً. الحاسبة تعرف متوسط الإيراد الشهري فقط، لذا تفترض أنك تصدر فواتير بهذا الحجم بانتظام.",
+  "res.need": "يجب أن تبيع",
+  "res.have": "يبقى لمصاريفك الشخصية",
+  "res.avg": "متوسط شهري",
+  "r.profit": "ربح العمل {v} شهريًا",
+  "r.loss": "غير ممكن",
+  "r.lossWhy": "بعد تكلفة البضاعة والضريبة لا تجلب أي بيعة مالًا. ارفع السعر أو خفّض التكلفة.",
+  "r.limit": "أكثر من {n}",
+  "r.limitWhy": "الحجم المطلوب خارج نطاق الحاسبة. بهذا السعر يكاد يكون الهدف غير قابل للتحقيق.",
+  "why.prevNo": "إيراد {y}: {v}، أي أكثر من {lim}. لا يحق لك نظام المشروع الصغير هذه السنة.",
+  "disc.title": "مهم.",
+  "disclaimer": "هذا حساب مبسّط لتقدير أولي. يعتمد على افتراضات وقيم نموذجية، لذا قد تختلف الضرائب واشتراكات التأمين والمصاريف الفعلية. وهو ليس استشارة ضريبية أو قانونية. جميع البيانات مقدَّمة دون ضمان، ولا نتحمل أي مسؤولية عن القرارات المتخذة بناءً على هذا الحساب. استشر مستشارًا ضريبيًا (Steuerberater) قبل بدء عملك.",
+  "how.title": "كيف نحسب",
+  "how.prior": "<b>لا دخل آخر في {y}.</b> إذا كان لديك هذا العام راتب أو إعانات أو دخل آخر — قبل بدء العمل أو إلى جانبه — فستكون الضريبة أعلى بشكل ملحوظ: فالإعفاء الأساسي مستخدم بالفعل، والنسبة تُحسب على مجموع دخل السنة.",
+  "how.single": "شخص واحد دون التقييم الضريبي المشترك للزوجين (Splitting)؛ لا تُحتسب إعانة الأطفال ولا الإعفاءات الضريبية للأطفال.",
+  "how.even": "المبيعات والمصاريف متساوية كل شهر؛ المبالغ الشهرية متوسطات للفترة المختارة.",
+  "how.kvG": "التأمين الصحي: GKV طوعي، {kv} % + اشتراك إضافي {z} % + رعاية {pv} % من الربح، على أساس بين {min} و{max} شهريًا. تُخصم الاشتراكات ضريبيًا (مع بدل المرض ناقص 4 %).",
+  "how.kvP": "التأمين الصحي: PKV ‏{v} شهريًا شاملًا الرعاية؛ يُخصم ضريبيًا {d} شهريًا.",
+  "how.pensSave": "ادخار التقاعد ({v} شهريًا) يقلل المتبقي لكنه لا يقلل الضريبة — كالادخار العادي أو ETF.",
+  "how.pensDrv": "اشتراكات التقاعد ({v} شهريًا) لـ DRV أو Rürup: تُخصم من الوعاء الضريبي، حتى {cap} سنويًا.",
+  "how.vat": "ضريبة القيمة المضافة: المبيعات داخل ألمانيا بنسبة 19 % فقط؛ لا تشمل نسبة 7 % ولا العملاء في دول الاتحاد الأخرى ولا Reverse Charge. تُدخل المصاريف كما تدفعها شاملة الضريبة؛ وتتضمن {s} % منها ضريبة قابلة للخصم.",
+  "how.ku": "المشروع الصغير: الحق في السنة التالية حسب الإيراد الفعلي للسنة السابقة دون تحويله إلى 12 شهرًا. البيعة التي تتجاوز الحد تخضع للضريبة كاملةً. حجم البيعة الواحدة: {t}.",
+  "how.kuT_h": "متوسط الفاتورة {v} (يمكن تغييره في «تدقيق الحساب»)",
+  "how.kuT_g": "سعر منتج أو طلب واحد",
+  "how.kuOff": "بدون نظام المشروع الصغير: الضريبة من اليوم الأول.",
+  "how.taxes": "ضريبة الدخل وفق جدول §32a EStG وضريبة التضامن.",
+  "how.kist": "ضريبة الكنيسة {r} % من ضريبة الدخل قبل خصم ضريبة النشاط التجاري. لا يُحتسب خصم ضريبة الكنيسة المدفوعة كمصروف خاص.",
+  "how.gew": "ضريبة النشاط التجاري: المعامل {h} %، إعفاء 24,500 €، خصم من ضريبة الدخل حتى 4 × المبلغ الأساسي؛ الإضافات (Hinzurechnungen) غير محتسبة.",
+  "how.rates": "قيم الضرائب والتأمين لسنة {y}.",
+  "how.ratesEst": "لا توجد قيم رسمية لسنة {y} بعد — تُستخدم قيم {b}. هذا توقع وليس حسابًا دقيقًا.",
+  "how.not": "غير مشمول: KSK للفنانين والصحفيين، التأمين التقاعدي الإلزامي لبعض المهن، الموظفون، GmbH/UG، منحة التأسيس، الإهلاك (AfA)، الخسائر المرحّلة.",
+  "wf.profit": "ربح العمل قبل الضرائب والتأمينات: <b>{v}</b> شهريًا",
+  "s.costNet": "مصاريف العمل (بعد خصم الضريبة المستردة)",
+  "s.vatOut": "ضريبة المبيعات ← Finanzamt",
+  "vatIn": "الضريبة على المصاريف التي يقاصّها Finanzamt أو يردّها: {v} شهريًا — مخصومة بالفعل من المصاريف.",
+  "short": "<b>عجز {v} شهريًا.</b> المبيعات لا تغطي المصاريف والتأمينات والضرائب.",
+  "w.reserve": "<b>احتياطي الضرائب لسنة {y}: ≈ {m} شهريًا</b> (المجموع ≈ {t}). يحدد Finanzamt مواعيد الدفع: قد تكون هناك دفعات مسبقة ربع سنوية حسب توقعك ودفعة إضافية بعد الإقرار. ضع هذا المبلغ فورًا في حساب منفصل.",
+  "w.prior": "<b>السنة الأولى غير كاملة.</b> يفترض الحساب أنه لم يكن لديك دخل آخر في {y} قبل بدء العمل. مع وجود راتب أو إعانات ستكون الضريبة أعلى.",
+  "live": "{y}: {l} — {v}",
+  "remember": "تذكّر إعداداتي في هذا المتصفح"
+ }
+};
+  const LOCALE = { ru: 'ru-RU', de: 'de-DE', en: 'en-GB', tr: 'tr-TR', ar: 'ar-u-nu-latn' };
+
+  const NOW = new Date();
+  const CUR_ABS = NOW.getFullYear() * 12 + NOW.getMonth();   // месяцы с нулевого года
+  const R0 = E.ratesFor(NOW.getFullYear()).R;
+
+  // ---------- Шкалы и поля ----------
+  function scale(segs) {
+    const a = [];
+    for (const [from, to, st] of segs) for (let v = from; v <= to + 1e-9; v += st) { const r = Math.round(v * 100) / 100; if (!a.length || r > a[a.length - 1]) a.push(r); }
+    return a;
+  }
+  const lin = (a, b, s) => scale([[a, b, s]]);
+  // sc — шкала бегунка; min/max — допустимый точный ввод
+  const F = {
+    target:   { sc: scale([[500, 10000, 100], [10500, 30000, 500]]), def: 2500, unit: 'eur', min: 0, max: 200000 },
+    price_h:  { sc: lin(20, 300, 1), def: 70, unit: 'eur', min: 1, max: 5000 },
+    price_g:  { sc: scale([[5, 100, 5], [110, 1000, 10], [1050, 10000, 50]]), def: 60, unit: 'eur', min: 0.5, max: 1000000 },
+    qty_h:    { sc: lin(0, 250, 1), def: 100, unit: 'qty', min: 0, max: 744 },
+    qty_g:    { sc: scale([[0, 100, 1], [105, 1000, 5], [1010, 5000, 10]]), def: 80, unit: 'qty', min: 0, max: 1000000 },
+    mat_h:    { sc: lin(0, 80, 1), def: 0, unit: 'pct', min: 0, max: 99 },
+    mat_g:    { sc: lin(0, 80, 1), def: 35, unit: 'pct', min: 0, max: 99 },
+    billable: { sc: lin(40, 100, 5), def: 65, unit: 'pct', min: 5, max: 100 },
+    off:      { sc: lin(2, 14, 1), def: 8, unit: 'wk', min: 0, max: 40 },
+    fixed:    { sc: lin(0, 5000, 50), def: 300, unit: 'eur', min: 0, max: 1000000 },
+    pkv:      { sc: lin(250, 1200, 10), def: 550, unit: 'eur', min: 0, max: 10000 },
+    pens:     { sc: lin(0, 1500, 50), def: 200, unit: 'eur', min: 0, max: 50000 },
+    heb:      { sc: lin(200, 600, 5), def: 400, unit: 'pct', min: 200, max: 1000 },
+    zus:      { sc: lin(0, 5, 0.1), def: R0.zus, unit: 'pct', min: 0, max: 10 },
+    vatshare: { sc: lin(0, 100, 10), def: 70, unit: 'pct', min: 0, max: 100 },
+    invoice:  { sc: scale([[100, 1000, 50], [1100, 10000, 100], [11000, 50000, 1000]]), def: 1000, unit: 'eur', min: 1, max: 10000000 }
+  };
+  // бегунок → ключ значения (у цены, объёма и себестоимости — свои значения для часов и товаров)
+  const SL = {
+    target: () => 'target', qty: () => 'qty' + sfx(), price: () => 'price' + sfx(), mat: () => 'mat' + sfx(),
+    billable: () => 'billable', off: () => 'off', fixed: () => 'fixed', pkv: () => 'pkv', pens: () => 'pens',
+    heb: () => 'heb', zus: () => 'zus', vatshare: () => 'vatshare', invoice: () => 'invoice'
+  };
+  const sfx = () => ST.mode === 'hours' ? '_h' : '_g';
+  const idxOf = (arr, v) => { let bi = 0; for (let i = 1; i < arr.length; i++) if (Math.abs(arr[i] - v) < Math.abs(arr[bi] - v)) bi = i; return bi; };
+
+  const BIZ = [
+    { k: 'stb', v: 150, on: true, vat: true },
+    { k: 'hp', v: 15, on: true, vat: false },
+    { k: 'sw', v: 25, on: true, vat: true },
+    { k: 'bg', v: 15, on: false, vat: false },
+    { k: 'ihk', v: 10, on: false, vat: false, gew: true }
+  ];
+  const PRIV = [
+    { k: 'rf', v: 18.36, on: true },
+    { k: 'ph', v: 6, on: true },
+    { k: 'bu', v: 90, on: false },
+    { k: 'hr', v: 10, on: false },
+    { k: 'ot', v: 0, on: false }
+  ];
+
+  function defaults() {
+    const V = {};
+    for (const k in F) V[k] = F[k].def;
+    const costs = {};
+    for (const c of BIZ.concat(PRIV)) costs[c.k] = { on: c.on, v: c.v };
+    return { V, costs, calc: 'need', mode: 'hours', clients: 'b2c', kv: 'gkv', kind: 'frei', church: 0, pensType: 'save',
+             kg: true, kids: false, ku: true, start: 0, pkvDed: null };
+  }
+
+  // ---------- Сохранение: только если посетитель сам включил «Запомнить мои настройки» ----------
+  const KEY = 'netto-rechner-v2';
+  let ST = defaults(), lang = '', remember = false;
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && saved.v === 2 && saved.st) {
+      const d = defaults();
+      ST = Object.assign(d, saved.st, { V: Object.assign(d.V, saved.st.V), costs: Object.assign(d.costs, saved.st.costs) });
+      // старт хранится как абсолютный месяц; прошедшие месяцы сдвигаем к текущему
+      ST.start = Math.min(23, Math.max(0, (saved.st.startAbs ?? CUR_ABS) - CUR_ABS));
+      lang = saved.lang || '';
+      remember = true;
+    }
+  } catch (e) { ST = defaults(); }
+  if (!I18N[lang]) lang = 'de';   // без сохранённого выбора — немецкий
+  let saveTimer = null;
+  function save() {
+    if (!remember) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify({ v: 2, lang, st: Object.assign({}, ST, { startAbs: CUR_ABS + ST.start }) })); } catch (e) { /* без сохранения */ }
+    }, 250);
+  }
+
+  // ---------- Тексты и форматы ----------
+  const t = (k, v = {}) => (I18N[lang][k] ?? I18N.ru[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => v[n] ?? '');
+  let fmtE, fmtN = {};
+  function setFormatters() { fmtE = new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }); fmtN = {}; }
+  const eur = n => fmtE.format(Math.round(n) || 0);
+  const num = (n, d = 0) => (fmtN[d] ||= new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: d, minimumFractionDigits: d })).format(n);
+  const pct = n => num(n, Math.abs(n % 1) > 1e-9 ? 1 : 0) + ' %';
+  const monthName = (y, m, withYear) => new Intl.DateTimeFormat(LOCALE[lang], withYear ? { month: 'long', year: 'numeric' } : { month: 'long' }).format(new Date(y, m - 1, 1));
+  const unitText = u => u === 'eur' ? '€' : u === 'pct' ? '%' : u === 'wk' ? t('unit.wk') : t(ST.mode === 'hours' ? 'unit.h' : 'unit.g');
+  const valText = (k, v) => { const u = F[k].unit; return u === 'eur' ? eur(v) : u === 'pct' ? pct(v) : num(v, v % 1 ? 1 : 0) + ' ' + unitText(u); };
+  const qtyText = n => num(n) + ' ' + unitText('qty');
+
+  // ---------- Списки расходов ----------
+  function costRows(list, prefix, box) {
+    $(box).innerHTML = list.map(c => `
+      <div class="cost" id="row-${c.k}">
+        <label class="check"><input type="checkbox" id="x-${c.k}"><span><span id="lbl-${c.k}" data-i18n="${prefix}.${c.k}"></span><small data-i18n="${prefix}.${c.k}.n"></small></span></label>
+        <span class="amt"><input type="number" id="v-${c.k}" min="0" step="any" inputmode="decimal" aria-describedby="e-${c.k}"><span class="cur">€</span></span>
+        <div class="err" id="e-${c.k}" hidden></div>
+      </div>`).join('');
+  }
+  costRows(BIZ, 'c', 'biz');
+  costRows(PRIV, 'p', 'priv');
+
+  // Кнопки «?» и блоки пояснений
+  document.querySelectorAll('[data-info]').forEach(f => {
+    const key = f.dataset.info;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'ib'; btn.textContent = '?';
+    btn.setAttribute('aria-expanded', 'false');
+    const box = document.createElement('div');
+    box.className = 'info'; box.hidden = true; box.id = 'info-' + key; box.dataset.infoKey = key;
+    btn.setAttribute('aria-controls', box.id);
+    btn.addEventListener('click', () => { box.hidden = !box.hidden; btn.setAttribute('aria-expanded', String(!box.hidden)); });
+    f.querySelector('.lab').appendChild(btn);
+    f.querySelector('.field-top').after(box);
+  });
+
+  // Карточки лет создаются один раз — фокус на них не теряется при пересчёте
+  let selYear = 0;
+  $('years').innerHTML = [0, 1, 2].map(i => `<button type="button" class="year" data-i="${i}" aria-pressed="${i === 0}"><span class="yc"></span></button>`).join('');
+  document.querySelectorAll('.year').forEach(b => b.addEventListener('click', () => { selYear = +b.dataset.i; render(); }));
+
+  // ---------- Форма ⇄ состояние ----------
+  function syncSlider(id) {
+    const k = SL[id](), f = F[k], s = $(id), n = $(id + '-n');
+    s.min = 0; s.max = f.sc.length - 1; s.step = 1;
+    s.value = idxOf(f.sc, ST.V[k]);
+    s.setAttribute('aria-valuetext', valText(k, ST.V[k]));
+    if (document.activeElement !== n) n.value = ST.V[k];
+    n.min = f.min; n.max = f.max;
+  }
+  function setErr(id, msg) {
+    const e = $(id + '-e'), n = $(id + '-n') || $('v-' + id);
+    if (e) { e.hidden = !msg; e.textContent = msg || ''; }
+    if (n) { if (msg) { n.setAttribute('aria-invalid', 'true'); n.setAttribute('aria-describedby', e.id); } else n.removeAttribute('aria-invalid'); }
+  }
+  function syncForm() {
+    for (const name of ['calc', 'mode', 'clients', 'kv', 'kind', 'church', 'pensType']) {
+      const el = document.querySelector(`input[name=${name}][value="${ST[name]}"]`);
+      if (el) el.checked = true;
+    }
+    for (const id of ['kg', 'kids', 'ku']) $(id).checked = !!ST[id];
+    for (const c of BIZ.concat(PRIV)) { $('x-' + c.k).checked = ST.costs[c.k].on; $('v-' + c.k).value = ST.costs[c.k].v; setErr(c.k, ''); }
+    for (const id in SL) { syncSlider(id); setErr(id, ''); }
+    $('start').value = ST.start;
+    $('pkvded-n').value = ST.pkvDed ?? '';
+    setErr('pkvded', '');
+  }
+  const validNum = (n, f) => n.value !== '' && !n.validity.badInput && Number.isFinite(n.valueAsNumber) && n.valueAsNumber >= f.min && n.valueAsNumber <= f.max;
+  const rangeMsg = f => t('err.range', { min: num(f.min, f.min % 1 ? 1 : 0), max: num(f.max) });
+
+  for (const id in SL) {
+    const s = $(id), n = $(id + '-n');
+    s.addEventListener('input', () => {
+      const k = SL[id]();
+      ST.V[k] = F[k].sc[+s.value];
+      n.value = ST.V[k];
+      s.setAttribute('aria-valuetext', valText(k, ST.V[k]));
+      setErr(id, '');
+      changed();
+    });
+    n.addEventListener('input', () => {
+      const k = SL[id](), f = F[k];
+      if (validNum(n, f)) { ST.V[k] = n.valueAsNumber; s.value = idxOf(f.sc, ST.V[k]); s.setAttribute('aria-valuetext', valText(k, ST.V[k])); setErr(id, ''); changed(); }
+    });
+    n.addEventListener('change', () => {
+      const k = SL[id](), f = F[k];
+      setErr(id, validNum(n, f) ? '' : rangeMsg(f));   // неверное число не превращается в ноль: остаётся прежнее значение
+    });
+  }
+  for (const c of BIZ.concat(PRIV)) {
+    const x = $('x-' + c.k), n = $('v-' + c.k), f = { min: 0, max: 1000000 };
+    x.addEventListener('change', () => { ST.costs[c.k].on = x.checked; changed(); });
+    n.addEventListener('input', () => { if (validNum(n, f)) { ST.costs[c.k].v = n.valueAsNumber; ST.costs[c.k].on = x.checked = true; setErr(c.k, ''); changed(); } });
+    n.addEventListener('change', () => setErr(c.k, validNum(n, f) ? '' : rangeMsg(f)));
+  }
+  $('pkvded-n').addEventListener('input', () => {
+    const n = $('pkvded-n');
+    if (n.value === '' && !n.validity.badInput) { ST.pkvDed = null; setErr('pkvded', ''); changed(); }
+    else if (validNum(n, { min: 0, max: 10000 })) { ST.pkvDed = n.valueAsNumber; setErr('pkvded', ''); changed(); }
+  });
+  $('pkvded-n').addEventListener('change', () => {
+    const n = $('pkvded-n');
+    setErr('pkvded', (n.value === '' && !n.validity.badInput) || validNum(n, { min: 0, max: 10000 }) ? '' : rangeMsg({ min: 0, max: 10000 }));
+  });
+  $('start').addEventListener('input', () => { ST.start = +$('start').value; changed(); });
+  for (const id of ['kg', 'kids', 'ku']) $(id).addEventListener('change', () => { ST[id] = $(id).checked; changed(); });
+  $('f').addEventListener('change', e => {
+    const el = e.target;
+    if (el.type !== 'radio') return;
+    ST[el.name] = el.name === 'church' ? +el.value : el.value;
+    if (el.name === 'mode') { for (const id of ['price', 'qty', 'mat']) { syncSlider(id); setErr(id, ''); } }
+    changed();
+  });
+  $('f').addEventListener('submit', e => e.preventDefault());
+
+  function changed() { save(); render(); }
+
+  // ---------- Параметры для ядра ----------
+  function params() {
+    const s = sfx(), V = ST.V;
+    const on = c => ST.costs[c.k].on && (!c.gew || ST.kind === 'gew') ? ST.costs[c.k].v : 0;
+    const startAbs = CUR_ABS + ST.start;
+    return {
+      calc: ST.calc, mode: ST.mode, price: V['price' + s], qty: V['qty' + s], target: V.target, mat: V['mat' + s] / 100,
+      clients: ST.clients, fixed: V.fixed,
+      bizVat: BIZ.filter(c => c.vat).reduce((a, c) => a + on(c), 0),
+      bizNo: BIZ.filter(c => !c.vat).reduce((a, c) => a + on(c), 0),
+      priv: PRIV.reduce((a, c) => a + on(c), 0),
+      vatShare: V.vatshare / 100, invoice: V.invoice,
+      kv: ST.kv, pkv: V.pkv, pkvDed: ST.pkvDed, kg: ST.kg, kids: ST.kids, zus: V.zus,
+      pens: V.pens, pensType: ST.pensType, ku: ST.ku, kind: ST.kind, heb: V.heb, church: ST.church,
+      startY: Math.floor(startAbs / 12), startM: startAbs % 12 + 1
+    };
+  }
+  const hoursWeek = q => q * 12 / Math.max(1, 52 - ST.V.off) / Math.max(0.05, ST.V.billable / 100);
+
+  // ---------- Статические тексты (только при смене языка) ----------
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = t('title');
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+    $('langs').setAttribute('aria-label', t('langs'));
+    document.querySelectorAll('#langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    $('chart').setAttribute('aria-label', t('ch.aria'));
+    $('pkvded-n').placeholder = t('pkvDed.ph');
+    document.querySelectorAll('.amt input').forEach(n => n.setAttribute('aria-label', $('lbl-' + n.id.slice(2)).textContent + ', ' + t('amt')));
+  }
+
+  // ---------- Пересчёт ----------
+  let P, PL;
+  function render() {
+    P = params();
+    PL = E.plan(P);
+    const have = ST.calc === 'have';
+
+    // форма: видимость, подписи, единицы, пояснения
+    document.querySelectorAll('[data-hours]').forEach(el => { el.hidden = ST.mode !== 'hours'; });
+    $('target-box').hidden = have;
+    $('qty-box').hidden = !have;
+    $('gkv-box').hidden = ST.kv !== 'gkv';
+    $('zus-box').hidden = ST.kv !== 'gkv';
+    $('pkv-box').hidden = ST.kv !== 'pkv';
+    $('pkvded-box').hidden = ST.kv !== 'pkv';
+    $('gew-box').hidden = ST.kind !== 'gew';
+    $('row-ihk').hidden = ST.kind !== 'gew';
+    BIZ.concat(PRIV).forEach(c => $('row-' + c.k).classList.toggle('off', !ST.costs[c.k].on));
+    $('price-l').textContent = t(ST.mode === 'hours' ? 'f.priceH' : 'f.priceG');
+    $('qty-l').textContent = t(ST.mode === 'hours' ? 'f.qH' : 'f.qG');
+    document.querySelectorAll('[data-unit]').forEach(el => { el.textContent = unitText(el.dataset.unit); });
+    $('start-v').textContent = monthName(P.startY, P.startM, true);
+    $('start').setAttribute('aria-valuetext', monthName(P.startY, P.startM, true));
+    for (const id in SL) $(id).setAttribute('aria-valuetext', valText(SL[id](), ST.V[SL[id]()]));
+    const vars = { cap: eur(R0.pensCap), min: eur(R0.kvMin), max: eur(R0.kvMax), z: num(R0.zus, 1) };
+    document.querySelectorAll('[data-info-key]').forEach(el => {
+      let k = el.dataset.infoKey;
+      if (k === 'price') k = ST.mode === 'goods' ? 'priceG' : 'priceH';
+      el.innerHTML = t('info.' + k, vars);
+    });
+    document.querySelectorAll('[data-info]').forEach(f => {
+      const lbl = f.querySelector('.lab label, .lab > span');
+      const text = (f.querySelector('#ku-l') || lbl).textContent.trim();
+      f.querySelector('.ib').setAttribute('aria-label', t('infoBtn', { f: text }));
+    });
+
+    // вводная строка
+    $('lead').innerHTML = (have ? t('r.leadHave', { q: qtyText(P.qty) }) : t('r.lead', { t: eur(P.target) }))
+      + (P.priv > 0 ? `<small>${t('r.leadNote', { p: eur(P.priv) })}</small>` : '');
+
+    // карточки лет
+    document.querySelectorAll('.year').forEach((b, i) => {
+      b.setAttribute('aria-pressed', String(i === selYear));
+      b.querySelector('.yc').innerHTML = cardHTML(PL[i], i);
+    });
+
+    renderMoney();
+    renderChart();
+    renderWarns();
+    renderHow();
+    renderMbar();
+    announce();
+  }
+
+  function spanText(ctx) {
+    if (ctx.months === 12) return t('r.full');
+    if (ctx.months === 1) return t('r.span1', { a: monthName(ctx.year, 12) });
+    return t('r.span', { a: monthName(ctx.year, ctx.startCal), b: monthName(ctx.year, 12), m: ctx.months });
+  }
+
+  function regime(ctx, r) {
+    if (!P.ku) return [t('chip.vat'), 'vat', t('why.noku')];
+    if (!ctx.ku) return [t('chip.vat'), 'vat', t('why.prevNo', { y: ctx.prevYear, v: eur(ctx.prevRev), lim: eur(LAW.kuPrev) })];
+    if (r.kuAll) return ['Kleinunternehmer', '', ctx.first
+      ? t('why.y1ok', { v: eur(r.rev), lim: eur(LAW.kuFirst) })
+      : t('why.okN', { l1: eur(LAW.kuPrev), l2: eur(LAW.kuCur) })];
+    return [t('chip.mix'), 'mix', t('why.mix', { lim: eur(ctx.limit), mon: monthName(ctx.year, r.switchCal, true) })];
+  }
+
+  function cardHTML(p, i) {
+    const ctx = p.ctx, have = ST.calc === 'have';
+    const head = `<span class="yl"><b>${ctx.year}</b> · ${spanText(ctx)}</span>`;
+    if (p.status !== 'ok') {
+      const lim = p.status === 'limit';
+      return `${head}<span class="rl">${t('res.need')}</span><span class="big neg">${lim ? t('r.limit', { n: qtyText(Math.floor(p.qMax)) }) : t('r.loss')}</span>
+        <span class="why">${t(lim ? 'r.limitWhy' : 'r.lossWhy')}</span>`;
+    }
+    const r = p.res;
+    const [chip, cls, why] = regime(ctx, r);
+    const work = ST.mode === 'hours' ? t('r.hw', { n: num(hoursWeek(r.q)) }) : t('r.gw', { n: num(r.q * 12 / 52, 1) });
+    const big = have
+      ? `<span class="rl">${t('res.have')}</span><span class="big${r.lifeM < 0 ? ' neg' : ''}">${eur(r.lifeM)} <small>${t('r.perMonth')}</small></span>`
+      : `<span class="rl">${t('res.need')}</span><span class="big">${num(r.q)} <small>${t(ST.mode === 'hours' ? 'r.unitH' : 'r.unitG')}</small></span>`;
+    return `${head}${big}
+      <span class="sub">${t('res.avg')} · ${work}<br>${t('r.rev', { v: eur(r.rev / r.m) })} · ${t('r.profit', { v: eur(r.G / r.m) })}</span>
+      <span class="chip ${cls}">${chip}</span>
+      <span class="why">${why}</span>`;
+  }
+
+  function renderMoney() {
+    const { ctx, res: r } = PL[selYear];
+    $('wf-title').textContent = t('wf.title', { y: ctx.year, span: spanText(ctx) });
+    $('vat-note').hidden = true; $('short-note').hidden = true;
+    if (!r) { $('kpi').textContent = ''; $('bar').innerHTML = ''; $('legend').innerHTML = `<span class="hint">${t('noSol')}</span>`; return; }
+    const m = r.m;
+    $('kpi').innerHTML = t('wf.profit', { v: eur(r.G / m) });
+    const rows = [
+      ['s.costNet', r.costNet, '--c-cost'],
+      ['s.vatOut', r.vatOut, '--c-vat'],
+      ['s.kv', r.kv, '--c-kv'],
+      ['s.pens', r.pens, '--c-pens'],
+      ['s.priv', r.priv, '--c-priv'],
+      [P.church ? 's.taxK' : 's.tax', r.tax, '--c-tax'],
+      ['s.gew', r.gew, '--c-gew'],
+      ['s.net', r.life, '--c-net']
+    ].filter(x => Math.abs(x[1]) > 0.5 || x[0] === 's.net');
+    const total = r.clientPaid;
+    $('bar').innerHTML = rows.filter(x => x[1] > 0.5).map(([k, v, c]) => `<div title="${t(k)}" style="flex-grow:${v};background:var(${c})"></div>`).join('');
+    const pc = v => total > 0.5 ? num(Math.round(v / total * 100)) + ' %' : '—';
+    $('legend').innerHTML = rows.map(([k, v, c]) =>
+      `<span class="nm"><span class="sw" style="background:var(${c})"></span>${t(k)}</span><span class="n${v < 0 ? ' neg' : ''}">${eur(v / m)}</span><span class="n pc">${pc(v)}</span>`
+    ).join('') + `<span class="nm tot">${t('s.total')}</span><span class="n tot">${eur(total / m)}</span><span class="n pc tot">${total > 0.5 ? '100 %' : '—'}</span>`;
+    if (r.vatIn > 0.5) { $('vat-note').hidden = false; $('vat-note').textContent = t('vatIn', { v: eur(r.vatIn / m) }); }
+    if (r.life < -0.5) { $('short-note').hidden = false; $('short-note').innerHTML = t('short', { v: eur(-r.life / m) }); }
+  }
+
+  function renderChart() {
+    const { ctx, res: r } = PL[selYear];
+    $('ch-title').textContent = t('ch.title', { y: ctx.year });
+    const W = 640, H = 250, L = 64, Rm = 14, T = 14, B = 34;
+    const p = P.price, b2c = P.clients === 'b2c';
+    const marks = [];
+    if (ctx.ku) marks.push([ctx.limit / (ctx.months * p), t('ch.lim', { v: eur(ctx.limit) })]);
+    if (P.ku && !(ctx.ku && ctx.limit === LAW.kuPrev)) {
+      const pn = ctx.ku ? p : (b2c ? p / (1 + LAW.vat) : p);
+      marks.push([LAW.kuPrev / (ctx.months * pn), t('ch.next')]);
+    }
+    let qEnd = Math.max(r ? r.q * 1.7 : 0, 10);
+    marks.forEach(([q]) => { if (q < qEnd * 1.6) qEnd = Math.max(qEnd, q * 1.15); });
+    const N = 160, pts = [];
+    for (let i = 0; i <= N; i++) { const q = qEnd * i / N; pts.push([q, E.yearCalc(P, q, ctx).lifeM]); }
+    const showGoal = ST.calc === 'need';
+    let yMin = Math.min(0, ...pts.map(d => d[1])), yMax = Math.max(showGoal ? P.target : 0, ...pts.map(d => d[1]), 1) * 1.08;
+    const step = niceStep((yMax - yMin) / 4);
+    yMin = Math.floor(yMin / step) * step; yMax = Math.ceil(yMax / step) * step;
+    const X = q => L + (q / qEnd) * (W - L - Rm);
+    const Y = v => T + (1 - (v - yMin) / (yMax - yMin)) * (H - T - B);
+    let s = '';
+    for (let v = yMin; v <= yMax + 1e-6; v += step) {
+      s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+      s += `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${eur(v)}</text>`;
+    }
+    if (yMin < 0) s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--muted)" stroke-width="1"/>`;
+    const xs = niceStep(qEnd / 5);
+    for (let q = 0; q <= qEnd + 1e-6; q += xs) s += `<text x="${X(q)}" y="${H - B + 16}" text-anchor="middle">${num(q)}</text>`;
+    s += `<text x="${W - Rm}" y="${H - 4}" text-anchor="end">${t(ST.mode === 'hours' ? 'ch.axisH' : 'ch.axisG')}</text>`;
+    marks.filter(([q]) => q <= qEnd).forEach(([q, lbl], i) => {
+      const right = X(q) > W * 0.62;
+      s += `<line x1="${X(q)}" x2="${X(q)}" y1="${T}" y2="${H - B}" stroke="var(--warn)" stroke-dasharray="3 3"/>`;
+      s += `<text x="${X(q) + (right ? -4 : 4)}" y="${T + 10 + i * 14}" text-anchor="${right ? 'end' : 'start'}" style="fill:var(--warn)">${lbl}</text>`;
+    });
+    if (showGoal) {
+      s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(P.target)}" y2="${Y(P.target)}" stroke="var(--accent)" stroke-dasharray="6 4" stroke-width="1.5"/>`;
+      s += `<text x="${L + 6}" y="${Y(P.target) - 6}" style="fill:var(--accent)">${t('ch.goal', { v: eur(P.target) })}</text>`;
+    }
+    s += `<path d="${pts.map(([q, v], i) => `${i ? 'L' : 'M'}${X(q).toFixed(1)},${Y(v).toFixed(1)}`).join('')}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+    if (r && r.q <= qEnd) s += `<circle cx="${X(r.q)}" cy="${Y(r.lifeM)}" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`;
+    $('chart').innerHTML = s;
+    $('ch-hint').textContent = t(P.ku && b2c && marks.some(([q]) => q <= qEnd) ? 'ch.hintB2C' : 'ch.hint');
+  }
+  function niceStep(raw) {
+    const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1e-9))));
+    const n = raw / p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p;
+  }
+
+  function renderWarns() {
+    const w = [];
+    const { ctx, res: r } = PL[selYear];
+    const [p1, p2] = PL;
+    const est = PL.filter(p => !p.ctx.exact);
+    if (est.length) w.push(['', t('w.rates', { ys: est.map(p => p.ctx.year).join(', '), b: est[0].ctx.rBase })]);
+    if (p1.ctx.months < 12) w.push(['', t('w.prior', { y: p1.ctx.year })]);
+    if (ST.mode === 'hours') {
+      const hw = Math.max(0, ...PL.filter(p => p.res).map(p => hoursWeek(p.res.q)));
+      if (hw > 45) w.push(['', t('w.hours', { n: num(Math.floor(hw)) })]);
+    }
+    if (r) {
+      const tx = r.tax + r.gew;
+      if (tx > 50) w.push(['', t('w.reserve', { y: ctx.year, m: eur(tx / r.m), t: eur(tx) })]);
+    }
+    if (p1.res && P.ku && p1.res.kuAll && p1.res.rev > 20000 && p1.res.rev <= LAW.kuFirst)
+      w.push(['', t('w.near', { y: p1.ctx.year, v: eur(p1.res.rev) })]);
+    if (P.ku && P.clients === 'b2c' && PL.some(p => p.res && !p.res.kuAll))
+      w.push(['', t('w.b2c', { n: eur(P.price / (1 + LAW.vat)), p: eur(P.price), g: eur(P.price * (1 + LAW.vat)) })]);
+    if (P.ku && P.clients === 'b2b') w.push(['ok', t('w.b2b')]);
+    if (P.pens === 0) w.push(['', t('w.pens0')]);
+    if (P.kv === 'gkv') {
+      if (PL.some(p => p.res && p.res.G / p.res.m < p.ctx.R.kvMin)) {
+        const R = p1.ctx.R;
+        w.push(['', t('w.kvmin', { b: eur(R.kvMin), v: eur(R.kvMin * ((P.kg ? 14.6 : 14) + P.zus + R.pv + (P.kids ? 0 : R.pvChildless)) / 100) })]);
+      }
+      w.push(['ok', t('w.kvlater')]);
+    }
+    $('warns').innerHTML = w.map(([c, x]) => `<li class="${c}">${x}</li>`).join('');
+  }
+
+  function renderHow() {
+    const { ctx } = PL[selYear], R = ctx.R, it = [];
+    it.push(t('how.prior', { y: ctx.year }));
+    it.push(t('how.single'));
+    it.push(t('how.even'));
+    if (P.kv === 'gkv') it.push(t('how.kvG', { kv: num(P.kg ? 14.6 : 14, 1), z: num(P.zus, 1), pv: num(R.pv + (P.kids ? 0 : R.pvChildless), 1), min: eur(R.kvMin), max: eur(R.kvMax) }));
+    else it.push(t('how.kvP', { v: eur(P.pkv), d: eur(P.pkvDed == null ? P.pkv : Math.min(P.pkvDed, P.pkv)) }));
+    if (P.pens > 0) it.push(P.pensType === 'drv' ? t('how.pensDrv', { v: eur(P.pens), cap: eur(R.pensCap) }) : t('how.pensSave', { v: eur(P.pens) }));
+    it.push(t('how.vat', { s: num(ST.V.vatshare) }));
+    it.push(P.ku ? t('how.ku', { t: ST.mode === 'hours' ? t('how.kuT_h', { v: eur(P.invoice) }) : t('how.kuT_g') }) : t('how.kuOff'));
+    it.push(t('how.taxes'));
+    if (P.church) it.push(t('how.kist', { r: P.church }));
+    if (P.kind === 'gew') it.push(t('how.gew', { h: num(P.heb) }));
+    it.push(ctx.exact ? t('how.rates', { y: ctx.year }) : t('how.ratesEst', { y: ctx.year, b: ctx.rBase }));
+    it.push(t('how.not'));
+    $('how').innerHTML = it.map(x => `<li>${x}</li>`).join('');
+  }
+
+  function mainValue(p) {
+    if (p.status !== 'ok') return p.status === 'limit' ? t('r.limit', { n: qtyText(Math.floor(p.qMax)) }) : t('r.loss');
+    return ST.calc === 'have' ? `${eur(p.res.lifeM)} ${t('r.perMonth')}` : `${num(p.res.q)} ${t(ST.mode === 'hours' ? 'r.unitH' : 'r.unitG')}`;
+  }
+  function renderMbar() {
+    const p = PL[selYear];
+    $('mbar-v').textContent = mainValue(p);
+    $('mbar-s').textContent = `${p.ctx.year} · ${t(ST.calc === 'have' ? 'res.have' : 'res.need')}`;
+  }
+  // Короткая сводка для экранного диктора — после паузы, а не на каждое движение бегунка
+  let liveTimer = null;
+  function announce(text) {
+    clearTimeout(liveTimer);
+    liveTimer = setTimeout(() => {
+      const p = PL[selYear];
+      $('live').textContent = text || t('live', { y: p.ctx.year, l: t(ST.calc === 'have' ? 'res.have' : 'res.need'), v: mainValue(p) });
+    }, text ? 0 : 900);
+  }
+
+  // ---------- Язык, сброс, нижняя плашка ----------
+  $('langs').addEventListener('click', e => {
+    const b = e.target.closest('button[data-lang]');
+    if (!b || b.dataset.lang === lang) return;
+    lang = b.dataset.lang;
+    setFormatters(); applyStatic(); save(); render();
+  });
+  $('remember').checked = remember;
+  $('remember').addEventListener('change', () => {
+    remember = $('remember').checked;
+    if (remember) save();
+    else { clearTimeout(saveTimer); try { localStorage.removeItem(KEY); } catch (e) { /* хранилище недоступно */ } }
+  });
+  $('reset').addEventListener('click', () => {
+    ST = defaults(); selYear = 0;
+    syncForm(); save(); render();
+    announce(t('resetDone'));
+  });
+  $('mbar-b').addEventListener('click', () => $('results').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { $('mbar').hidden = es[0].isIntersecting; }, { threshold: 0.05 }).observe($('results'));
+  }
+
+  setFormatters();
+  syncForm();
+  applyStatic();
+  render();
+})();
+</script>
+</body>
+</html>

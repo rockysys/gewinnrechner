@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gewinnrechner</title>
+<style>
+/* Шрифты лежат рядом со страницей (папка fonts/), сторонние серверы не запрашиваются. Лицензия — SIL OFL 1.1. */
+/*__FONTS__*/
+</style>
+<style>
+/* Layout: слева короткая колонка бегунков с точным вводом и раскрывающимися пояснениями; справа липкая панель ответа. На телефоне — одна колонка и нижняя плашка с итогом. */
+:root {
+  --bg: #EEF2F1;
+  --surface: #FFFFFF;
+  --ink: #13201C;
+  --muted: #5A6A65;
+  --line: #D6DEDB;
+  --accent: #0B7A63;
+  --accent-soft: #DCEFE9;
+  --warn: #A8501A;
+  --warn-soft: #FBEADF;
+  --c-cost: #8C9C96;
+  --c-vat: #B79C6B;
+  --c-kv: #4D7BAA;
+  --c-pens: #7D68AE;
+  --c-priv: #5FA3A8;
+  --c-tax: #C4623A;
+  --c-gew: #D4A12F;
+  --c-net: #0B7A63;
+  --f-display: "Unbounded", "IBM Plex Sans Arabic", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-num: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1412; --surface: #151F1C; --ink: #E3EBE8; --muted: #93A49F; --line: #2C3A36;
+    --accent: #43C29F; --accent-soft: #173A31; --warn: #F0A273; --warn-soft: #3A2419;
+    --c-cost: #6E7F79; --c-vat: #A88D5E; --c-kv: #6A98C7; --c-pens: #9884C9; --c-priv: #6FB9BE; --c-tax: #DE7D55; --c-gew: #E0B44E; --c-net: #43C29F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1412; --surface: #151F1C; --ink: #E3EBE8; --muted: #93A49F; --line: #2C3A36;
+  --accent: #43C29F; --accent-soft: #173A31; --warn: #F0A273; --warn-soft: #3A2419;
+  --c-cost: #6E7F79; --c-vat: #A88D5E; --c-kv: #6A98C7; --c-pens: #9884C9; --c-priv: #6FB9BE; --c-tax: #DE7D55; --c-gew: #E0B44E; --c-net: #43C29F;
+  color-scheme: dark;
+}
+:root[lang="ar"] {
+  --f-display: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans Arabic", "Golos Text", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 0.9375rem; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+  overflow-wrap: anywhere; hyphens: auto;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 22px; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 14px 24px; }
+header .ttl { min-width: 0; flex: 1 1 420px; }
+header h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 4vw, 38px); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 64ch; }
+.langs { display: flex; border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; background: var(--surface); }
+.langs button { all: unset; cursor: pointer; padding: 6px 12px; border-radius: 6px; font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.langs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.langs .short { display: none; }
+@media (max-width: 560px) {
+  .langs { width: 100%; }
+  .langs button { flex: 1; text-align: center; padding: 7px 4px; }
+  .langs .full { display: none; }
+  .langs .short { display: inline; }
+}
+.grid { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- форма ---------- */
+form { display: grid; gap: 14px; }
+fieldset { border: 0; margin: 0; padding: 16px; background: var(--surface); border-radius: 12px; display: grid; gap: 18px; min-width: 0; }
+legend { float: left; width: 100%; padding: 0; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+:root[lang="ar"] legend { text-transform: none; letter-spacing: 0; font-size: 0.8125rem; }
+legend + * { clear: both; }
+.lead-s { margin: 0; color: var(--muted); font-size: 0.84375rem; }
+.field { display: grid; gap: 7px; min-width: 0; }
+.field-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 12px; }
+.lab { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
+.ctl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; height: 24px; min-width: 0; }
+.numw { display: inline-flex; align-items: center; gap: 4px; }
+.numw input, .amt input, #pkvded-n {
+  width: 92px; font: 500 0.9375rem var(--f-num); font-variant-numeric: tabular-nums; padding: 5px 7px; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg); color: var(--ink); text-align: end;
+}
+.ctl.big .numw input { width: 118px; font: 700 1.25rem var(--f-display); color: var(--accent); padding: 4px 8px; }
+.numw input:focus-visible, .amt input:focus-visible, #pkvded-n:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[aria-invalid="true"] { border-color: var(--warn) !important; outline-color: var(--warn); }
+.unit, .amt .cur { color: var(--muted); font-size: 0.8125rem; min-width: 1.2em; }
+.err { color: var(--warn); font-size: 0.8125rem; }
+.startv { font-family: var(--f-num); font-weight: 500; }
+.ib { all: unset; box-sizing: border-box; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); display: inline-grid; place-items: center; font-size: 0.75rem; font-weight: 600; color: var(--muted); cursor: pointer; flex: none; }
+.ib:hover { border-color: var(--accent); color: var(--accent); }
+.ib[aria-expanded="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.ib:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.info { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: 0.84375rem; line-height: 1.55; }
+
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { min-width: 0; overflow-wrap: anywhere; hyphens: auto; text-align: center; padding: 7px 6px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.seg input:checked + label { background: var(--accent); color: var(--surface); }
+.seg input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.seg label small { display: block; font-size: 0.71875rem; font-weight: 400; opacity: .85; }
+
+.check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-weight: 500; }
+.check input { accent-color: var(--accent); width: 18px; height: 18px; margin: 1px 0 0; flex: none; }
+.check > span { display: grid; gap: 1px; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.check small { color: var(--muted); font-size: 0.78125rem; font-weight: 400; }
+.costs { display: grid; gap: 12px; }
+.cost { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; }
+.cost .err { grid-column: 1 / -1; }
+.amt { display: flex; align-items: center; gap: 4px; }
+.amt input { width: 84px; font-size: 0.875rem; }
+.cost.off .amt { opacity: .45; }
+details.adv > summary { cursor: pointer; font-weight: 600; list-style-position: inside; }
+details.adv[open] { display: grid; gap: 18px; }
+details.adv[open] > summary { margin-bottom: 2px; }
+.formfoot { display: grid; gap: 12px; justify-items: start; padding: 4px 4px 0; }
+.btn { all: unset; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 7px 12px; border-radius: 8px; font-weight: 500; font-size: 0.875rem; }
+.btn:hover { border-color: var(--accent); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- результаты ---------- */
+.results { position: sticky; top: max(12px, env(safe-area-inset-top, 0px)); display: grid; gap: 16px; min-width: 0; scroll-margin-top: 12px; }
+@media (max-width: 900px) { .results { position: static; } }
+.panel { background: var(--surface); border-radius: 12px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.panel h2 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+.lead { margin: 0; color: var(--muted); }
+.lead b { color: var(--ink); }
+.lead small { display: block; font-size: 0.8125rem; }
+.years { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 600px) { .years { grid-template-columns: minmax(0, 1fr); } }
+.year { all: unset; box-sizing: border-box; cursor: pointer; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; min-width: 0; }
+.year:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.year[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.yc { display: grid; gap: 5px; align-content: start; min-width: 0; }
+.yc .yl { font-size: 0.78125rem; color: var(--muted); }
+.yc .yl b { color: var(--ink); font-family: var(--f-num); font-weight: 500; }
+.yc .rl { font-size: 0.78125rem; font-weight: 600; }
+.yc .big { font-family: var(--f-display); font-weight: 700; font-size: 1.5625rem; line-height: 1.15; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.yc .big small { font-family: var(--f-body); font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+.yc .big.neg { color: var(--warn); }
+.yc .sub { font-size: 0.78125rem; color: var(--muted); }
+.chip { justify-self: start; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+.chip.vat { background: var(--warn-soft); color: var(--warn); }
+.chip.mix { background: transparent; color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+.yc .why { font-size: 0.78125rem; color: var(--muted); }
+.fail { color: var(--warn); font-weight: 600; }
+.disc { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink); background: var(--warn-soft); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); border-radius: 12px; padding: 12px 16px; }
+@supports not (color: color-mix(in srgb, red, blue)) { .disc { border-color: var(--line); } }
+.disc b { color: var(--warn); }
+details.how { font-size: 0.8125rem; color: var(--muted); }
+details.how summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details.how ul { margin: 8px 0 0; padding-inline-start: 18px; display: grid; gap: 5px; }
+details.how b { color: var(--ink); }
+
+.kpi { margin: 0; font-size: 0.875rem; }
+.bar { display: flex; height: 34px; border-radius: 8px; overflow: hidden; background: var(--bg); }
+.bar div { min-width: 0; transition: flex-grow .25s; }
+.legend { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px 14px; font-size: 0.875rem; align-items: center; }
+.legend .nm { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.legend .n { font-family: var(--f-num); font-variant-numeric: tabular-nums; text-align: end; white-space: nowrap; }
+.legend .n.neg { color: var(--warn); }
+.legend .pc { color: var(--muted); }
+.legend .tot { font-weight: 600; border-top: 1px solid var(--line); padding-top: 6px; }
+.note { margin: 0; font-size: 0.8125rem; color: var(--muted); }
+.note.bad { color: var(--ink); background: var(--warn-soft); padding: 8px 10px; border-radius: 8px; }
+.note.bad b { color: var(--warn); }
+.chart-wrap { overflow-x: auto; direction: ltr; }
+svg { display: block; width: 100%; height: auto; min-width: 420px; }
+svg text { fill: var(--muted); font-family: var(--f-body); font-size: 0.6875rem; }
+.hint { color: var(--muted); font-size: 0.8125rem; }
+.warns { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.warns li { background: var(--warn-soft); padding: 10px 12px; border-radius: 8px; font-size: 0.875rem; }
+.warns li b { color: var(--warn); }
+.warns li.ok { background: var(--accent-soft); }
+.warns li.ok b { color: var(--accent); }
+
+.mbar { display: none; }
+@media (max-width: 900px) {
+  body { padding-block-end: 96px; }
+  .mbar {
+    display: flex; position: fixed; inset: auto 0 0 0; z-index: 20; gap: 12px; align-items: center; justify-content: space-between;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
+  .mbar[hidden] { display: none; }
+  .mbar .mv { display: grid; min-width: 0; }
+  .mbar .mv b { font-family: var(--f-display); font-size: 1.125rem; }
+  .mbar .mv span { font-size: 0.78125rem; color: var(--muted); }
+  .mbar button { all: unset; cursor: pointer; background: var(--accent); color: var(--surface); padding: 9px 14px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; flex: none; }
+  .mbar button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { .bar div { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="ttl">
+      <h1 data-i18n="title"></h1>
+      <p data-i18n="tagline"></p>
+    </div>
+    <div class="langs" role="group" id="langs">
+      <button type="button" data-lang="ru" lang="ru" title="Русский"><span class="full">Русский</span><span class="short" aria-hidden="true">RU</span></button>
+      <button type="button" data-lang="de" lang="de" title="Deutsch"><span class="full">Deutsch</span><span class="short" aria-hidden="true">DE</span></button>
+      <button type="button" data-lang="en" lang="en" title="English"><span class="full">English</span><span class="short" aria-hidden="true">EN</span></button>
+      <button type="button" data-lang="tr" lang="tr" title="Türkçe"><span class="full">Türkçe</span><span class="short" aria-hidden="true">TR</span></button>
+      <button type="button" data-lang="ar" lang="ar" title="العربية"><span class="full">العربية</span><span class="short" aria-hidden="true">AR</span></button>
+    </div>
+  </header>
+
+  <aside class="disc" role="note"><b data-i18n="disc.title"></b> <span data-i18n="disclaimer"></span></aside>
+
+  <div class="grid">
+    <form id="f" autocomplete="off" novalidate>
+      <fieldset>
+        <legend data-i18n="sec.goal"></legend>
+        <div class="field" data-info="calc">
+          <div class="field-top"><span class="lab"><span id="calc-l" data-i18n="f.calc"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="calc-l">
+            <input type="radio" name="calc" id="calc-n" value="need"><label for="calc-n"><span data-i18n="calc.need"></span><small data-i18n="calc.needSub"></small></label>
+            <input type="radio" name="calc" id="calc-h" value="have"><label for="calc-h"><span data-i18n="calc.have"></span><small data-i18n="calc.haveSub"></small></label>
+          </div>
+        </div>
+        <div class="field" data-info="mode">
+          <div class="field-top"><span class="lab"><span id="mode-l" data-i18n="f.mode"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="mode-l">
+            <input type="radio" name="mode" id="mode-h" value="hours"><label for="mode-h" data-i18n="mode.h"></label>
+            <input type="radio" name="mode" id="mode-g" value="goods"><label for="mode-g" data-i18n="mode.g"></label>
+          </div>
+        </div>
+        <div class="field" data-info="target" id="target-box">
+          <div class="field-top"><span class="lab"><label for="target-n" id="target-l" data-i18n="f.target"></label></span></div>
+          <div class="ctl big"><input type="range" id="target" aria-labelledby="target-l"><span class="numw"><input type="number" id="target-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="target-e" hidden></div>
+        </div>
+        <div class="field" data-info="qty" id="qty-box">
+          <div class="field-top"><span class="lab"><label for="qty-n" id="qty-l"></label></span></div>
+          <div class="ctl big"><input type="range" id="qty" aria-labelledby="qty-l"><span class="numw"><input type="number" id="qty-n" step="any" inputmode="decimal"><span class="unit" data-unit="qty"></span></span></div>
+          <div class="err" id="qty-e" hidden></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.sell"></legend>
+        <div class="field" data-info="price">
+          <div class="field-top"><span class="lab"><label for="price-n" id="price-l"></label></span></div>
+          <div class="ctl"><input type="range" id="price" aria-labelledby="price-l"><span class="numw"><input type="number" id="price-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="price-e" hidden></div>
+        </div>
+        <div class="field" data-info="mat">
+          <div class="field-top"><span class="lab"><label for="mat-n" id="mat-l" data-i18n="f.mat"></label></span></div>
+          <div class="ctl"><input type="range" id="mat" aria-labelledby="mat-l"><span class="numw"><input type="number" id="mat-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="mat-e" hidden></div>
+        </div>
+        <div class="field" data-info="clients">
+          <div class="field-top"><span class="lab"><span id="clients-l" data-i18n="f.clients"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="clients-l">
+            <input type="radio" name="clients" id="cl-c" value="b2c"><label for="cl-c" data-i18n="cl.c"></label>
+            <input type="radio" name="clients" id="cl-b" value="b2b"><label for="cl-b" data-i18n="cl.b"></label>
+          </div>
+        </div>
+        <div class="field" data-info="billable" data-hours>
+          <div class="field-top"><span class="lab"><label for="billable-n" id="billable-l" data-i18n="f.billable"></label></span></div>
+          <div class="ctl"><input type="range" id="billable" aria-labelledby="billable-l"><span class="numw"><input type="number" id="billable-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="billable-e" hidden></div>
+        </div>
+        <div class="field" data-info="off" data-hours>
+          <div class="field-top"><span class="lab"><label for="off-n" id="off-l" data-i18n="f.off"></label></span></div>
+          <div class="ctl"><input type="range" id="off" aria-labelledby="off-l"><span class="numw"><input type="number" id="off-n" step="any" inputmode="decimal"><span class="unit" data-unit="wk"></span></span></div>
+          <div class="err" id="off-e" hidden></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.biz"></legend>
+        <div class="field" data-info="fixed">
+          <div class="field-top"><span class="lab"><label for="fixed-n" id="fixed-l" data-i18n="f.fixed"></label></span></div>
+          <div class="ctl"><input type="range" id="fixed" aria-labelledby="fixed-l"><span class="numw"><input type="number" id="fixed-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="fixed-e" hidden></div>
+        </div>
+        <p class="lead-s" data-i18n="biz.lead"></p>
+        <div class="costs" id="biz"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.priv"></legend>
+        <p class="lead-s" data-i18n="priv.lead"></p>
+        <div class="field" data-info="kv">
+          <div class="field-top"><span class="lab"><span id="kv-l" data-i18n="f.kv"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="kv-l">
+            <input type="radio" name="kv" id="kv-g" value="gkv"><label for="kv-g" data-i18n="kv.g"></label>
+            <input type="radio" name="kv" id="kv-p" value="pkv"><label for="kv-p" data-i18n="kv.p"></label>
+          </div>
+        </div>
+        <div class="costs" id="gkv-box">
+          <label class="check"><input type="checkbox" id="kg"><span><span data-i18n="kg"></span><small data-i18n="kg.n"></small></span></label>
+          <label class="check"><input type="checkbox" id="kids"><span><span data-i18n="kids"></span><small data-i18n="kids.n"></small></span></label>
+        </div>
+        <div class="field" id="pkv-box">
+          <div class="field-top"><span class="lab"><label for="pkv-n" id="pkv-l" data-i18n="f.pkv"></label></span></div>
+          <div class="ctl"><input type="range" id="pkv" aria-labelledby="pkv-l"><span class="numw"><input type="number" id="pkv-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="pkv-e" hidden></div>
+        </div>
+        <div class="field" data-info="pens">
+          <div class="field-top"><span class="lab"><label for="pens-n" id="pens-l" data-i18n="f.pens"></label></span></div>
+          <div class="ctl"><input type="range" id="pens" aria-labelledby="pens-l"><span class="numw"><input type="number" id="pens-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+          <div class="err" id="pens-e" hidden></div>
+        </div>
+        <p class="lead-s" data-i18n="priv.list"></p>
+        <div class="costs" id="priv"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="sec.tax"></legend>
+        <div class="field" data-info="start">
+          <div class="field-top"><span class="lab"><label for="start" id="start-l" data-i18n="f.start"></label></span><span class="startv" id="start-v"></span></div>
+          <input type="range" id="start" min="0" max="23" step="1">
+        </div>
+        <div class="field" data-info="ku">
+          <div class="field-top"><span class="lab"><label class="check"><input type="checkbox" id="ku"><span><span id="ku-l" data-i18n="ku"></span><small data-i18n="ku.n"></small></span></label></span></div>
+        </div>
+        <div class="field" data-info="kind">
+          <div class="field-top"><span class="lab"><span id="kind-l" data-i18n="f.kind"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="kind-l">
+            <input type="radio" name="kind" id="k-f" value="frei"><label for="k-f" data-i18n="kind.f"></label>
+            <input type="radio" name="kind" id="k-g" value="gew"><label for="k-g" data-i18n="kind.g"></label>
+          </div>
+        </div>
+        <div class="field" id="gew-box" data-info="heb">
+          <div class="field-top"><span class="lab"><label for="heb-n" id="heb-l" data-i18n="f.heb"></label></span></div>
+          <div class="ctl"><input type="range" id="heb" aria-labelledby="heb-l"><span class="numw"><input type="number" id="heb-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+          <div class="err" id="heb-e" hidden></div>
+        </div>
+        <div class="field" data-info="church">
+          <div class="field-top"><span class="lab"><span id="church-l" data-i18n="f.church"></span></span></div>
+          <div class="seg" role="radiogroup" aria-labelledby="church-l">
+            <input type="radio" name="church" id="ch-0" value="0"><label for="ch-0" data-i18n="church.no"></label>
+            <input type="radio" name="church" id="ch-8" value="8"><label for="ch-8">8 %</label>
+            <input type="radio" name="church" id="ch-9" value="9"><label for="ch-9">9 %</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <details class="adv" id="adv">
+          <summary data-i18n="adv"></summary>
+          <p class="lead-s" data-i18n="adv.lead"></p>
+          <div class="field" data-info="invoice" data-hours>
+            <div class="field-top"><span class="lab"><label for="invoice-n" id="invoice-l" data-i18n="f.invoice"></label></span></div>
+            <div class="ctl"><input type="range" id="invoice" aria-labelledby="invoice-l"><span class="numw"><input type="number" id="invoice-n" step="any" inputmode="decimal"><span class="unit" data-unit="eur"></span></span></div>
+            <div class="err" id="invoice-e" hidden></div>
+          </div>
+          <div class="field" data-info="pensType">
+            <div class="field-top"><span class="lab"><span id="pt-l" data-i18n="f.pensType"></span></span></div>
+            <div class="seg" role="radiogroup" aria-labelledby="pt-l">
+              <input type="radio" name="pensType" id="pt-s" value="save"><label for="pt-s" data-i18n="pt.save"></label>
+              <input type="radio" name="pensType" id="pt-d" value="drv"><label for="pt-d" data-i18n="pt.drv"></label>
+            </div>
+          </div>
+          <div class="field" data-info="pkvDed" id="pkvded-box">
+            <div class="field-top"><span class="lab"><label for="pkvded-n" id="pkvded-l" data-i18n="f.pkvDed"></label></span><span class="numw"><input type="number" id="pkvded-n" step="any" inputmode="decimal" min="0"><span class="unit" data-unit="eur"></span></span></div>
+            <div class="err" id="pkvded-e" hidden></div>
+          </div>
+          <div class="field" data-info="zus" id="zus-box">
+            <div class="field-top"><span class="lab"><label for="zus-n" id="zus-l" data-i18n="f.zus"></label></span></div>
+            <div class="ctl"><input type="range" id="zus" aria-labelledby="zus-l"><span class="numw"><input type="number" id="zus-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+            <div class="err" id="zus-e" hidden></div>
+          </div>
+          <div class="field" data-info="vatshare">
+            <div class="field-top"><span class="lab"><label for="vatshare-n" id="vatshare-l" data-i18n="f.vatshare"></label></span></div>
+            <div class="ctl"><input type="range" id="vatshare" aria-labelledby="vatshare-l"><span class="numw"><input type="number" id="vatshare-n" step="any" inputmode="decimal"><span class="unit" data-unit="pct"></span></span></div>
+            <div class="err" id="vatshare-e" hidden></div>
+          </div>
+        </details>
+      </fieldset>
+
+      <div class="formfoot">
+        <label class="check"><input type="checkbox" id="remember"><span><span data-i18n="remember"></span><small data-i18n="saveNote"></small></span></label>
+        <button type="button" class="btn" id="reset" data-i18n="reset"></button>
+      </div>
+    </form>
+
+    <section class="results" id="results">
+      <div class="panel">
+        <p class="lead" id="lead"></p>
+        <div class="years" id="years"></div>
+        <details class="how" id="how-d">
+          <summary data-i18n="how.title"></summary>
+          <ul id="how"></ul>
+        </details>
+      </div>
+      <div class="panel">
+        <h2 id="wf-title"></h2>
+        <p class="kpi" id="kpi"></p>
+        <div class="bar" id="bar" aria-hidden="true"></div>
+        <div class="legend" id="legend"></div>
+        <p class="note" id="vat-note" hidden></p>
+        <p class="note bad" id="short-note" hidden></p>
+      </div>
+      <div class="panel">
+        <h2 id="ch-title"></h2>
+        <div class="chart-wrap"><svg id="chart" viewBox="0 0 640 250" role="img"></svg></div>
+        <span class="hint" id="ch-hint"></span>
+      </div>
+      <div class="panel">
+        <h2 data-i18n="w.title"></h2>
+        <ul class="warns" id="warns"></ul>
+      </div>
+    </section>
+  </div>
+</div>
+
+<p class="sr-only" aria-live="polite" id="live"></p>
+
+<div class="mbar" id="mbar">
+  <div class="mv"><b id="mbar-v"></b><span id="mbar-s"></span></div>
+  <button type="button" id="mbar-b" data-i18n="mbar"></button>
+</div>
+
+<script id="engine">
+/*__ENGINE__*/
+</script>
+<script>
+(() => {
+  'use strict';
+  const E = NettoEngine, LAW = E.LAW;
+  const $ = id => document.getElementById(id);
+  const I18N = /*__I18N__*/;
+  const LOCALE = { ru: 'ru-RU', de: 'de-DE', en: 'en-GB', tr: 'tr-TR', ar: 'ar-u-nu-latn' };
+
+  const NOW = new Date();
+  const CUR_ABS = NOW.getFullYear() * 12 + NOW.getMonth();   // месяцы с нулевого года
+  const R0 = E.ratesFor(NOW.getFullYear()).R;
+
+  // ---------- Шкалы и поля ----------
+  function scale(segs) {
+    const a = [];
+    for (const [from, to, st] of segs) for (let v = from; v <= to + 1e-9; v += st) { const r = Math.round(v * 100) / 100; if (!a.length || r > a[a.length - 1]) a.push(r); }
+    return a;
+  }
+  const lin = (a, b, s) => scale([[a, b, s]]);
+  // sc — шкала бегунка; min/max — допустимый точный ввод
+  const F = {
+    target:   { sc: scale([[500, 10000, 100], [10500, 30000, 500]]), def: 2500, unit: 'eur', min: 0, max: 200000 },
+    price_h:  { sc: lin(20, 300, 1), def: 70, unit: 'eur', min: 1, max: 5000 },
+    price_g:  { sc: scale([[5, 100, 5], [110, 1000, 10], [1050, 10000, 50]]), def: 60, unit: 'eur', min: 0.5, max: 1000000 },
+    qty_h:    { sc: lin(0, 250, 1), def: 100, unit: 'qty', min: 0, max: 744 },
+    qty_g:    { sc: scale([[0, 100, 1], [105, 1000, 5], [1010, 5000, 10]]), def: 80, unit: 'qty', min: 0, max: 1000000 },
+    mat_h:    { sc: lin(0, 80, 1), def: 0, unit: 'pct', min: 0, max: 99 },
+    mat_g:    { sc: lin(0, 80, 1), def: 35, unit: 'pct', min: 0, max: 99 },
+    billable: { sc: lin(40, 100, 5), def: 65, unit: 'pct', min: 5, max: 100 },
+    off:      { sc: lin(2, 14, 1), def: 8, unit: 'wk', min: 0, max: 40 },
+    fixed:    { sc: lin(0, 5000, 50), def: 300, unit: 'eur', min: 0, max: 1000000 },
+    pkv:      { sc: lin(250, 1200, 10), def: 550, unit: 'eur', min: 0, max: 10000 },
+    pens:     { sc: lin(0, 1500, 50), def: 200, unit: 'eur', min: 0, max: 50000 },
+    heb:      { sc: lin(200, 600, 5), def: 400, unit: 'pct', min: 200, max: 1000 },
+    zus:      { sc: lin(0, 5, 0.1), def: R0.zus, unit: 'pct', min: 0, max: 10 },
+    vatshare: { sc: lin(0, 100, 10), def: 70, unit: 'pct', min: 0, max: 100 },
+    invoice:  { sc: scale([[100, 1000, 50], [1100, 10000, 100], [11000, 50000, 1000]]), def: 1000, unit: 'eur', min: 1, max: 10000000 }
+  };
+  // бегунок → ключ значения (у цены, объёма и себестоимости — свои значения для часов и товаров)
+  const SL = {
+    target: () => 'target', qty: () => 'qty' + sfx(), price: () => 'price' + sfx(), mat: () => 'mat' + sfx(),
+    billable: () => 'billable', off: () => 'off', fixed: () => 'fixed', pkv: () => 'pkv', pens: () => 'pens',
+    heb: () => 'heb', zus: () => 'zus', vatshare: () => 'vatshare', invoice: () => 'invoice'
+  };
+  const sfx = () => ST.mode === 'hours' ? '_h' : '_g';
+  const idxOf = (arr, v) => { let bi = 0; for (let i = 1; i < arr.length; i++) if (Math.abs(arr[i] - v) < Math.abs(arr[bi] - v)) bi = i; return bi; };
+
+  const BIZ = [
+    { k: 'stb', v: 150, on: true, vat: true },
+    { k: 'hp', v: 15, on: true, vat: false },
+    { k: 'sw', v: 25, on: true, vat: true },
+    { k: 'bg', v: 15, on: false, vat: false },
+    { k: 'ihk', v: 10, on: false, vat: false, gew: true }
+  ];
+  const PRIV = [
+    { k: 'rf', v: 18.36, on: true },
+    { k: 'ph', v: 6, on: true },
+    { k: 'bu', v: 90, on: false },
+    { k: 'hr', v: 10, on: false },
+    { k: 'ot', v: 0, on: false }
+  ];
+
+  function defaults() {
+    const V = {};
+    for (const k in F) V[k] = F[k].def;
+    const costs = {};
+    for (const c of BIZ.concat(PRIV)) costs[c.k] = { on: c.on, v: c.v };
+    return { V, costs, calc: 'need', mode: 'hours', clients: 'b2c', kv: 'gkv', kind: 'frei', church: 0, pensType: 'save',
+             kg: true, kids: false, ku: true, start: 0, pkvDed: null };
+  }
+
+  // ---------- Сохранение: только если посетитель сам включил «Запомнить мои настройки» ----------
+  const KEY = 'netto-rechner-v2';
+  let ST = defaults(), lang = '', remember = false;
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved && saved.v === 2 && saved.st) {
+      const d = defaults();
+      ST = Object.assign(d, saved.st, { V: Object.assign(d.V, saved.st.V), costs: Object.assign(d.costs, saved.st.costs) });
+      // старт хранится как абсолютный месяц; прошедшие месяцы сдвигаем к текущему
+      ST.start = Math.min(23, Math.max(0, (saved.st.startAbs ?? CUR_ABS) - CUR_ABS));
+      lang = saved.lang || '';
+      remember = true;
+    }
+  } catch (e) { ST = defaults(); }
+  if (!I18N[lang]) lang = 'de';   // без сохранённого выбора — немецкий
+  let saveTimer = null;
+  function save() {
+    if (!remember) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify({ v: 2, lang, st: Object.assign({}, ST, { startAbs: CUR_ABS + ST.start }) })); } catch (e) { /* без сохранения */ }
+    }, 250);
+  }
+
+  // ---------- Тексты и форматы ----------
+  const t = (k, v = {}) => (I18N[lang][k] ?? I18N.ru[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => v[n] ?? '');
+  let fmtE, fmtN = {};
+  function setFormatters() { fmtE = new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }); fmtN = {}; }
+  const eur = n => fmtE.format(Math.round(n) || 0);
+  const num = (n, d = 0) => (fmtN[d] ||= new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: d, minimumFractionDigits: d })).format(n);
+  const pct = n => num(n, Math.abs(n % 1) > 1e-9 ? 1 : 0) + ' %';
+  const monthName = (y, m, withYear) => new Intl.DateTimeFormat(LOCALE[lang], withYear ? { month: 'long', year: 'numeric' } : { month: 'long' }).format(new Date(y, m - 1, 1));
+  const unitText = u => u === 'eur' ? '€' : u === 'pct' ? '%' : u === 'wk' ? t('unit.wk') : t(ST.mode === 'hours' ? 'unit.h' : 'unit.g');
+  const valText = (k, v) => { const u = F[k].unit; return u === 'eur' ? eur(v) : u === 'pct' ? pct(v) : num(v, v % 1 ? 1 : 0) + ' ' + unitText(u); };
+  const qtyText = n => num(n) + ' ' + unitText('qty');
+
+  // ---------- Списки расходов ----------
+  function costRows(list, prefix, box) {
+    $(box).innerHTML = list.map(c => `
+      <div class="cost" id="row-${c.k}">
+        <label class="check"><input type="checkbox" id="x-${c.k}"><span><span id="lbl-${c.k}" data-i18n="${prefix}.${c.k}"></span><small data-i18n="${prefix}.${c.k}.n"></small></span></label>
+        <span class="amt"><input type="number" id="v-${c.k}" min="0" step="any" inputmode="decimal" aria-describedby="e-${c.k}"><span class="cur">€</span></span>
+        <div class="err" id="e-${c.k}" hidden></div>
+      </div>`).join('');
+  }
+  costRows(BIZ, 'c', 'biz');
+  costRows(PRIV, 'p', 'priv');
+
+  // Кнопки «?» и блоки пояснений
+  document.querySelectorAll('[data-info]').forEach(f => {
+    const key = f.dataset.info;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'ib'; btn.textContent = '?';
+    btn.setAttribute('aria-expanded', 'false');
+    const box = document.createElement('div');
+    box.className = 'info'; box.hidden = true; box.id = 'info-' + key; box.dataset.infoKey = key;
+    btn.setAttribute('aria-controls', box.id);
+    btn.addEventListener('click', () => { box.hidden = !box.hidden; btn.setAttribute('aria-expanded', String(!box.hidden)); });
+    f.querySelector('.lab').appendChild(btn);
+    f.querySelector('.field-top').after(box);
+  });
+
+  // Карточки лет создаются один раз — фокус на них не теряется при пересчёте
+  let selYear = 0;
+  $('years').innerHTML = [0, 1, 2].map(i => `<button type="button" class="year" data-i="${i}" aria-pressed="${i === 0}"><span class="yc"></span></button>`).join('');
+  document.querySelectorAll('.year').forEach(b => b.addEventListener('click', () => { selYear = +b.dataset.i; render(); }));
+
+  // ---------- Форма ⇄ состояние ----------
+  function syncSlider(id) {
+    const k = SL[id](), f = F[k], s = $(id), n = $(id + '-n');
+    s.min = 0; s.max = f.sc.length - 1; s.step = 1;
+    s.value = idxOf(f.sc, ST.V[k]);
+    s.setAttribute('aria-valuetext', valText(k, ST.V[k]));
+    if (document.activeElement !== n) n.value = ST.V[k];
+    n.min = f.min; n.max = f.max;
+  }
+  function setErr(id, msg) {
+    const e = $(id + '-e'), n = $(id + '-n') || $('v-' + id);
+    if (e) { e.hidden = !msg; e.textContent = msg || ''; }
+    if (n) { if (msg) { n.setAttribute('aria-invalid', 'true'); n.setAttribute('aria-describedby', e.id); } else n.removeAttribute('aria-invalid'); }
+  }
+  function syncForm() {
+    for (const name of ['calc', 'mode', 'clients', 'kv', 'kind', 'church', 'pensType']) {
+      const el = document.querySelector(`input[name=${name}][value="${ST[name]}"]`);
+      if (el) el.checked = true;
+    }
+    for (const id of ['kg', 'kids', 'ku']) $(id).checked = !!ST[id];
+    for (const c of BIZ.concat(PRIV)) { $('x-' + c.k).checked = ST.costs[c.k].on; $('v-' + c.k).value = ST.costs[c.k].v; setErr(c.k, ''); }
+    for (const id in SL) { syncSlider(id); setErr(id, ''); }
+    $('start').value = ST.start;
+    $('pkvded-n').value = ST.pkvDed ?? '';
+    setErr('pkvded', '');
+  }
+  const validNum = (n, f) => n.value !== '' && !n.validity.badInput && Number.isFinite(n.valueAsNumber) && n.valueAsNumber >= f.min && n.valueAsNumber <= f.max;
+  const rangeMsg = f => t('err.range', { min: num(f.min, f.min % 1 ? 1 : 0), max: num(f.max) });
+
+  for (const id in SL) {
+    const s = $(id), n = $(id + '-n');
+    s.addEventListener('input', () => {
+      const k = SL[id]();
+      ST.V[k] = F[k].sc[+s.value];
+      n.value = ST.V[k];
+      s.setAttribute('aria-valuetext', valText(k, ST.V[k]));
+      setErr(id, '');
+      changed();
+    });
+    n.addEventListener('input', () => {
+      const k = SL[id](), f = F[k];
+      if (validNum(n, f)) { ST.V[k] = n.valueAsNumber; s.value = idxOf(f.sc, ST.V[k]); s.setAttribute('aria-valuetext', valText(k, ST.V[k])); setErr(id, ''); changed(); }
+    });
+    n.addEventListener('change', () => {
+      const k = SL[id](), f = F[k];
+      setErr(id, validNum(n, f) ? '' : rangeMsg(f));   // неверное число не превращается в ноль: остаётся прежнее значение
+    });
+  }
+  for (const c of BIZ.concat(PRIV)) {
+    const x = $('x-' + c.k), n = $('v-' + c.k), f = { min: 0, max: 1000000 };
+    x.addEventListener('change', () => { ST.costs[c.k].on = x.checked; changed(); });
+    n.addEventListener('input', () => { if (validNum(n, f)) { ST.costs[c.k].v = n.valueAsNumber; ST.costs[c.k].on = x.checked = true; setErr(c.k, ''); changed(); } });
+    n.addEventListener('change', () => setErr(c.k, validNum(n, f) ? '' : rangeMsg(f)));
+  }
+  $('pkvded-n').addEventListener('input', () => {
+    const n = $('pkvded-n');
+    if (n.value === '' && !n.validity.badInput) { ST.pkvDed = null; setErr('pkvded', ''); changed(); }
+    else if (validNum(n, { min: 0, max: 10000 })) { ST.pkvDed = n.valueAsNumber; setErr('pkvded', ''); changed(); }
+  });
+  $('pkvded-n').addEventListener('change', () => {
+    const n = $('pkvded-n');
+    setErr('pkvded', (n.value === '' && !n.validity.badInput) || validNum(n, { min: 0, max: 10000 }) ? '' : rangeMsg({ min: 0, max: 10000 }));
+  });
+  $('start').addEventListener('input', () => { ST.start = +$('start').value; changed(); });
+  for (const id of ['kg', 'kids', 'ku']) $(id).addEventListener('change', () => { ST[id] = $(id).checked; changed(); });
+  $('f').addEventListener('change', e => {
+    const el = e.target;
+    if (el.type !== 'radio') return;
+    ST[el.name] = el.name === 'church' ? +el.value : el.value;
+    if (el.name === 'mode') { for (const id of ['price', 'qty', 'mat']) { syncSlider(id); setErr(id, ''); } }
+    changed();
+  });
+  $('f').addEventListener('submit', e => e.preventDefault());
+
+  function changed() { save(); render(); }
+
+  // ---------- Параметры для ядра ----------
+  function params() {
+    const s = sfx(), V = ST.V;
+    const on = c => ST.costs[c.k].on && (!c.gew || ST.kind === 'gew') ? ST.costs[c.k].v : 0;
+    const startAbs = CUR_ABS + ST.start;
+    return {
+      calc: ST.calc, mode: ST.mode, price: V['price' + s], qty: V['qty' + s], target: V.target, mat: V['mat' + s] / 100,
+      clients: ST.clients, fixed: V.fixed,
+      bizVat: BIZ.filter(c => c.vat).reduce((a, c) => a + on(c), 0),
+      bizNo: BIZ.filter(c => !c.vat).reduce((a, c) => a + on(c), 0),
+      priv: PRIV.reduce((a, c) => a + on(c), 0),
+      vatShare: V.vatshare / 100, invoice: V.invoice,
+      kv: ST.kv, pkv: V.pkv, pkvDed: ST.pkvDed, kg: ST.kg, kids: ST.kids, zus: V.zus,
+      pens: V.pens, pensType: ST.pensType, ku: ST.ku, kind: ST.kind, heb: V.heb, church: ST.church,
+      startY: Math.floor(startAbs / 12), startM: startAbs % 12 + 1
+    };
+  }
+  const hoursWeek = q => q * 12 / Math.max(1, 52 - ST.V.off) / Math.max(0.05, ST.V.billable / 100);
+
+  // ---------- Статические тексты (только при смене языка) ----------
+  function applyStatic() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = t('title');
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+    $('langs').setAttribute('aria-label', t('langs'));
+    document.querySelectorAll('#langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    $('chart').setAttribute('aria-label', t('ch.aria'));
+    $('pkvded-n').placeholder = t('pkvDed.ph');
+    document.querySelectorAll('.amt input').forEach(n => n.setAttribute('aria-label', $('lbl-' + n.id.slice(2)).textContent + ', ' + t('amt')));
+  }
+
+  // ---------- Пересчёт ----------
+  let P, PL;
+  function render() {
+    P = params();
+    PL = E.plan(P);
+    const have = ST.calc === 'have';
+
+    // форма: видимость, подписи, единицы, пояснения
+    document.querySelectorAll('[data-hours]').forEach(el => { el.hidden = ST.mode !== 'hours'; });
+    $('target-box').hidden = have;
+    $('qty-box').hidden = !have;
+    $('gkv-box').hidden = ST.kv !== 'gkv';
+    $('zus-box').hidden = ST.kv !== 'gkv';
+    $('pkv-box').hidden = ST.kv !== 'pkv';
+    $('pkvded-box').hidden = ST.kv !== 'pkv';
+    $('gew-box').hidden = ST.kind !== 'gew';
+    $('row-ihk').hidden = ST.kind !== 'gew';
+    BIZ.concat(PRIV).forEach(c => $('row-' + c.k).classList.toggle('off', !ST.costs[c.k].on));
+    $('price-l').textContent = t(ST.mode === 'hours' ? 'f.priceH' : 'f.priceG');
+    $('qty-l').textContent = t(ST.mode === 'hours' ? 'f.qH' : 'f.qG');
+    document.querySelectorAll('[data-unit]').forEach(el => { el.textContent = unitText(el.dataset.unit); });
+    $('start-v').textContent = monthName(P.startY, P.startM, true);
+    $('start').setAttribute('aria-valuetext', monthName(P.startY, P.startM, true));
+    for (const id in SL) $(id).setAttribute('aria-valuetext', valText(SL[id](), ST.V[SL[id]()]));
+    const vars = { cap: eur(R0.pensCap), min: eur(R0.kvMin), max: eur(R0.kvMax), z: num(R0.zus, 1) };
+    document.querySelectorAll('[data-info-key]').forEach(el => {
+      let k = el.dataset.infoKey;
+      if (k === 'price') k = ST.mode === 'goods' ? 'priceG' : 'priceH';
+      el.innerHTML = t('info.' + k, vars);
+    });
+    document.querySelectorAll('[data-info]').forEach(f => {
+      const lbl = f.querySelector('.lab label, .lab > span');
+      const text = (f.querySelector('#ku-l') || lbl).textContent.trim();
+      f.querySelector('.ib').setAttribute('aria-label', t('infoBtn', { f: text }));
+    });
+
+    // вводная строка
+    $('lead').innerHTML = (have ? t('r.leadHave', { q: qtyText(P.qty) }) : t('r.lead', { t: eur(P.target) }))
+      + (P.priv > 0 ? `<small>${t('r.leadNote', { p: eur(P.priv) })}</small>` : '');
+
+    // карточки лет
+    document.querySelectorAll('.year').forEach((b, i) => {
+      b.setAttribute('aria-pressed', String(i === selYear));
+      b.querySelector('.yc').innerHTML = cardHTML(PL[i], i);
+    });
+
+    renderMoney();
+    renderChart();
+    renderWarns();
+    renderHow();
+    renderMbar();
+    announce();
+  }
+
+  function spanText(ctx) {
+    if (ctx.months === 12) return t('r.full');
+    if (ctx.months === 1) return t('r.span1', { a: monthName(ctx.year, 12) });
+    return t('r.span', { a: monthName(ctx.year, ctx.startCal), b: monthName(ctx.year, 12), m: ctx.months });
+  }
+
+  function regime(ctx, r) {
+    if (!P.ku) return [t('chip.vat'), 'vat', t('why.noku')];
+    if (!ctx.ku) return [t('chip.vat'), 'vat', t('why.prevNo', { y: ctx.prevYear, v: eur(ctx.prevRev), lim: eur(LAW.kuPrev) })];
+    if (r.kuAll) return ['Kleinunternehmer', '', ctx.first
+      ? t('why.y1ok', { v: eur(r.rev), lim: eur(LAW.kuFirst) })
+      : t('why.okN', { l1: eur(LAW.kuPrev), l2: eur(LAW.kuCur) })];
+    return [t('chip.mix'), 'mix', t('why.mix', { lim: eur(ctx.limit), mon: monthName(ctx.year, r.switchCal, true) })];
+  }
+
+  function cardHTML(p, i) {
+    const ctx = p.ctx, have = ST.calc === 'have';
+    const head = `<span class="yl"><b>${ctx.year}</b> · ${spanText(ctx)}</span>`;
+    if (p.status !== 'ok') {
+      const lim = p.status === 'limit';
+      return `${head}<span class="rl">${t('res.need')}</span><span class="big neg">${lim ? t('r.limit', { n: qtyText(Math.floor(p.qMax)) }) : t('r.loss')}</span>
+        <span class="why">${t(lim ? 'r.limitWhy' : 'r.lossWhy')}</span>`;
+    }
+    const r = p.res;
+    const [chip, cls, why] = regime(ctx, r);
+    const work = ST.mode === 'hours' ? t('r.hw', { n: num(hoursWeek(r.q)) }) : t('r.gw', { n: num(r.q * 12 / 52, 1) });
+    const big = have
+      ? `<span class="rl">${t('res.have')}</span><span class="big${r.lifeM < 0 ? ' neg' : ''}">${eur(r.lifeM)} <small>${t('r.perMonth')}</small></span>`
+      : `<span class="rl">${t('res.need')}</span><span class="big">${num(r.q)} <small>${t(ST.mode === 'hours' ? 'r.unitH' : 'r.unitG')}</small></span>`;
+    return `${head}${big}
+      <span class="sub">${t('res.avg')} · ${work}<br>${t('r.rev', { v: eur(r.rev / r.m) })} · ${t('r.profit', { v: eur(r.G / r.m) })}</span>
+      <span class="chip ${cls}">${chip}</span>
+      <span class="why">${why}</span>`;
+  }
+
+  function renderMoney() {
+    const { ctx, res: r } = PL[selYear];
+    $('wf-title').textContent = t('wf.title', { y: ctx.year, span: spanText(ctx) });
+    $('vat-note').hidden = true; $('short-note').hidden = true;
+    if (!r) { $('kpi').textContent = ''; $('bar').innerHTML = ''; $('legend').innerHTML = `<span class="hint">${t('noSol')}</span>`; return; }
+    const m = r.m;
+    $('kpi').innerHTML = t('wf.profit', { v: eur(r.G / m) });
+    const rows = [
+      ['s.costNet', r.costNet, '--c-cost'],
+      ['s.vatOut', r.vatOut, '--c-vat'],
+      ['s.kv', r.kv, '--c-kv'],
+      ['s.pens', r.pens, '--c-pens'],
+      ['s.priv', r.priv, '--c-priv'],
+      [P.church ? 's.taxK' : 's.tax', r.tax, '--c-tax'],
+      ['s.gew', r.gew, '--c-gew'],
+      ['s.net', r.life, '--c-net']
+    ].filter(x => Math.abs(x[1]) > 0.5 || x[0] === 's.net');
+    const total = r.clientPaid;
+    $('bar').innerHTML = rows.filter(x => x[1] > 0.5).map(([k, v, c]) => `<div title="${t(k)}" style="flex-grow:${v};background:var(${c})"></div>`).join('');
+    const pc = v => total > 0.5 ? num(Math.round(v / total * 100)) + ' %' : '—';
+    $('legend').innerHTML = rows.map(([k, v, c]) =>
+      `<span class="nm"><span class="sw" style="background:var(${c})"></span>${t(k)}</span><span class="n${v < 0 ? ' neg' : ''}">${eur(v / m)}</span><span class="n pc">${pc(v)}</span>`
+    ).join('') + `<span class="nm tot">${t('s.total')}</span><span class="n tot">${eur(total / m)}</span><span class="n pc tot">${total > 0.5 ? '100 %' : '—'}</span>`;
+    if (r.vatIn > 0.5) { $('vat-note').hidden = false; $('vat-note').textContent = t('vatIn', { v: eur(r.vatIn / m) }); }
+    if (r.life < -0.5) { $('short-note').hidden = false; $('short-note').innerHTML = t('short', { v: eur(-r.life / m) }); }
+  }
+
+  function renderChart() {
+    const { ctx, res: r } = PL[selYear];
+    $('ch-title').textContent = t('ch.title', { y: ctx.year });
+    const W = 640, H = 250, L = 64, Rm = 14, T = 14, B = 34;
+    const p = P.price, b2c = P.clients === 'b2c';
+    const marks = [];
+    if (ctx.ku) marks.push([ctx.limit / (ctx.months * p), t('ch.lim', { v: eur(ctx.limit) })]);
+    if (P.ku && !(ctx.ku && ctx.limit === LAW.kuPrev)) {
+      const pn = ctx.ku ? p : (b2c ? p / (1 + LAW.vat) : p);
+      marks.push([LAW.kuPrev / (ctx.months * pn), t('ch.next')]);
+    }
+    let qEnd = Math.max(r ? r.q * 1.7 : 0, 10);
+    marks.forEach(([q]) => { if (q < qEnd * 1.6) qEnd = Math.max(qEnd, q * 1.15); });
+    const N = 160, pts = [];
+    for (let i = 0; i <= N; i++) { const q = qEnd * i / N; pts.push([q, E.yearCalc(P, q, ctx).lifeM]); }
+    const showGoal = ST.calc === 'need';
+    let yMin = Math.min(0, ...pts.map(d => d[1])), yMax = Math.max(showGoal ? P.target : 0, ...pts.map(d => d[1]), 1) * 1.08;
+    const step = niceStep((yMax - yMin) / 4);
+    yMin = Math.floor(yMin / step) * step; yMax = Math.ceil(yMax / step) * step;
+    const X = q => L + (q / qEnd) * (W - L - Rm);
+    const Y = v => T + (1 - (v - yMin) / (yMax - yMin)) * (H - T - B);
+    let s = '';
+    for (let v = yMin; v <= yMax + 1e-6; v += step) {
+      s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+      s += `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${eur(v)}</text>`;
+    }
+    if (yMin < 0) s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--muted)" stroke-width="1"/>`;
+    const xs = niceStep(qEnd / 5);
+    for (let q = 0; q <= qEnd + 1e-6; q += xs) s += `<text x="${X(q)}" y="${H - B + 16}" text-anchor="middle">${num(q)}</text>`;
+    s += `<text x="${W - Rm}" y="${H - 4}" text-anchor="end">${t(ST.mode === 'hours' ? 'ch.axisH' : 'ch.axisG')}</text>`;
+    marks.filter(([q]) => q <= qEnd).forEach(([q, lbl], i) => {
+      const right = X(q) > W * 0.62;
+      s += `<line x1="${X(q)}" x2="${X(q)}" y1="${T}" y2="${H - B}" stroke="var(--warn)" stroke-dasharray="3 3"/>`;
+      s += `<text x="${X(q) + (right ? -4 : 4)}" y="${T + 10 + i * 14}" text-anchor="${right ? 'end' : 'start'}" style="fill:var(--warn)">${lbl}</text>`;
+    });
+    if (showGoal) {
+      s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(P.target)}" y2="${Y(P.target)}" stroke="var(--accent)" stroke-dasharray="6 4" stroke-width="1.5"/>`;
+      s += `<text x="${L + 6}" y="${Y(P.target) - 6}" style="fill:var(--accent)">${t('ch.goal', { v: eur(P.target) })}</text>`;
+    }
+    s += `<path d="${pts.map(([q, v], i) => `${i ? 'L' : 'M'}${X(q).toFixed(1)},${Y(v).toFixed(1)}`).join('')}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+    if (r && r.q <= qEnd) s += `<circle cx="${X(r.q)}" cy="${Y(r.lifeM)}" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`;
+    $('chart').innerHTML = s;
+    $('ch-hint').textContent = t(P.ku && b2c && marks.some(([q]) => q <= qEnd) ? 'ch.hintB2C' : 'ch.hint');
+  }
+  function niceStep(raw) {
+    const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1e-9))));
+    const n = raw / p;
+    return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p;
+  }
+
+  function renderWarns() {
+    const w = [];
+    const { ctx, res: r } = PL[selYear];
+    const [p1, p2] = PL;
+    const est = PL.filter(p => !p.ctx.exact);
+    if (est.length) w.push(['', t('w.rates', { ys: est.map(p => p.ctx.year).join(', '), b: est[0].ctx.rBase })]);
+    if (p1.ctx.months < 12) w.push(['', t('w.prior', { y: p1.ctx.year })]);
+    if (ST.mode === 'hours') {
+      const hw = Math.max(0, ...PL.filter(p => p.res).map(p => hoursWeek(p.res.q)));
+      if (hw > 45) w.push(['', t('w.hours', { n: num(Math.floor(hw)) })]);
+    }
+    if (r) {
+      const tx = r.tax + r.gew;
+      if (tx > 50) w.push(['', t('w.reserve', { y: ctx.year, m: eur(tx / r.m), t: eur(tx) })]);
+    }
+    if (p1.res && P.ku && p1.res.kuAll && p1.res.rev > 20000 && p1.res.rev <= LAW.kuFirst)
+      w.push(['', t('w.near', { y: p1.ctx.year, v: eur(p1.res.rev) })]);
+    if (P.ku && P.clients === 'b2c' && PL.some(p => p.res && !p.res.kuAll))
+      w.push(['', t('w.b2c', { n: eur(P.price / (1 + LAW.vat)), p: eur(P.price), g: eur(P.price * (1 + LAW.vat)) })]);
+    if (P.ku && P.clients === 'b2b') w.push(['ok', t('w.b2b')]);
+    if (P.pens === 0) w.push(['', t('w.pens0')]);
+    if (P.kv === 'gkv') {
+      if (PL.some(p => p.res && p.res.G / p.res.m < p.ctx.R.kvMin)) {
+        const R = p1.ctx.R;
+        w.push(['', t('w.kvmin', { b: eur(R.kvMin), v: eur(R.kvMin * ((P.kg ? 14.6 : 14) + P.zus + R.pv + (P.kids ? 0 : R.pvChildless)) / 100) })]);
+      }
+      w.push(['ok', t('w.kvlater')]);
+    }
+    $('warns').innerHTML = w.map(([c, x]) => `<li class="${c}">${x}</li>`).join('');
+  }
+
+  function renderHow() {
+    const { ctx } = PL[selYear], R = ctx.R, it = [];
+    it.push(t('how.prior', { y: ctx.year }));
+    it.push(t('how.single'));
+    it.push(t('how.even'));
+    if (P.kv === 'gkv') it.push(t('how.kvG', { kv: num(P.kg ? 14.6 : 14, 1), z: num(P.zus, 1), pv: num(R.pv + (P.kids ? 0 : R.pvChildless), 1), min: eur(R.kvMin), max: eur(R.kvMax) }));
+    else it.push(t('how.kvP', { v: eur(P.pkv), d: eur(P.pkvDed == null ? P.pkv : Math.min(P.pkvDed, P.pkv)) }));
+    if (P.pens > 0) it.push(P.pensType === 'drv' ? t('how.pensDrv', { v: eur(P.pens), cap: eur(R.pensCap) }) : t('how.pensSave', { v: eur(P.pens) }));
+    it.push(t('how.vat', { s: num(ST.V.vatshare) }));
+    it.push(P.ku ? t('how.ku', { t: ST.mode === 'hours' ? t('how.kuT_h', { v: eur(P.invoice) }) : t('how.kuT_g') }) : t('how.kuOff'));
+    it.push(t('how.taxes'));
+    if (P.church) it.push(t('how.kist', { r: P.church }));
+    if (P.kind === 'gew') it.push(t('how.gew', { h: num(P.heb) }));
+    it.push(ctx.exact ? t('how.rates', { y: ctx.year }) : t('how.ratesEst', { y: ctx.year, b: ctx.rBase }));
+    it.push(t('how.not'));
+    $('how').innerHTML = it.map(x => `<li>${x}</li>`).join('');
+  }
+
+  function mainValue(p) {
+    if (p.status !== 'ok') return p.status === 'limit' ? t('r.limit', { n: qtyText(Math.floor(p.qMax)) }) : t('r.loss');
+    return ST.calc === 'have' ? `${eur(p.res.lifeM)} ${t('r.perMonth')}` : `${num(p.res.q)} ${t(ST.mode === 'hours' ? 'r.unitH' : 'r.unitG')}`;
+  }
+  function renderMbar() {
+    const p = PL[selYear];
+    $('mbar-v').textContent = mainValue(p);
+    $('mbar-s').textContent = `${p.ctx.year} · ${t(ST.calc === 'have' ? 'res.have' : 'res.need')}`;
+  }
+  // Короткая сводка для экранного диктора — после паузы, а не на каждое движение бегунка
+  let liveTimer = null;
+  function announce(text) {
+    clearTimeout(liveTimer);
+    liveTimer = setTimeout(() => {
+      const p = PL[selYear];
+      $('live').textContent = text || t('live', { y: p.ctx.year, l: t(ST.calc === 'have' ? 'res.have' : 'res.need'), v: mainValue(p) });
+    }, text ? 0 : 900);
+  }
+
+  // ---------- Язык, сброс, нижняя плашка ----------
+  $('langs').addEventListener('click', e => {
+    const b = e.target.closest('button[data-lang]');
+    if (!b || b.dataset.lang === lang) return;
+    lang = b.dataset.lang;
+    setFormatters(); applyStatic(); save(); render();
+  });
+  $('remember').checked = remember;
+  $('remember').addEventListener('change', () => {
+    remember = $('remember').checked;
+    if (remember) save();
+    else { clearTimeout(saveTimer); try { localStorage.removeItem(KEY); } catch (e) { /* хранилище недоступно */ } }
+  });
+  $('reset').addEventListener('click', () => {
+    ST = defaults(); selYear = 0;
+    syncForm(); save(); render();
+    announce(t('resetDone'));
+  });
+  $('mbar-b').addEventListener('click', () => $('results').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { $('mbar').hidden = es[0].isIntersecting; }, { threshold: 0.05 }).observe($('results'));
+  }
+
+  setFormatters();
+  syncForm();
+  applyStatic();
+  render();
+})();
+</script>
+</body>
+</html>

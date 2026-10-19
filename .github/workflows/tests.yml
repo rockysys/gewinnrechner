@@ -1,0 +1,18 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Собрать страницу и сравнить с закоммиченной
+        run: |
+          node src/build.mjs
+          git diff --exit-code index.html
+      - name: Проверки расчётного ядра
+        run: |
+          node src/tests.mjs
+          node src/tests.mjs index.html
