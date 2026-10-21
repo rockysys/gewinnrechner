@@ -811,10 +811,11 @@ svg text { fill: var(--muted); font-family: var(--f-body); font-size: 0.6875rem;
     const W = 640, H = 250, L = 64, Rm = 14, T = 14, B = 34;
     const p = P.price, b2c = P.clients === 'b2c';
     const marks = [];
-    if (ctx.ku) marks.push([ctx.limit / (ctx.months * p), t('ch.lim', { v: eur(ctx.limit) })]);
+    // Лимиты Kleinunternehmer — по обороту (выручке без НДС), поэтому отметка стоит там, где оборот за период достигает лимита
+    if (ctx.ku) marks.push([ctx.limit / (ctx.months * p), t('ch.lim', { v: eur(ctx.limit) }), t('ch.limM', { m: eur(ctx.limit / ctx.months) })]);
     if (P.ku && !(ctx.ku && ctx.limit === LAW.kuPrev)) {
       const pn = ctx.ku ? p : (b2c ? p / (1 + LAW.vat) : p);
-      marks.push([LAW.kuPrev / (ctx.months * pn), t('ch.next')]);
+      marks.push([LAW.kuPrev / (ctx.months * pn), t('ch.next'), t('ch.limM', { m: eur(LAW.kuPrev / ctx.months) })]);
     }
     let qEnd = Math.max(r ? r.q * 1.7 : 0, 10);
     marks.forEach(([q]) => { if (q < qEnd * 1.6) qEnd = Math.max(qEnd, q * 1.15); });
@@ -835,10 +836,11 @@ svg text { fill: var(--muted); font-family: var(--f-body); font-size: 0.6875rem;
     const xs = niceStep(qEnd / 5);
     for (let q = 0; q <= qEnd + 1e-6; q += xs) s += `<text x="${X(q)}" y="${H - B + 16}" text-anchor="middle">${num(q)}</text>`;
     s += `<text x="${W - Rm}" y="${H - 4}" text-anchor="end">${t(ST.mode === 'hours' ? 'ch.axisH' : 'ch.axisG')}</text>`;
-    marks.filter(([q]) => q <= qEnd).forEach(([q, lbl], i) => {
-      const right = X(q) > W * 0.62;
+    marks.filter(([q]) => q <= qEnd).forEach(([q, lbl, sub], i) => {
+      const right = X(q) > W * 0.62, tx = X(q) + (right ? -4 : 4), anchor = right ? 'end' : 'start', ty = T + 10 + i * 30;
       s += `<line x1="${X(q)}" x2="${X(q)}" y1="${T}" y2="${H - B}" stroke="var(--warn)" stroke-dasharray="3 3"/>`;
-      s += `<text x="${X(q) + (right ? -4 : 4)}" y="${T + 10 + i * 14}" text-anchor="${right ? 'end' : 'start'}" style="fill:var(--warn)">${lbl}</text>`;
+      s += `<text x="${tx}" y="${ty}" text-anchor="${anchor}" style="fill:var(--warn)">${lbl}</text>`;
+      s += `<text x="${tx}" y="${ty + 13}" text-anchor="${anchor}" style="fill:var(--warn);font-size:10px">${sub}</text>`;
     });
     if (showGoal) {
       s += `<line x1="${L}" x2="${W - Rm}" y1="${Y(P.target)}" y2="${Y(P.target)}" stroke="var(--accent)" stroke-dasharray="6 4" stroke-width="1.5"/>`;
@@ -847,7 +849,8 @@ svg text { fill: var(--muted); font-family: var(--f-body); font-size: 0.6875rem;
     s += `<path d="${pts.map(([q, v], i) => `${i ? 'L' : 'M'}${X(q).toFixed(1)},${Y(v).toFixed(1)}`).join('')}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
     if (r && r.q <= qEnd) s += `<circle cx="${X(r.q)}" cy="${Y(r.lifeM)}" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`;
     $('chart').innerHTML = s;
-    $('ch-hint').textContent = t(P.ku && b2c && marks.some(([q]) => q <= qEnd) ? 'ch.hintB2C' : 'ch.hint');
+    const shown = marks.some(([q]) => q <= qEnd);
+    $('ch-hint').textContent = t(P.ku && b2c && shown ? 'ch.hintB2C' : 'ch.hint') + (shown ? ' ' + t('ch.note') : '');
   }
   function niceStep(raw) {
     const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1e-9))));

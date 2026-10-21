@@ -126,7 +126,7 @@
   "ch.aria": "График: доход на жизнь в зависимости от объёма продаж",
   "ch.axisH": "оплачиваемых часов в месяц",
   "ch.axisG": "товаров в месяц",
-  "ch.lim": "лимит {v}",
+  "ch.lim": "Лимит оборота {v} в год",
   "ch.next": "выше — в след. году с НДС",
   "ch.goal": "цель {v}",
   "ch.hintB2C": "Кривая проседает после лимита: частные клиенты платят столько же, а 19 % уходит в НДС.",
@@ -200,7 +200,9 @@
   "w.reserve": "<b>Резерв на налоги {y}: ≈ {m} в месяц</b> (всего ≈ {t}). Когда платить, решает Finanzamt: возможны ежеквартальные авансы по вашему прогнозу и доплата после декларации. Откладывайте эту сумму сразу на отдельный счёт.",
   "w.prior": "<b>Первый год неполный.</b> Расчёт предполагает, что в {y} до открытия бизнеса других доходов не было. Если была зарплата или пособие — налог будет выше.",
   "live": "{y}: {l} — {v}",
-  "remember": "Запомнить мои настройки в этом браузере"
+  "remember": "Запомнить мои настройки в этом браузере",
+  "ch.limM": "≈ {m} оборота в месяц",
+  "ch.note": "Лимиты Kleinunternehmer считаются по обороту (выручке без НДС), а не по прибыли."
  },
  "de": {
   "title": "Gewinnrechner",
@@ -329,7 +331,7 @@
   "ch.aria": "Diagramm: verfügbares Einkommen je nach Absatz",
   "ch.axisH": "abrechenbare Stunden pro Monat",
   "ch.axisG": "Produkte pro Monat",
-  "ch.lim": "Grenze {v}",
+  "ch.lim": "Umsatzgrenze {v} pro Jahr",
   "ch.next": "darüber: Folgejahr mit USt",
   "ch.goal": "Ziel {v}",
   "ch.hintB2C": "Nach der Grenze knickt die Kurve ein: Privatkunden zahlen gleich viel, 19 % gehen als Umsatzsteuer ab.",
@@ -403,7 +405,9 @@
   "w.reserve": "<b>Steuerrücklage {y}: ≈ {m} pro Monat</b> (insgesamt ≈ {t}). Wann gezahlt wird, legt das Finanzamt fest: möglich sind vierteljährliche Vorauszahlungen nach Ihrer Prognose und eine Nachzahlung nach der Erklärung. Legen Sie den Betrag sofort auf ein separates Konto.",
   "w.prior": "<b>Das erste Jahr ist unvollständig.</b> Die Berechnung nimmt an, dass Sie in {y} vor der Gründung keine anderen Einkünfte hatten. Mit Lohn oder Leistungen wird die Steuer höher.",
   "live": "{y}: {l} — {v}",
-  "remember": "Meine Einstellungen in diesem Browser speichern"
+  "remember": "Meine Einstellungen in diesem Browser speichern",
+  "ch.limM": "≈ {m} Umsatz pro Monat",
+  "ch.note": "Die Kleinunternehmergrenzen gelten für den Umsatz (Einnahmen ohne USt), nicht für den Gewinn."
  },
  "en": {
   "title": "Profit calculator",
@@ -532,7 +536,7 @@
   "ch.aria": "Chart: money left to live on by sales volume",
   "ch.axisH": "billable hours per month",
   "ch.axisG": "products per month",
-  "ch.lim": "limit {v}",
+  "ch.lim": "Turnover limit {v} a year",
   "ch.next": "above: VAT next year",
   "ch.goal": "goal {v}",
   "ch.hintB2C": "The curve dips after the limit: private clients pay the same, and 19% goes to VAT.",
@@ -606,7 +610,9 @@
   "w.reserve": "<b>Tax reserve for {y}: ≈ {m} a month</b> (≈ {t} in total). The Finanzamt decides when you pay: quarterly advance payments based on your forecast and a top-up after your return are both possible. Put this amount into a separate account right away.",
   "w.prior": "<b>The first year is incomplete.</b> The calculation assumes you had no other income in {y} before starting. With a salary or benefits your tax will be higher.",
   "live": "{y}: {l} — {v}",
-  "remember": "Remember my settings in this browser"
+  "remember": "Remember my settings in this browser",
+  "ch.limM": "≈ {m} turnover a month",
+  "ch.note": "Kleinunternehmer limits apply to turnover (revenue excluding VAT), not to profit."
  },
  "tr": {
   "title": "Kâr hesaplayıcı",
@@ -735,7 +741,7 @@
   "ch.aria": "Grafik: satış miktarına göre kullanılabilir gelir",
   "ch.axisH": "ayda faturalanan saat",
   "ch.axisG": "ayda ürün",
-  "ch.lim": "sınır {v}",
+  "ch.lim": "Yıllık ciro sınırı {v}",
   "ch.next": "üstü: ertesi yıl KDV’li",
   "ch.goal": "hedef {v}",
   "ch.hintB2C": "Sınırdan sonra eğri düşüyor: bireysel müşteriler aynı fiyatı ödüyor, %19 KDV olarak gidiyor.",
@@ -809,7 +815,9 @@
   "w.reserve": "<b>{y} için vergi rezervi: ayda ≈ {m}</b> (toplam ≈ {t}). Ne zaman ödeyeceğine Finanzamt karar verir: tahminine göre üç ayda bir peşin ödemeler ve beyannameden sonra ek ödeme olabilir. Bu tutarı hemen ayrı bir hesaba ayır.",
   "w.prior": "<b>İlk yıl eksik.</b> Hesaplama, {y} yılında işi açmadan önce başka gelirin olmadığını varsayar. Maaş veya yardım aldıysan vergi daha yüksek olur.",
   "live": "{y}: {l} — {v}",
-  "remember": "Ayarlarımı bu tarayıcıda hatırla"
+  "remember": "Ayarlarımı bu tarayıcıda hatırla",
+  "ch.limM": "≈ ayda {m} ciro",
+  "ch.note": "Kleinunternehmer sınırları kâra değil, ciroya (KDV hariç gelir) uygulanır."
  },
  "ar": {
   "title": "حاسبة الأرباح",
@@ -938,7 +946,7 @@
   "ch.aria": "رسم بياني: الدخل المتاح حسب حجم المبيعات",
   "ch.axisH": "ساعات مدفوعة شهريًا",
   "ch.axisG": "منتجات شهريًا",
-  "ch.lim": "الحد {v}",
+  "ch.lim": "حد الإيراد السنوي {v}",
   "ch.next": "فوقه: السنة التالية مع الضريبة",
   "ch.goal": "الهدف {v}",
   "ch.hintB2C": "ينخفض المنحنى بعد الحد: يدفع الأفراد المبلغ نفسه وتذهب 19 % كضريبة.",
@@ -1012,6 +1020,8 @@
   "w.reserve": "<b>احتياطي الضرائب لسنة {y}: ≈ {m} شهريًا</b> (المجموع ≈ {t}). يحدد Finanzamt مواعيد الدفع: قد تكون هناك دفعات مسبقة ربع سنوية حسب توقعك ودفعة إضافية بعد الإقرار. ضع هذا المبلغ فورًا في حساب منفصل.",
   "w.prior": "<b>السنة الأولى غير كاملة.</b> يفترض الحساب أنه لم يكن لديك دخل آخر في {y} قبل بدء العمل. مع وجود راتب أو إعانات ستكون الضريبة أعلى.",
   "live": "{y}: {l} — {v}",
-  "remember": "تذكّر إعداداتي في هذا المتصفح"
+  "remember": "تذكّر إعداداتي في هذا المتصفح",
+  "ch.limM": "≈ {m} إيراد شهريًا",
+  "ch.note": "تُطبق حدود المشروع الصغير على الإيراد (دون الضريبة) لا على الربح."
  }
 }

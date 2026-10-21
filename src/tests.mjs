@@ -82,6 +82,15 @@ check('Soli 40 000 € → полные 5,5 %', near(E.soli(40000, R26), 2200, 0
   check('Часы: в марте без НДС только один целый счёт', near(r.rev, 104512.61), r.rev);
 }
 
+// 7б. Оборот ниже лимита, но не кратен размеру счёта — НДС не начисляется
+{
+  const P = base({ mode: 'hours', price: 70, invoice: 1000 });
+  const r = E.yearCalc(P, 118, ctx({ months: 3, startCal: 10 }));
+  check('24 780 € < 25 000 €: весь период без НДС', r.kuAll === true && r.vatOut === 0, r.switchCal);
+  const r2 = E.yearCalc(P, 120, ctx({ months: 3, startCal: 10 }));
+  check('25 200 € > 25 000 €: переход в декабре', r2.switchCal === 12 && r2.vatOut > 0, r2.switchCal);
+}
+
 // 8. Пенсия: обычные накопления не уменьшают налог, DRV/Rürup — уменьшают
 {
   const P = base({ mode: 'hours', clients: 'b2b', price: 100, ku: false, pens: 500 });

@@ -71,9 +71,11 @@ const NettoEngine = (() => {
         else {
           // в лимит помещаются только целые операции; операция, которая его пересекает, уже целиком с НДС
           const room = ctx.limit - cum;
-          const fit = room > 0 ? Math.floor(room / T + 1e-9) * T : 0;
-          if (fit >= rKU - 1e-9) f = 1;
-          else { f = Math.max(0, fit / rKU); inKU = false; switchCal = ctx.startCal + i; }
+          if (rKU <= room + 1e-9) f = 1;   // оборот месяца целиком укладывается в лимит
+          else {
+            const fit = room > 0 ? Math.floor(room / T + 1e-9) * T : 0;
+            f = Math.max(0, Math.min(1, fit / rKU)); inKU = false; switchCal = ctx.startCal + i;
+          }
         }
       }
       const r = q * (f * p + (1 - f) * pNet);
